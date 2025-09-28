@@ -91608,3 +91608,44 @@ ValueError: Input contains NaN.
                 max_iter=None, positive=False, random_state=42, solver='auto',
                 tol=0.0001)
 2025-09-28 06:29:53,526:INFO:tune_model() successfully completed......................................
+2025-09-28 06:37:11,498:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 06:37:11,498:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 06:37:11,498:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 06:37:11,498:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 06:37:12,343:INFO:Initializing load_model()
+2025-09-28 06:37:12,343:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2025-09-28 06:38:19,534:INFO:Initializing load_model()
+2025-09-28 06:38:19,534:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2025-09-28 06:38:28,774:INFO:Initializing predict_model()
+2025-09-28 06:38:28,774:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x00000292273C0730>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x0000029228155B40>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000002922812B2E0>)
+2025-09-28 06:38:28,774:INFO:Checking exceptions
+2025-09-28 06:38:28,775:INFO:Preloading libraries
+2025-09-28 06:38:28,775:INFO:Set up data.
+2025-09-28 06:38:28,780:INFO:Set up index.
