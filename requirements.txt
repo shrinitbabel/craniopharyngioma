@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+pycaret==3.2.0
+catboost==1.2.5
+pandas
+numpy
+scikit-learn
