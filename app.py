@@ -191,14 +191,10 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 @app.post("/predict-form", response_class=HTMLResponse)
 async def predict_form(request: Request):
     form = await request.form()
-    # convert to a plain dict of strings
     raw = {k: (None if v == "" else v) for k, v in form.items()}
 
     # cast numerics; leave category strings alone
-    cat_keys = {
-        "Surgical Approach",
-        "Resection outcome (total, subtotal, partial)",
-    }
+    cat_keys = {"Surgical Approach", "Resection outcome (total, subtotal, partial)"}
     payload = {}
     for k, v in raw.items():
         if v is None:
@@ -214,10 +210,29 @@ async def predict_form(request: Request):
 
     df = pd.DataFrame([payload])
     X = prepare_inputs(df)
-    out = predict_model(model, data=X, raw_score=True)
-    p1 = float(out.loc[0, "Score_1"])
-    label = int(out.loc[0, "prediction_label"])
-    return HTMLResponse(f"<pre>Permanent DI probability: {p1:.3f}\nLabel (0/1): {label}\n</pre>")
+
+    try:
+        # same robust prediction logic as /predict
+        try:
+            p1 = float(model.predict_proba(X)[:, 1][0])
+        except Exception:
+            out = predict_model(model, data=X, raw_score=True)
+            p1 = _proba_pos_from_predict_model(out)
+            if p1 is None:
+                margin = float(model.decision_function(X)[0])
+                p1 = 1.0 / (1.0 + math.exp(-margin))
+
+        THRESH = float(os.getenv("THRESHOLD", 0.5))
+        label = int(p1 >= THRESH)
+
+        return HTMLResponse(
+            f"<pre>Permanent DI probability: {p1:.3f}\nLabel (0/1): {label}\n</pre>"
+        )
+
+    except Exception as e:
+        return HTMLResponse(
+            f"<pre>Internal error: {e}</pre>", status_code=500
+        )
 
 # Optional: if someone hits /predict-form with GET, send them to the form
 @app.get("/predict-form")
