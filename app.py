@@ -64,7 +64,7 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
 
     return df[FEATURES]
 
-app = FastAPI(title="Babels AI Labs — Permanent DI Risk")
+app = FastAPI(title="Permanent DI Risk")
 
 FORM_HTML = """
 <!doctype html>
