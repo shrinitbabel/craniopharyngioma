@@ -1,9 +1,14 @@
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
-pycaret==3.3.2
-catboost==1.2.5
-scikit-learn==1.4.2
-pandas==2.2.2
+
+# core libs with wheels for py3.10
 numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.4.2
+catboost==1.2.5
+
+# PyCaret loader (3.3.2 supports py3.10)
+pycaret==3.3.2
+
 jinja2==3.1.4
 python-multipart==0.0.9
