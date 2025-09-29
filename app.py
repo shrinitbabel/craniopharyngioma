@@ -2,15 +2,13 @@ import os
 import math
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Request, Body
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 from pycaret.classification import load_model, predict_model
-from pydantic import BaseModel
 
 # --------- Load model once on startup ----------
-MODEL_PATH = "permdi_blend_ridge_cat_v1"
-model = load_model(MODEL_PATH)  # .pkl without extension
+MODEL_PATH = "permdi_blend_ridge_cat_v1"   # file is permdi_blend_ridge_cat_v1.pkl in repo root
+model = load_model(MODEL_PATH)             # PyCaret adds .pkl automatically
 
 FEATURES = [
     "Age ", "BMI", "Tumor size", "Tumor size.1", "Tumor size.2", "Tumor volume",
@@ -50,7 +48,6 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
     # Normalize categories
     if "Surgical Approach" in df.columns:
         df["Surgical Approach"] = df["Surgical Approach"].astype(str).str.strip().str.lower()
-        # model trained on 'craniotomy'/'endoscopic'
         df["Surgical Approach"] = df["Surgical Approach"].replace({
             "endo": "endoscopic",
             "endo.": "endoscopic"
@@ -60,7 +57,6 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
         df["Resection outcome (total, subtotal, partial)"] = (
             df["Resection outcome (total, subtotal, partial)"].astype(str).str.strip().str.lower()
         )
-        # trained on 'total','subtotal','near total'
         df["Resection outcome (total, subtotal, partial)"] = df["Resection outcome (total, subtotal, partial)"].replace({
             "near-total": "near total",
             "near_total": "near total"
@@ -68,10 +64,8 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
 
     return df[FEATURES]
 
-# ---------- FastAPI ----------
 app = FastAPI(title="Babels AI Labs — Permanent DI Risk")
 
-# ---- simple HTML form for quick manual test ----
 FORM_HTML = """
 <!doctype html>
 <html>
@@ -124,11 +118,9 @@ button { margin-top:1rem; padding:0.5rem 1rem; }
 def root():
     return FORM_HTML
 
-class PredictItem(BaseModel):
-    # all fields optional → we’ll coerce/NaN-missing allowed
-    __root__: dict
-
-from fastapi import Body
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
@@ -139,14 +131,9 @@ def predict_api(payload: dict = Body(...)):
     label = int(out.loc[0, "prediction_label"])
     return JSONResponse({"prob_permanent_DI": p1, "label": label})
 
-
 @app.post("/predict-form", response_class=HTMLResponse)
-def predict_form(
-    request: Request,
-    **form_data
-):
+def predict_form(request: Request, **form_data):
     df = pd.DataFrame([form_data])
-    # cast numerics
     for k, v in df.iloc[0].items():
         try:
             if v is None or v == "":
