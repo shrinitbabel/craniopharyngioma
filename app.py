@@ -128,16 +128,17 @@ class PredictItem(BaseModel):
     # all fields optional → we’ll coerce/NaN-missing allowed
     __root__: dict
 
+from fastapi import Body
+
 @app.post("/predict")
-def predict_api(item: PredictItem):
-    payload = item.__root__
+def predict_api(payload: dict = Body(...)):
     df = pd.DataFrame([payload])
     X = prepare_inputs(df)
     out = predict_model(model, data=X, raw_score=True)
-    # return class-1 probability explicitly
     p1 = float(out.loc[0, "Score_1"])
     label = int(out.loc[0, "prediction_label"])
     return JSONResponse({"prob_permanent_DI": p1, "label": label})
+
 
 @app.post("/predict-form", response_class=HTMLResponse)
 def predict_form(
