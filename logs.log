@@ -91649,3 +91649,42 @@ ValueError: Input contains NaN.
 2025-09-28 06:38:28,775:INFO:Preloading libraries
 2025-09-28 06:38:28,775:INFO:Set up data.
 2025-09-28 06:38:28,780:INFO:Set up index.
+2025-09-28 20:31:01,429:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 20:31:01,543:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 20:31:01,544:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 20:31:01,544:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-09-28 20:31:02,903:INFO:Initializing load_model()
+2025-09-28 20:31:02,904:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2025-09-28 20:31:03,085:INFO:Initializing predict_model()
+2025-09-28 20:31:03,085:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x00000226F79CD780>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x00000226F672B700>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x00000226B25CBB50>)
+2025-09-28 20:31:03,085:INFO:Checking exceptions
+2025-09-28 20:31:03,086:INFO:Preloading libraries
+2025-09-28 20:31:03,086:INFO:Set up data.
+2025-09-28 20:31:03,093:INFO:Set up index.
