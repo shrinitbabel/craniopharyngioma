@@ -131,20 +131,41 @@ def predict_api(payload: dict = Body(...)):
     label = int(out.loc[0, "prediction_label"])
     return JSONResponse({"prob_permanent_DI": p1, "label": label})
 
+from fastapi import FastAPI, Request, Body
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+
 @app.post("/predict-form", response_class=HTMLResponse)
-def predict_form(request: Request, **form_data):
-    df = pd.DataFrame([form_data])
-    for k, v in df.iloc[0].items():
-        try:
-            if v is None or v == "":
-                continue
-            if k in ["Surgical Approach", "Resection outcome (total, subtotal, partial)"]:
-                continue
-            df.loc[0, k] = float(v)
-        except:
-            pass
+async def predict_form(request: Request):
+    form = await request.form()
+    # convert to a plain dict of strings
+    raw = {k: (None if v == "" else v) for k, v in form.items()}
+
+    # cast numerics; leave category strings alone
+    cat_keys = {
+        "Surgical Approach",
+        "Resection outcome (total, subtotal, partial)",
+    }
+    payload = {}
+    for k, v in raw.items():
+        if v is None:
+            payload[k] = None
+            continue
+        if k in cat_keys:
+            payload[k] = str(v).strip()
+        else:
+            try:
+                payload[k] = float(v)
+            except:
+                payload[k] = v  # fallback
+
+    df = pd.DataFrame([payload])
     X = prepare_inputs(df)
     out = predict_model(model, data=X, raw_score=True)
     p1 = float(out.loc[0, "Score_1"])
     label = int(out.loc[0, "prediction_label"])
     return HTMLResponse(f"<pre>Permanent DI probability: {p1:.3f}\nLabel (0/1): {label}\n</pre>")
+
+# Optional: if someone hits /predict-form with GET, send them to the form
+@app.get("/predict-form")
+def predict_form_get():
+    return RedirectResponse(url="/", status_code=303)
