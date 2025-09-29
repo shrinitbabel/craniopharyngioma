@@ -126,20 +126,56 @@ import traceback
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 
+import traceback
+from fastapi.responses import JSONResponse
+
+def _proba_pos_from_predict_model(out):
+    # pick the positive-class score column
+    score_cols = [c for c in out.columns if c.startswith("Score_")]
+    if not score_cols:
+        return None
+
+    # common names PyCaret uses
+    for key in ("Score_1", "Score_True", "Score_yes", "Score_positive"):
+        if key in out.columns:
+            return float(out.loc[0, key])
+
+    # if exactly two score columns, prefer the one that's not Score_0
+    if len(score_cols) == 2 and "Score_0" in score_cols:
+        other = score_cols[0] if score_cols[1] == "Score_0" else score_cols[1]
+        return float(out.loc[0, other])
+
+    # last resort: take the max-prob score col (not ideal but safe)
+    row = out.loc[0, score_cols]
+    return float(row.max())
+
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
     try:
         df = pd.DataFrame([payload])
         X = prepare_inputs(df)
-        out = predict_model(model, data=X, raw_score=True)
-        p1 = float(out.loc[0, "Score_1"])
-        label = int(out.loc[0, "prediction_label"])
-        return {"prob_permanent_DI": p1, "label": label}
+
+        # 1) Try direct predict_proba on the PyCaret pipeline (best)
+        try:
+            p1 = float(model.predict_proba(X)[:, 1][0])
+        except Exception:
+            # 2) Try PyCaret helper with raw scores
+            out = predict_model(model, data=X, raw_score=True)
+            p1 = _proba_pos_from_predict_model(out)
+            if p1 is None:
+                # 3) Margin -> sigmoid fallback
+                margin = float(model.decision_function(X)[0])
+                p1 = 1.0 / (1.0 + math.exp(-margin))
+
+        # If you maintain a site-wide threshold:
+        THRESH = float(os.getenv("THRESHOLD", 0.5))
+        label = int(p1 >= THRESH)
+
+        return {"prob_permanent_DI": p1, "label": label, "threshold": THRESH}
+
     except Exception as e:
-        # log full traceback to server logs
         print("PREDICT ERROR:", e)
         traceback.print_exc()
-        # return a readable error to client for quick debugging
         return JSONResponse(
             {
                 "error": str(e),
