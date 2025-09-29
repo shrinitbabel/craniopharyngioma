@@ -9,7 +9,7 @@ from pycaret.classification import load_model, predict_model
 from pydantic import BaseModel
 
 # --------- Load model once on startup ----------
-MODEL_PATH = os.path.join("models", "permdi_blend_ridge_cat_v1")
+MODEL_PATH = "permdi_blend_ridge_cat_v1"
 model = load_model(MODEL_PATH)  # .pkl without extension
 
 FEATURES = [
