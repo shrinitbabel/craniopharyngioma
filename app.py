@@ -122,14 +122,32 @@ def root():
 def health():
     return {"status": "ok"}
 
+import traceback
+from fastapi import HTTPException
+from fastapi.responses import JSONResponse
+
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
-    df = pd.DataFrame([payload])
-    X = prepare_inputs(df)
-    out = predict_model(model, data=X, raw_score=True)
-    p1 = float(out.loc[0, "Score_1"])
-    label = int(out.loc[0, "prediction_label"])
-    return JSONResponse({"prob_permanent_DI": p1, "label": label})
+    try:
+        df = pd.DataFrame([payload])
+        X = prepare_inputs(df)
+        out = predict_model(model, data=X, raw_score=True)
+        p1 = float(out.loc[0, "Score_1"])
+        label = int(out.loc[0, "prediction_label"])
+        return {"prob_permanent_DI": p1, "label": label}
+    except Exception as e:
+        # log full traceback to server logs
+        print("PREDICT ERROR:", e)
+        traceback.print_exc()
+        # return a readable error to client for quick debugging
+        return JSONResponse(
+            {
+                "error": str(e),
+                "received_keys": list(payload.keys()),
+                "prepared_columns": list(X.columns) if "X" in locals() else None,
+            },
+            status_code=400,
+        )
 
 from fastapi import FastAPI, Request, Body
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
