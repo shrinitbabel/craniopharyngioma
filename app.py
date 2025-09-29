@@ -79,7 +79,7 @@ button { margin-top:1rem; padding:0.5rem 1rem; }
 </style>
 </head>
 <body>
-<h2>Babels AI Labs — Permanent DI Risk (Pilot)</h2>
+<h2>Permanent DI Risk (Pilot)</h2>
 <form method="post" action="/predict-form">
   <label>Age <input type="number" name="Age " step="1" required></label>
   <label>BMI <input type="number" name="BMI" step="0.1"></label>
