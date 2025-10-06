@@ -64,7 +64,24 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
 
     return df[FEATURES]
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title="Permanent DI Risk")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://babels.ai",
+        "https://www.babels.ai",
+        "https://cranio.babels.ai",
+        "https://cranio-api.babels.ai",
+        "http://localhost:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 FORM_HTML = """
 <!doctype html>
