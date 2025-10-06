@@ -1,0 +1,55 @@
+Group,Feature,Type,N,Mean,SD,Median,IQR,Count_1,Count_0,Top5
+Overall,Age ,continuous,59,45.373,17.922,48.0,27.0,,,
+Overall,BMI,continuous,55,27.976,6.654,27.84,9.615,,,
+Overall,Last BMI on file,continuous,56,30.838,7.084,30.485,9.175,,,
+Overall,Tumor size,continuous,54,2.489,0.822,2.7,1.0,,,
+Overall,Tumor size.1,continuous,54,2.028,0.808,2.0,0.775,,,
+Overall,Tumor size.2,continuous,54,2.083,0.77,2.0,1.075,,,
+Overall,Tumor volume,continuous,54,6.982,6.735,5.029,6.982,,,
+Overall,Pre-op visual impairment (y/n) - symptomatic complaint of visual loss,binary,58,,,,,45.0,13.0,
+Overall,Pre-op hydrocephalus (y/n),binary,59,,,,,9.0,50.0,
+Overall,Pre-op intacranial pressure symptoms,binary,59,,,,,20.0,39.0,
+Overall,Pre-op headache,binary,59,,,,,47.0,12.0,
+Overall,Pre-op endocrine changes (y/n),binary,59,,,,,32.0,27.0,
+Overall,Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional,binary,59,,,,,9.0,50.0,
+Overall,Intraventricular extension,binary,59,,,,,4.0,55.0,
+Overall,Surgical Approach,categorical,59,,,,,,,endoscopic:30; craniotomy:29
+Overall,"Resection outcome (total, subtotal, partial)",categorical,58,,,,,,,subtotal:30; total:18; near total:10
+Overall,"Solid, cystic, mixed",categorical,56,,,,,,,cystic:29; mixed:26; solid:1
+Overall,"Location (purely intrasellar, suprasellar/sellar, suprasellar/sellar with pseudoventricular extension, suprasellar/sellar with intraventricular extension, purely intraventricular)",categorical,57,,,,,,,suprasellar/sellar:42; suprasellar/sellar with pseudoventricular extension:13; Purely intraventricular:2
+DI=0,Age ,continuous,20,47.4,20.067,51.0,35.0,,,
+DI=0,BMI,continuous,20,28.776,8.284,28.16,11.97,,,
+DI=0,Last BMI on file,continuous,19,30.132,7.964,29.16,9.5,,,
+DI=0,Tumor size,continuous,19,2.374,0.861,2.7,1.35,,,
+DI=0,Tumor size.1,continuous,19,1.974,0.812,2.0,0.85,,,
+DI=0,Tumor size.2,continuous,19,1.984,0.795,2.0,0.65,,,
+DI=0,Tumor volume,continuous,19,6.676,7.134,4.189,6.265,,,
+DI=0,Pre-op visual impairment (y/n) - symptomatic complaint of visual loss,binary,19,,,,,12.0,7.0,
+DI=0,Pre-op hydrocephalus (y/n),binary,20,,,,,4.0,16.0,
+DI=0,Pre-op intacranial pressure symptoms,binary,20,,,,,9.0,11.0,
+DI=0,Pre-op headache,binary,20,,,,,14.0,6.0,
+DI=0,Pre-op endocrine changes (y/n),binary,20,,,,,8.0,12.0,
+DI=0,Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional,binary,20,,,,,0.0,20.0,
+DI=0,Intraventricular extension,binary,20,,,,,2.0,18.0,
+DI=0,Surgical Approach,categorical,20,,,,,,,craniotomy:12; endoscopic:8
+DI=0,"Resection outcome (total, subtotal, partial)",categorical,20,,,,,,,subtotal:13; total:4; near total:3
+DI=0,"Solid, cystic, mixed",categorical,19,,,,,,,cystic:12; mixed:7
+DI=0,"Location (purely intrasellar, suprasellar/sellar, suprasellar/sellar with pseudoventricular extension, suprasellar/sellar with intraventricular extension, purely intraventricular)",categorical,20,,,,,,,suprasellar/sellar:14; suprasellar/sellar with pseudoventricular extension:4; Purely intraventricular:2
+DI=1,Age ,continuous,38,43.763,16.744,45.0,22.25,,,
+DI=1,BMI,continuous,35,27.519,5.601,27.6,7.805,,,
+DI=1,Last BMI on file,continuous,37,31.2,6.675,31.95,8.11,,,
+DI=1,Tumor size,continuous,35,2.551,0.806,2.7,0.95,,,
+DI=1,Tumor size.1,continuous,35,2.057,0.816,2.0,0.75,,,
+DI=1,Tumor size.2,continuous,35,2.137,0.763,2.0,1.05,,,
+DI=1,Tumor volume,continuous,35,7.148,6.609,5.223,6.921,,,
+DI=1,Pre-op visual impairment (y/n) - symptomatic complaint of visual loss,binary,38,,,,,32.0,6.0,
+DI=1,Pre-op hydrocephalus (y/n),binary,38,,,,,5.0,33.0,
+DI=1,Pre-op intacranial pressure symptoms,binary,38,,,,,11.0,27.0,
+DI=1,Pre-op headache,binary,38,,,,,32.0,6.0,
+DI=1,Pre-op endocrine changes (y/n),binary,38,,,,,24.0,14.0,
+DI=1,Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional,binary,38,,,,,9.0,29.0,
+DI=1,Intraventricular extension,binary,38,,,,,2.0,36.0,
+DI=1,Surgical Approach,categorical,38,,,,,,,endoscopic:22; craniotomy:16
+DI=1,"Resection outcome (total, subtotal, partial)",categorical,38,,,,,,,subtotal:17; total:14; near total:7
+DI=1,"Solid, cystic, mixed",categorical,37,,,,,,,mixed:19; cystic:17; solid:1
+DI=1,"Location (purely intrasellar, suprasellar/sellar, suprasellar/sellar with pseudoventricular extension, suprasellar/sellar with intraventricular extension, purely intraventricular)",categorical,37,,,,,,,suprasellar/sellar:28; suprasellar/sellar with pseudoventricular extension:9
