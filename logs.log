@@ -106327,3 +106327,11 @@ This will raise in a future version.
                    n_jobs=-1, passthrough=False, stack_method='auto',
                    verbose=0)
 2025-10-07 08:12:27,985:INFO:stack_models() successfully completed......................................
+2025-10-07 08:31:57,085:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-10-07 08:31:57,085:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-10-07 08:31:57,085:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-10-07 08:31:57,085:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
