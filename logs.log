@@ -114007,3 +114007,13 @@ is_categorical_dtype is deprecated and will be removed in a future version. Use 
 is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
 
 
+2025-10-10 15:17:38,501:WARNING:C:\Users\SBSBB\AppData\Local\Temp\ipykernel_42172\3625418663.py:149: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+
+2025-10-10 15:17:38,563:WARNING:C:\Users\SBSBB\AppData\Local\Temp\ipykernel_42172\3625418663.py:149: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+
