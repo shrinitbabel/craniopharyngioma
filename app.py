@@ -9,7 +9,9 @@ from pycaret.classification import load_model, predict_model
 
 # --------- Load model once on startup ----------
 MODEL_PATH = "permdi_blend_ridge_cat_v1"   # file is permdi_blend_ridge_cat_v1.pkl in repo root
+RECURRENCE_MODEL_PATH = "recurrence_nb_calibrated_v1"
 model = load_model(MODEL_PATH)             # PyCaret adds .pkl automatically
+recurrence = load_model(RECURRENCE_MODEL_PATH)
 
 FEATURES = [
     "Age ", "BMI", "Tumor size", "Tumor size.1", "Tumor size.2", "Tumor volume",
@@ -168,25 +170,52 @@ def _proba_pos_from_predict_model(out):
     row = out.loc[0, score_cols]
     return float(row.max())
 
+def _predict_pos_proba_safe(any_model, X: pd.DataFrame) -> float:
+    """
+    Best-effort positive-class probability from a PyCaret pipeline or sklearn model.
+    Tries predict_proba, then predict_model(raw_score), then decision_function->sigmoid.
+    """
+    import math
+    from pycaret.classification import predict_model
+
+    # 1) Direct predict_proba
+    try:
+        proba = any_model.predict_proba(X)
+        # assume positive class is column 1 when binary
+        return float(proba[:, 1][0])
+    except Exception:
+        pass
+
+    # 2) PyCaret helper (raw scores expose Score_* columns)
+    try:
+        out = predict_model(any_model, data=X, raw_score=True)
+        p = _proba_pos_from_predict_model(out)
+        if p is not None:
+            return float(p)
+    except Exception:
+        pass
+
+    # 3) decision_function -> sigmoid (fallback)
+    try:
+        margin = float(any_model.decision_function(X)[0])
+        return 1.0 / (1.0 + math.exp(-margin))
+    except Exception:
+        # As a last resort, call predict() and map to {0,1}
+        try:
+            y = any_model.predict(X)[0]
+            return float(y) if y in (0, 1, True, False) else float(y == 1)
+        except Exception as _:
+            raise RuntimeError("Unable to compute probability for the given model and inputs.")
+
+
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
     try:
         df = pd.DataFrame([payload])
         X = prepare_inputs(df)
 
-        # 1) Try direct predict_proba on the PyCaret pipeline (best)
-        try:
-            p1 = float(model.predict_proba(X)[:, 1][0])
-        except Exception:
-            # 2) Try PyCaret helper with raw scores
-            out = predict_model(model, data=X, raw_score=True)
-            p1 = _proba_pos_from_predict_model(out)
-            if p1 is None:
-                # 3) Margin -> sigmoid fallback
-                margin = float(model.decision_function(X)[0])
-                p1 = 1.0 / (1.0 + math.exp(-margin))
+        p1 = _predict_pos_proba_safe(model, X)
 
-        # If you maintain a site-wide threshold:
         THRESH = float(os.getenv("THRESHOLD", 0.5))
         label = int(p1 >= THRESH)
 
@@ -204,8 +233,37 @@ def predict_api(payload: dict = Body(...)):
             status_code=400,
         )
 
+@app.post("/predict-recurrence")
+def predict_recurrence_api(payload: dict = Body(...)):
+    try:
+        df = pd.DataFrame([payload])
+        X = prepare_inputs(df)
+
+        p_rec = _predict_pos_proba_safe(recurrence, X)
+        THRESH_R = float(os.getenv("THRESHOLD_RECURRENCE", 0.5))
+        label_rec = int(p_rec >= THRESH_R)
+
+        return {
+            "prob_recurrence": p_rec,
+            "label": label_rec,
+            "threshold": THRESH_R,
+        }
+
+    except Exception as e:
+        print("RECURRENCE PREDICT ERROR:", e)
+        traceback.print_exc()
+        return JSONResponse(
+            {
+                "error": str(e),
+                "received_keys": list(payload.keys()),
+                "prepared_columns": list(X.columns) if "X" in locals() else None,
+            },
+            status_code=400,
+        )
+
+
 from fastapi import FastAPI, Request, Body
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 @app.post("/predict-form", response_class=HTMLResponse)
 async def predict_form(request: Request):
@@ -218,43 +276,51 @@ async def predict_form(request: Request):
     for k, v in raw.items():
         if v is None:
             payload[k] = None
-            continue
-        if k in cat_keys:
+        elif k in cat_keys:
             payload[k] = str(v).strip()
         else:
             try:
                 payload[k] = float(v)
-            except:
+            except Exception:
                 payload[k] = v  # fallback
 
     df = pd.DataFrame([payload])
     X = prepare_inputs(df)
 
+    # thresholds (env or defaults)
+    THRESH_DI = float(os.getenv("THRESHOLD", 0.5))
+    THRESH_REC = float(os.getenv("THRESHOLD_RECURRENCE", 0.5))
+
+    # compute Permanent DI
+    di_block = ""
     try:
-        # same robust prediction logic as /predict
-        try:
-            p1 = float(model.predict_proba(X)[:, 1][0])
-        except Exception:
-            out = predict_model(model, data=X, raw_score=True)
-            p1 = _proba_pos_from_predict_model(out)
-            if p1 is None:
-                margin = float(model.decision_function(X)[0])
-                p1 = 1.0 / (1.0 + math.exp(-margin))
-
-        THRESH = float(os.getenv("THRESHOLD", 0.5))
-        label = int(p1 >= THRESH)
-
-        return HTMLResponse(
-            f"<pre>Permanent DI probability: {p1:.3f}\nLabel (0/1): {label}\n</pre>"
+        p_di = _predict_pos_proba_safe(model, X)
+        label_di = int(p_di >= THRESH_DI)
+        di_block = (
+            f"Permanent DI probability: {p_di:.3f}\n"
+            f"Permanent DI label (0/1): {label_di}\n"
+            f"Permanent DI threshold: {THRESH_DI}\n"
         )
-
     except Exception as e:
-        return HTMLResponse(
-            f"<pre>Internal error: {e}</pre>", status_code=500
-        )
+        di_block = f"Permanent DI: error computing ({e})\n"
 
-# Optional: if someone hits /predict-form with GET, send them to the form
+    # compute Recurrence
+    rec_block = ""
+    try:
+        p_rec = _predict_pos_proba_safe(recurrence, X)
+        label_rec = int(p_rec >= THRESH_REC)
+        rec_block = (
+            f"Recurrence probability: {p_rec:.3f}\n"
+            f"Recurrence label (0/1): {label_rec}\n"
+            f"Recurrence threshold: {THRESH_REC}\n"
+        )
+    except Exception as e:
+        rec_block = f"Recurrence: error computing ({e})\n"
+
+    return HTMLResponse(f"<pre>{di_block}\n{rec_block}</pre>")
+
+
+# Optional: keep this so GET /predict-form redirects to the input form
 @app.get("/predict-form")
 def predict_form_get():
     return RedirectResponse(url="/", status_code=303)
-
