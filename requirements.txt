@@ -1,21 +1,21 @@
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
 
-# numeric stack (wheels on py3.10)
-numpy==1.26.4
-pandas==2.1.4           # < 2.2.0 (required by PyCaret 3.3.2)
+# numeric stack (py3.10 friendly)
+numpy==1.24.4            # ↓ was 1.26.4; needed for numba 0.57.x
+pandas==2.1.4
 scipy==1.11.4
-scikit-learn==1.4.2     # > 1.4.0 (required by PyCaret 3.3.2)
+scikit-learn==1.4.2
 
 # models
 catboost==1.2.5
 pycaret==3.3.2
 
-# web + templates + form parsing
+# web + forms
 jinja2==3.1.4
 python-multipart==0.0.9
 
-# others
+# SHAP + pins compatible with the above
 shap==0.44.1
 numba==0.57.1
 llvmlite==0.40.1
