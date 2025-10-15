@@ -67,6 +67,19 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
 
     return df[FEATURES]
 
+# --- SHAP helpers (global) ---
+import shap
+from typing import List, Optional, Dict, Any
+
+def _proba_pipeline_fn(X_in: pd.DataFrame) -> np.ndarray:
+    """
+    Positive-class proba for the loaded PyCaret pipeline on ORIGINAL columns.
+    We run your prepare_inputs -> model.predict_proba.
+    """
+    Xp = prepare_inputs(X_in)
+    return model.predict_proba(Xp)[:, 1]
+
+
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Permanent DI Risk")
@@ -324,3 +337,91 @@ async def predict_form(request: Request):
 @app.get("/predict-form")
 def predict_form_get():
     return RedirectResponse(url="/", status_code=303)
+
+@app.post("/shap/dependence")
+def shap_dependence(payload: dict = Body(...)):
+    """
+    Body:
+    {
+      "rows": [ {<same keys as /predict>}, ... ],   # REQUIRED, 10-100 rows recommended
+      "feature_x": "BMI",                           # REQUIRED
+      "feature_color": "Tumor volume",              # OPTIONAL
+      "y_mode": "by_x" | "sum",                     # OPTIONAL (default "by_x")
+      "nsamples": "auto" | int,                     # OPTIONAL (default "auto")
+      "background_size": int                        # OPTIONAL (default=min(50, n_rows))
+    }
+    Returns: { x:[], shap:[], color:[], meta:{} }   # ready for Plotly on the client
+    """
+    try:
+        rows: List[Dict[str, Any]] = payload.get("rows") or []
+        feature_x: str = payload.get("feature_x")
+        feature_color: Optional[str] = payload.get("feature_color")
+        y_mode: str = payload.get("y_mode", "by_x")
+        nsamples = payload.get("nsamples", "auto")
+        bg_size: Optional[int] = payload.get("background_size")
+
+        if not rows or not isinstance(rows, list):
+            return JSONResponse({"error": "'rows' must be a non-empty list of payloads"}, status_code=400)
+        if not feature_x or not isinstance(feature_x, str):
+            return JSONResponse({"error": "'feature_x' is required"}, status_code=400)
+
+        # Build DataFrame in ORIGINAL feature space
+        X_raw = pd.DataFrame(rows)
+        # Ensure model can consume it (adds missing cols, fixes types)
+        X_prep = prepare_inputs(X_raw)
+
+        # Background for KernelExplainer: a small sample of submitted rows
+        n = len(X_prep)
+        if bg_size is None:
+            bg_size = min(50, n)
+        bg = X_raw.sample(bg_size, random_state=42).reset_index(drop=True)
+
+        # Build explainer in ORIGINAL space (KernelExplainer uses the columns you pass)
+        explainer = shap.KernelExplainer(model=_proba_pipeline_fn, data=bg)
+
+        # Explain the submitted rows
+        shap_vals = explainer.shap_values(X_raw, nsamples=nsamples)
+        # shap_vals -> (n_rows, n_features) aligned to X_raw.columns
+        if isinstance(shap_vals, list):  # safety for some SHAP versions
+            shap_vals = np.array(shap_vals)
+
+        cols = list(X_raw.columns)
+        if feature_x not in cols:
+            return JSONResponse({"error": f"feature_x '{feature_x}' not found in provided rows"}, status_code=400)
+
+        # y values
+        if y_mode == "sum":
+            y = np.abs(shap_vals).sum(axis=1).tolist()
+        else:
+            j = cols.index(feature_x)
+            y = shap_vals[:, j].tolist()
+
+        # x values
+        x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
+
+        # optional color channel
+        color = None
+        if feature_color:
+            if feature_color not in cols:
+                return JSONResponse({"error": f"feature_color '{feature_color}' not in rows"}, status_code=400)
+            color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
+
+        # some meta for the client
+        meta = {
+            "expected_value": float(explainer.expected_value) if hasattr(explainer, "expected_value") else None,
+            "columns": cols,
+            "y_mode": y_mode,
+            "nsamples": nsamples,
+            "background_size": bg_size,
+        }
+
+        return {
+            "x": x,
+            "shap": y,
+            "color": color,
+            "meta": meta,
+        }
+
+    except Exception as e:
+        traceback.print_exc()
+        return JSONResponse({"error": str(e)}, status_code=500)

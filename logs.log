@@ -167110,3 +167110,312 @@ Name: Permanent DI, dtype: float32
 2025-10-12 13:27:22,818:INFO:Preloading libraries
 2025-10-12 13:27:22,818:INFO:Set up data.
 2025-10-12 13:27:22,823:INFO:Set up index.
+2025-10-12 13:28:44,397:INFO:Initializing predict_model()
+2025-10-12 13:28:44,398:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707F967370>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x000001707CDBE590>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062050>)
+2025-10-12 13:28:44,398:INFO:Checking exceptions
+2025-10-12 13:28:44,398:INFO:Preloading libraries
+2025-10-12 13:28:44,398:INFO:Set up data.
+2025-10-12 13:28:44,406:INFO:Set up index.
+2025-10-12 13:28:44,654:INFO:Initializing predict_model()
+2025-10-12 13:28:44,654:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707CE4CEB0>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                                    transformer=OneHotEncoder(cols=['Resection '
+                                                                    'outcome '
+                                                                    '(total, '
+                                                                    'subtotal, '
+                                                                    'partial)'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('balance',
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('trained_model',
+                 CalibratedClassifierCV(cv=5, estimator=GaussianNB(),
+                                        method='isotonic'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062050>)
+2025-10-12 13:28:44,654:INFO:Checking exceptions
+2025-10-12 13:28:44,654:INFO:Preloading libraries
+2025-10-12 13:28:44,655:INFO:Set up data.
+2025-10-12 13:28:44,664:INFO:Set up index.
+2025-10-12 13:28:45,844:INFO:Initializing predict_model()
+2025-10-12 13:28:45,844:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707D5D40A0>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x000001707CDBE590>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062200>)
+2025-10-12 13:28:45,844:INFO:Checking exceptions
+2025-10-12 13:28:45,844:INFO:Preloading libraries
+2025-10-12 13:28:45,844:INFO:Set up data.
+2025-10-12 13:28:45,848:INFO:Set up index.
+2025-10-12 13:28:46,155:INFO:Initializing predict_model()
+2025-10-12 13:28:46,155:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707CF6A140>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                                    transformer=OneHotEncoder(cols=['Resection '
+                                                                    'outcome '
+                                                                    '(total, '
+                                                                    'subtotal, '
+                                                                    'partial)'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('balance',
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('trained_model',
+                 CalibratedClassifierCV(cv=5, estimator=GaussianNB(),
+                                        method='isotonic'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062200>)
+2025-10-12 13:28:46,155:INFO:Checking exceptions
+2025-10-12 13:28:46,155:INFO:Preloading libraries
+2025-10-12 13:28:46,156:INFO:Set up data.
+2025-10-12 13:28:46,160:INFO:Set up index.
+2025-10-12 13:28:46,797:INFO:Initializing predict_model()
+2025-10-12 13:28:46,797:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707ED79EA0>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x000001707CDBE590>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062200>)
+2025-10-12 13:28:46,797:INFO:Checking exceptions
+2025-10-12 13:28:46,797:INFO:Preloading libraries
+2025-10-12 13:28:46,799:INFO:Set up data.
+2025-10-12 13:28:46,803:INFO:Set up index.
+2025-10-12 13:28:47,125:INFO:Initializing predict_model()
+2025-10-12 13:28:47,127:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707BE62E60>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                                    transformer=OneHotEncoder(cols=['Resection '
+                                                                    'outcome '
+                                                                    '(total, '
+                                                                    'subtotal, '
+                                                                    'partial)'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('balance',
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('trained_model',
+                 CalibratedClassifierCV(cv=5, estimator=GaussianNB(),
+                                        method='isotonic'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062200>)
+2025-10-12 13:28:47,127:INFO:Checking exceptions
+2025-10-12 13:28:47,127:INFO:Preloading libraries
+2025-10-12 13:28:47,127:INFO:Set up data.
+2025-10-12 13:28:47,131:INFO:Set up index.
+2025-10-12 13:28:47,682:INFO:Initializing predict_model()
+2025-10-12 13:28:47,683:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707C3703A0>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x000001707CDBE590>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C0620E0>)
+2025-10-12 13:28:47,683:INFO:Checking exceptions
+2025-10-12 13:28:47,683:INFO:Preloading libraries
+2025-10-12 13:28:47,683:INFO:Set up data.
+2025-10-12 13:28:47,688:INFO:Set up index.
+2025-10-12 13:28:48,012:INFO:Initializing predict_model()
+2025-10-12 13:28:48,012:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707D5C7F70>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                                    transformer=OneHotEncoder(cols=['Resection '
+                                                                    'outcome '
+                                                                    '(total, '
+                                                                    'subtotal, '
+                                                                    'partial)'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('balance',
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('trained_model',
+                 CalibratedClassifierCV(cv=5, estimator=GaussianNB(),
+                                        method='isotonic'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C0620E0>)
+2025-10-12 13:28:48,012:INFO:Checking exceptions
+2025-10-12 13:28:48,012:INFO:Preloading libraries
+2025-10-12 13:28:48,012:INFO:Set up data.
+2025-10-12 13:28:48,017:INFO:Set up index.
+2025-10-14 11:39:45,404:INFO:Initializing load_model()
+2025-10-14 11:39:45,408:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2025-10-14 11:39:45,601:INFO:Initializing load_model()
+2025-10-14 11:39:45,601:INFO:load_model(model_name=recurrence_nb_calibrated_v1, platform=None, authentication=None, verbose=True)
+2025-10-14 11:39:45,768:INFO:Initializing predict_model()
+2025-10-14 11:39:45,768:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x0000017023BD1510>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('actual_estimator',
+                 VotingClassifier(estimators=[('Ridge Classifier',
+                                               CalibratedClassifierCV(cv=5,
+                                                                      estimator=RidgeClassifier(random_state=42),
+                                                                      method='isotonic')),
+                                              ('CatBoost Classifier',
+                                               <catboost.core.CatBoostClassifier object at 0x000001707CF6A050>)],
+                                  n_jobs=-1, voting='soft'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062050>)
+2025-10-14 11:39:45,768:INFO:Checking exceptions
+2025-10-14 11:39:45,768:INFO:Preloading libraries
+2025-10-14 11:39:45,769:INFO:Set up data.
+2025-10-14 11:39:45,777:INFO:Set up index.
+2025-10-14 11:39:46,496:INFO:Initializing predict_model()
+2025-10-14 11:39:46,497:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001707C3703A0>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endocrine changes (y...
+                                    transformer=OneHotEncoder(cols=['Resection '
+                                                                    'outcome '
+                                                                    '(total, '
+                                                                    'subtotal, '
+                                                                    'partial)'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('balance',
+                 TransformerWrapper(transformer=FixImbalancer(estimator=SMOTE(random_state=42)))),
+                ('clean_column_names',
+                 TransformerWrapper(transformer=CleanColumnNames())),
+                ('trained_model',
+                 CalibratedClassifierCV(cv=5, estimator=GaussianNB(),
+                                        method='isotonic'))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001707C062050>)
+2025-10-14 11:39:46,497:INFO:Checking exceptions
+2025-10-14 11:39:46,497:INFO:Preloading libraries
+2025-10-14 11:39:46,498:INFO:Set up data.
+2025-10-14 11:39:46,518:INFO:Set up index.
