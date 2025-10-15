@@ -68,7 +68,6 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
     return df[FEATURES]
 
 # --- SHAP helpers (global) ---
-import shap
 from typing import List, Optional, Dict, Any
 
 def _proba_pipeline_fn(X_in: pd.DataFrame) -> np.ndarray:
@@ -352,6 +351,13 @@ def shap_dependence(payload: dict = Body(...)):
     }
     Returns: { x:[], shap:[], color:[], meta:{} }   # ready for Plotly on the client
     """
+    try:
+        import shap  # type: ignore
+    except Exception:
+        return JSONResponse(
+            {"error": "SHAP not available on server. Add to requirements: shap==0.44.1, numba==0.57.1, llvmlite==0.40.1"},
+            status_code=501,
+        )
     try:
         rows: List[Dict[str, Any]] = payload.get("rows") or []
         feature_x: str = payload.get("feature_x")

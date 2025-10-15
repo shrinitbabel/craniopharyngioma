@@ -14,3 +14,8 @@ pycaret==3.3.2
 # web + templates + form parsing
 jinja2==3.1.4
 python-multipart==0.0.9
+
+# others
+shap==0.44.1
+numba==0.57.1
+llvmlite==0.40.1
