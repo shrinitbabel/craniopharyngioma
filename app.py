@@ -2,19 +2,15 @@ import os
 import math
 import numpy as np
 import pandas as pd
-from typing import List, Optional, Dict, Any
-
-from fastapi import FastAPI, Body
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, RedirectResponse
-
+from fastapi import FastAPI, Request, Body
+from fastapi.responses import HTMLResponse, JSONResponse
 from pycaret.classification import load_model, predict_model
-import json as _json
+
 
 # --------- Load model once on startup ----------
-MODEL_PATH = "permdi_blend_ridge_cat_v1"
+MODEL_PATH = "permdi_blend_ridge_cat_v1"   # file is permdi_blend_ridge_cat_v1.pkl in repo root
 RECURRENCE_MODEL_PATH = "recurrence_nb_calibrated_v1"
-model = load_model(MODEL_PATH)
+model = load_model(MODEL_PATH)             # PyCaret adds .pkl automatically
 recurrence = load_model(RECURRENCE_MODEL_PATH)
 
 FEATURES = [
@@ -38,32 +34,70 @@ BIN_LIKE = [
 
 def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
+
+    # Recompute Tumor volume if missing/NaN but axes exist (ellipsoid)
     if "Tumor volume" not in df.columns and all(c in df.columns for c in ["Tumor size","Tumor size.1","Tumor size.2"]):
         df["Tumor volume"] = (4/3)*math.pi * (df["Tumor size"]/2)*(df["Tumor size.1"]/2)*(df["Tumor size.2"]/2)
+
+    # Ensure expected columns exist
     for c in FEATURES:
         if c not in df.columns:
             df[c] = np.nan
+
+    # Light coercion for binary-like cols
     for c in BIN_LIKE:
-        if c in df.columns:
-            df[c] = pd.to_numeric(df[c], errors="coerce")
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # Normalize categories
     if "Surgical Approach" in df.columns:
-        df["Surgical Approach"] = df["Surgical Approach"].astype(str).str.strip().str.lower().replace({"endo":"endoscopic","endo.":"endoscopic"})
+        df["Surgical Approach"] = df["Surgical Approach"].astype(str).str.strip().str.lower()
+        df["Surgical Approach"] = df["Surgical Approach"].replace({
+            "endo": "endoscopic",
+            "endo.": "endoscopic"
+        })
+
     if "Resection outcome (total, subtotal, partial)" in df.columns:
-        col = "Resection outcome (total, subtotal, partial)"
-        df[col] = df[col].astype(str).str.strip().str.lower().replace({"near-total":"near total","near_total":"near total"})
+        df["Resection outcome (total, subtotal, partial)"] = (
+            df["Resection outcome (total, subtotal, partial)"].astype(str).str.strip().str.lower()
+        )
+        df["Resection outcome (total, subtotal, partial)"] = df["Resection outcome (total, subtotal, partial)"].replace({
+            "near-total": "near total",
+            "near_total": "near total"
+        })
+
     return df[FEATURES]
 
-# --- App & CORS ---
+# --- SHAP helpers (global) ---
+from typing import List, Optional, Dict, Any
+
+def _proba_pipeline_fn(X_in: pd.DataFrame) -> np.ndarray:
+    """
+    Positive-class proba for the loaded PyCaret pipeline on ORIGINAL columns.
+    We run your prepare_inputs -> model.predict_proba.
+    """
+    Xp = prepare_inputs(X_in)
+    return model.predict_proba(Xp)[:, 1]
+
+
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title="Permanent DI Risk")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://babels.ai","https://www.babels.ai",
-        "https://cranio.babels.ai","https://cranio-api.babels.ai",
+        "https://babels.ai",
+        "https://www.babels.ai",
+        "https://cranio.babels.ai",
+        "https://cranio-api.babels.ai",
         "http://localhost:3000",
     ],
-    allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+
 
 FORM_HTML = """
 <!doctype html>
@@ -82,13 +116,14 @@ FORM_HTML = """
     .ok { color:#065f46; }
     .err { color:#b91c1c; }
   </style>
+  <!-- Plotly CDN -->
   <script src="https://cdn.plot.ly/plotly-2.26.2.min.js"></script>
 </head>
 <body>
 
 <h2>Permanent DI Risk (Pilot)</h2>
 
-<form id="predict-form" onsubmit="return false;">
+<form id="predict-form">
   <div class="row">
     <div>
       <label>Age <input type="number" name="Age " step="1" required></label>
@@ -138,11 +173,12 @@ FORM_HTML = """
   </div>
 
   <div class="small">This pilot is research-only, not a clinical device.</div>
-  <button id="btn-predict" type="button">Predict</button>
+  <button type="submit">Predict</button>
 </form>
 
 <div id="msg" class="small" style="margin-top:6px;"></div>
 
+<!-- Results -->
 <div id="results" class="card" style="display:none;"></div>
 
 <!-- SHAP controls -->
@@ -166,7 +202,7 @@ FORM_HTML = """
     </div>
   </div>
 
-  <!-- brand progress bar -->
+  <!-- gradient progress bar -->
   <div id="xai-progress-wrap" style="display:none; margin-top:8px; width:100%; height:8px; border-radius:8px; background:#e5e7eb; overflow:hidden;">
     <div id="xai-progress"
          style="height:100%; width:0%;
@@ -179,8 +215,9 @@ FORM_HTML = """
   <div id="plot" style="height:520px; margin-top:10px;"></div>
 </div>
 
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+  // Keep these in sync with your backend FEATURES (exact spelling, including "Age ")
   const ALL_FEATURES = [
     "Age ", "BMI", "Tumor size", "Tumor size.1", "Tumor size.2", "Tumor volume",
     "Last BMI on file",
@@ -201,7 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ]);
 
   const form = document.getElementById("predict-form");
-  const btnPredict = document.getElementById("btn-predict");
   const results = document.getElementById("results");
   const msg = document.getElementById("msg");
   const shapCard = document.getElementById("shap-card");
@@ -212,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressWrap = document.getElementById("xai-progress-wrap");
   const progressBar = document.getElementById("xai-progress");
 
+  // populate selects
   function fillFeatureSelects() {
     featX.innerHTML = "";
     featColor.innerHTML = '<option value="">(none)</option>';
@@ -219,15 +256,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const o1 = document.createElement("option");
       o1.value = f; o1.textContent = f;
       featX.appendChild(o1);
+
       const o2 = document.createElement("option");
       o2.value = f; o2.textContent = f;
       featColor.appendChild(o2);
     }
+    // a useful default
     featX.value = "BMI";
     featColor.value = "";
   }
   fillFeatureSelects();
 
+  // Read form -> payload (numbers except categories)
   function readPayload() {
     const fd = new FormData(form);
     const cats = new Set(["Surgical Approach","Resection outcome (total, subtotal, partial)"]);
@@ -237,21 +277,26 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cats.has(k)) payload[k] = v || null;
       else payload[k] = (v === "" ? null : Number(v));
     }
+    // If Last BMI empty, mirror BMI
     if (payload["BMI"] != null && (payload["Last BMI on file"] == null || isNaN(payload["Last BMI on file"]))) {
       payload["Last BMI on file"] = payload["BMI"];
     }
-    for (const b of BIN_LIKE) if (!(b in payload)) payload[b] = 0;
+    // ensure all bin fields at least exist
+    for (const b of BIN_LIKE) {
+      if (!(b in payload)) payload[b] = 0;
+    }
     return payload;
   }
 
-  function makeCohortRows(base, n=20) {
+  // make N jittered rows around current payload (±8% for numerics)
+  function makeCohortRows(base, n=30) {
     const rows = [];
     for (let i=0; i<n; i++) {
       const r = {};
       for (const k of Object.keys(base)) {
         const v = base[k];
         if (typeof v === "number" && Number.isFinite(v)) {
-          const noise = (Math.random()-0.5)*0.16;
+          const noise = (Math.random()-0.5)*0.16; // ±8%
           r[k] = v + v*noise;
         } else {
           r[k] = v;
@@ -262,7 +307,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return rows;
   }
 
-  btnPredict.addEventListener("click", async () => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
     msg.textContent = "Predicting…";
     shapMsg.textContent = "";
     results.style.display = "none";
@@ -271,15 +317,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = readPayload();
 
     try {
-      const [r1, r2] = await Promise.all([
-        fetch("/predict", { method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify(payload) }),
-        fetch("/predict-recurrence", { method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify(payload) }),
-      ]);
+      // Predict permanent DI
+      const r1 = await fetch("/predict", {
+        method: "POST",
+        headers: {"content-type":"application/json"},
+        body: JSON.stringify(payload)
+      });
       const d1 = await r1.json();
-      const d2 = await r2.json();
-      if (!r1.ok || d1?.error) throw new Error(d1?.error || "Permanent DI prediction failed");
-      if (!r2.ok || d2?.error) throw new Error(d2?.error || "Recurrence prediction failed");
+      if (!r1.ok || d1.error) throw new Error(d1.error || "Prediction failed");
 
+      // Predict recurrence (optional, but you asked to show both earlier)
+      const r2 = await fetch("/predict-recurrence", {
+        method: "POST",
+        headers: {"content-type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      const d2 = await r2.json();
+
+      // Show results
       results.innerHTML =
         "<div><b>Permanent DI probability:</b> " + (d1.prob_permanent_DI ?? 0).toFixed(3) + "</div>" +
         "<div><b>Permanent DI label (0/1):</b> " + (d1.label ?? 0) + "</div>" +
@@ -291,111 +346,134 @@ document.addEventListener("DOMContentLoaded", () => {
       results.style.display = "block";
       msg.textContent = "";
 
+      // Store last payload & reveal SHAP builder
       window.__lastPayload = payload;
       shapCard.style.display = "block";
+
     } catch (err) {
       console.error(err);
       msg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
     }
   });
-
+  
   document.getElementById("btn-shap").addEventListener("click", async () => {
-    shapMsg.textContent = "";
-    progressWrap.style.display = "block";
-    progressBar.style.width = "0%";
+  shapMsg.textContent = "";
+  progressWrap.style.display = "block";
+  progressBar.style.width = "0%";
 
-    const payload = window.__lastPayload;
-    if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
+  const payload = window.__lastPayload;
+  if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
 
-    const rows = makeCohortRows(payload, 20);
-    const body = { rows, feature_x: featX.value, feature_color: featColor.value || undefined, y_mode: "by_x" };
-
-    try {
-      const res = await fetch("/shap/dependence-stream", {
-        method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify(body)
-      });
-      if (!res.ok || !res.body) { shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>'; return; }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buf = "";
-
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buf += decoder.decode(value, { stream: true });
-
-        let idx;
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) { /* never true */ break; }
-        // Correct parsing on actual newlines:
-        while ((idx = buf.indexOf("\\r\\n\\r\\n")) >= 0) { /* ignore */ break; }
-
-        // Proper newline splitting:
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) { break; }
-        while ((idx = buf.indexOf("\\r\\n\\r\\n")) >= 0) { break; }
-
-        // Use real newlines:
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) { break; }
+  // small cohort around the current case (same jitter as before)
+  function makeCohortRows(base, n=30) {
+    const rows = [];
+    for (let i=0; i<n; i++) {
+      const r = {};
+      for (const k of Object.keys(base)) {
+        const v = base[k];
+        if (typeof v === "number" && Number.isFinite(v)) {
+          const noise = (Math.random()-0.5)*0.16; // ±8%
+          r[k] = v + v*noise;
+        } else {
+          r[k] = v;
+        }
       }
-    } catch (err) {
-      console.error(err);
-      shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+      rows.push(r);
+    }
+    return rows;
+  }
+
+  const rows = makeCohortRows(payload, 30);
+  const body = {
+    rows,
+    feature_x: featX.value,
+    feature_color: featColor.value || undefined,
+    y_mode: "by_x"
+  };
+
+  try {
+    const res = await fetch("/shap/dependence-stream", {
+      method: "POST",
+      headers: {"content-type":"application/json"},
+      body: JSON.stringify(body)
+    });
+    if (!res.ok || !res.body) {
+      shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>';
+      return;
     }
 
-    // Correct parser (works across environments)
-    async function parseSSE(text) {
-      let offset = 0;
-      while (true) {
-        const next = text.indexOf("\\n\\n", offset);
-        const next2 = text.indexOf("\\r\\n\\r\\n", offset);
-        const sep = next === -1 ? next2 : (next2 === -1 ? next : Math.min(next, next2));
-        if (sep === -1) break;
-        const frame = text.slice(offset, sep);
-        offset = sep + (text[sep] === "\\r" ? 4 : 2);
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
 
-        const lines = frame.split(/\\r?\\n/);
-        const evLine = lines.find(l => l.startsWith("event:"));
-        const dataLine = lines.find(l => l.startsWith("data:"));
-        if (!evLine || !dataLine) continue;
-        const ev = evLine.slice(6).trim();
-        const dataStr = dataLine.slice(5).trim();
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      let idx;
+      while ((idx = buf.indexOf("\n\n")) >= 0) {
+        const frame = buf.slice(0, idx);
+        buf = buf.slice(idx + 2);
+
+        const lines = frame.split("\n");
+        const ev = lines.find((l)=>l.startsWith("event:"))?.slice(6).trim();
+        const dataLine = lines.find((l)=>l.startsWith("data:"))?.slice(5).trim();
+        if (!ev || !dataLine) continue;
 
         if (ev === "progress") {
-          const { pct } = JSON.parse(dataStr);
+          const { pct } = JSON.parse(dataLine);
           progressBar.style.width = pct + "%";
         } else if (ev === "done") {
-          const data = JSON.parse(dataStr);
-          Plotly.newPlot(plotDiv, [{
-            x: data.x, y: data.shap, mode: "markers", type: "scatter",
+          const data = JSON.parse(dataLine);
+          // Draw Plotly with purple→orange and transparent bg
+          Plotly.newPlot(plot, [{
+            x: data.x,
+            y: data.shap,
+            mode: "markers",
+            type: "scatter",
             marker: {
               size: 8,
               color: data.color || undefined,
-              colorscale: [[0,"rgba(128,0,128,0.9)"],[1,"rgba(255,140,0,0.9)"]],
-              colorbar: { title: featColor.value || "", titleside: "right", tickfont: { size: 11 } },
+              colorscale: [
+                [0, "rgba(128,0,128,0.9)"],  // purple
+                [1, "rgba(255,140,0,0.9)"]   // orange
+              ],
+              colorbar: {
+                title: featColor.value || "",
+                titleside: "right",
+                tickfont: { size: 11 }
+              },
               showscale: !!(data.color && data.color.length)
             },
-            hovertemplate: `${featX.value}=%{x}<br>SHAP=%{y:.3f}<extra></extra>`
+            hovertemplate: featX.value + "=%{x}<br>SHAP=%{y:.3f}<extra></extra>"
           }], {
             title: "SHAP dependence: " + featX.value,
-            xaxis: { title: featX.value }, yaxis: { title: "SHAP value (Permanent DI)" },
-            paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+            xaxis: { title: featX.value },
+            yaxis: { title: "SHAP value (Permanent DI)" },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
             margin: { l: 60, r: 40, t: 50, b: 50 }
-          }, { responsive: true });
+          }, {responsive:true});
+
           progressBar.style.width = "100%";
           shapMsg.innerHTML = '<span class="ok">Done.</span>';
+        } else if (ev === "error") {
+          shapMsg.innerHTML = '<span class="err">' + JSON.parse(dataLine) + '</span>';
         }
       }
     }
-
-  });
+  } catch (err) {
+    console.error(err);
+    shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+  }
 });
+
 </script>
 
 </body>
 </html>
 """
-
-# ---------------- Routes ----------------
 
 @app.get("/", response_class=HTMLResponse)
 def root():
@@ -405,88 +483,282 @@ def root():
 def health():
     return {"status": "ok"}
 
-def _proba_pos_from_predict_model(out: pd.DataFrame) -> Optional[float]:
+import traceback
+from fastapi import HTTPException
+from fastapi.responses import JSONResponse
+
+import traceback
+from fastapi.responses import JSONResponse
+
+def _proba_pos_from_predict_model(out):
+    # pick the positive-class score column
     score_cols = [c for c in out.columns if c.startswith("Score_")]
-    if not score_cols: return None
-    for key in ("Score_1","Score_True","Score_yes","Score_positive"):
-        if key in out.columns: return float(out.loc[0, key])
+    if not score_cols:
+        return None
+
+    # common names PyCaret uses
+    for key in ("Score_1", "Score_True", "Score_yes", "Score_positive"):
+        if key in out.columns:
+            return float(out.loc[0, key])
+
+    # if exactly two score columns, prefer the one that's not Score_0
     if len(score_cols) == 2 and "Score_0" in score_cols:
         other = score_cols[0] if score_cols[1] == "Score_0" else score_cols[1]
         return float(out.loc[0, other])
-    return float(out.loc[0, score_cols].max())
+
+    # last resort: take the max-prob score col (not ideal but safe)
+    row = out.loc[0, score_cols]
+    return float(row.max())
 
 def _predict_pos_proba_safe(any_model, X: pd.DataFrame) -> float:
-    try: return float(any_model.predict_proba(X)[:, 1][0])
-    except Exception: pass
+    """
+    Best-effort positive-class probability from a PyCaret pipeline or sklearn model.
+    Tries predict_proba, then predict_model(raw_score), then decision_function->sigmoid.
+    """
+    import math
+    from pycaret.classification import predict_model
+
+    # 1) Direct predict_proba
+    try:
+        proba = any_model.predict_proba(X)
+        # assume positive class is column 1 when binary
+        return float(proba[:, 1][0])
+    except Exception:
+        pass
+
+    # 2) PyCaret helper (raw scores expose Score_* columns)
     try:
         out = predict_model(any_model, data=X, raw_score=True)
         p = _proba_pos_from_predict_model(out)
-        if p is not None: return float(p)
-    except Exception: pass
+        if p is not None:
+            return float(p)
+    except Exception:
+        pass
+
+    # 3) decision_function -> sigmoid (fallback)
     try:
         margin = float(any_model.decision_function(X)[0])
         return 1.0 / (1.0 + math.exp(-margin))
     except Exception:
-        y = any_model.predict(X)[0]
-        return float(y) if y in (0,1,True,False) else float(y == 1)
+        # As a last resort, call predict() and map to {0,1}
+        try:
+            y = any_model.predict(X)[0]
+            return float(y) if y in (0, 1, True, False) else float(y == 1)
+        except Exception as _:
+            raise RuntimeError("Unable to compute probability for the given model and inputs.")
+
 
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
     try:
-        X = prepare_inputs(pd.DataFrame([payload]))
+        df = pd.DataFrame([payload])
+        X = prepare_inputs(df)
+
         p1 = _predict_pos_proba_safe(model, X)
+
         THRESH = float(os.getenv("THRESHOLD", 0.5))
-        return {"prob_permanent_DI": p1, "label": int(p1 >= THRESH), "threshold": THRESH}
+        label = int(p1 >= THRESH)
+
+        return {"prob_permanent_DI": p1, "label": label, "threshold": THRESH}
+
     except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=400)
+        print("PREDICT ERROR:", e)
+        traceback.print_exc()
+        return JSONResponse(
+            {
+                "error": str(e),
+                "received_keys": list(payload.keys()),
+                "prepared_columns": list(X.columns) if "X" in locals() else None,
+            },
+            status_code=400,
+        )
 
 @app.post("/predict-recurrence")
 def predict_recurrence_api(payload: dict = Body(...)):
     try:
-        X = prepare_inputs(pd.DataFrame([payload]))
-        p = _predict_pos_proba_safe(recurrence, X)
+        df = pd.DataFrame([payload])
+        X = prepare_inputs(df)
+
+        p_rec = _predict_pos_proba_safe(recurrence, X)
         THRESH_R = float(os.getenv("THRESHOLD_RECURRENCE", 0.5))
-        return {"prob_recurrence": p, "label": int(p >= THRESH_R), "threshold": THRESH_R}
+        label_rec = int(p_rec >= THRESH_R)
+
+        return {
+            "prob_recurrence": p_rec,
+            "label": label_rec,
+            "threshold": THRESH_R,
+        }
+
     except Exception as e:
-        return JSONResponse({"error": str(e)}, status_code=400)
+        print("RECURRENCE PREDICT ERROR:", e)
+        traceback.print_exc()
+        return JSONResponse(
+            {
+                "error": str(e),
+                "received_keys": list(payload.keys()),
+                "prepared_columns": list(X.columns) if "X" in locals() else None,
+            },
+            status_code=400,
+        )
+
+
+from fastapi import FastAPI, Request, Body
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 @app.post("/predict-form", response_class=HTMLResponse)
-async def predict_form():
-    return HTMLResponse("<pre>Use the main page.</pre>")
+async def predict_form(request: Request):
+    form = await request.form()
+    raw = {k: (None if v == "" else v) for k, v in form.items()}
+
+    # cast numerics; leave category strings alone
+    cat_keys = {"Surgical Approach", "Resection outcome (total, subtotal, partial)"}
+    payload = {}
+    for k, v in raw.items():
+        if v is None:
+            payload[k] = None
+        elif k in cat_keys:
+            payload[k] = str(v).strip()
+        else:
+            try:
+                payload[k] = float(v)
+            except Exception:
+                payload[k] = v  # fallback
+
+    df = pd.DataFrame([payload])
+    X = prepare_inputs(df)
+
+    # thresholds (env or defaults)
+    THRESH_DI = float(os.getenv("THRESHOLD", 0.5))
+    THRESH_REC = float(os.getenv("THRESHOLD_RECURRENCE", 0.5))
+
+    # compute Permanent DI
+    di_block = ""
+    try:
+        p_di = _predict_pos_proba_safe(model, X)
+        label_di = int(p_di >= THRESH_DI)
+        di_block = (
+            f"Permanent DI probability: {p_di:.3f}\n"
+            f"Permanent DI label (0/1): {label_di}\n"
+            f"Permanent DI threshold: {THRESH_DI}\n"
+        )
+    except Exception as e:
+        di_block = f"Permanent DI: error computing ({e})\n"
+
+    # compute Recurrence
+    rec_block = ""
+    try:
+        p_rec = _predict_pos_proba_safe(recurrence, X)
+        label_rec = int(p_rec >= THRESH_REC)
+        rec_block = (
+            f"Recurrence probability: {p_rec:.3f}\n"
+            f"Recurrence label (0/1): {label_rec}\n"
+            f"Recurrence threshold: {THRESH_REC}\n"
+        )
+    except Exception as e:
+        rec_block = f"Recurrence: error computing ({e})\n"
+
+    return HTMLResponse(f"<pre>{di_block}\n{rec_block}</pre>")
+
+
+# Optional: keep this so GET /predict-form redirects to the input form
+@app.get("/predict-form")
+def predict_form_get():
+    return RedirectResponse(url="/", status_code=303)
 
 @app.post("/shap/dependence")
 def shap_dependence(payload: dict = Body(...)):
+    """
+    Body:
+      rows: list[dict]   (REQUIRED)
+      feature_x: str     (REQUIRED)
+      feature_color: str (OPTIONAL)
+      y_mode: "by_x" | "sum" (default "by_x")
+    """
     try:
-        import shap
+        import shap  # lazy import so app still boots if SHAP missing
     except Exception:
-        return JSONResponse({"error":"SHAP not available on server."}, status_code=501)
+        return JSONResponse(
+            {"error": "SHAP not available on server. Add to requirements: shap==0.44.1, numba==0.57.1, llvmlite==0.40.1"},
+            status_code=501,
+        )
+
+    from difflib import get_close_matches
+
     try:
-        rows = payload.get("rows") or []
-        feature_x = payload.get("feature_x")
-        feature_color = payload.get("feature_color")
-        y_mode = payload.get("y_mode", "by_x")
-        if not rows or not feature_x:
-            return JSONResponse({"error":"rows and feature_x required"}, status_code=400)
-        X_raw = pd.DataFrame(rows); cols = list(X_raw.columns)
+        rows: List[Dict[str, Any]] = payload.get("rows") or []
+        feature_x: Optional[str] = payload.get("feature_x")
+        feature_color: Optional[str] = payload.get("feature_color")
+        y_mode: str = payload.get("y_mode", "by_x")
+
+        if not rows or not isinstance(rows, list):
+            return JSONResponse({"error": "'rows' must be a non-empty list of payloads"}, status_code=400)
+        if not feature_x or not isinstance(feature_x, str):
+            return JSONResponse({"error": "'feature_x' is required"}, status_code=400)
+
+        # Build DataFrame in ORIGINAL feature space (exact keys from client)
+        X_raw = pd.DataFrame(rows)
+        cols = list(X_raw.columns)
+
+        # tolerant lookup (handles trailing space on "Age ", case, etc.)
+        def _find_col(name: str) -> Optional[str]:
+            if name in cols:
+                return name
+            tgt = name.strip().lower()
+            for c in cols:
+                if c.strip().lower() == tgt:
+                    return c
+            m = get_close_matches(name, cols, n=1)
+            return m[0] if m else None
+
+        fx = _find_col(feature_x)
+        if not fx:
+            return JSONResponse({"error": f"feature_x '{feature_x}' not found in provided rows"}, status_code=400)
+        fc = _find_col(feature_color) if feature_color else None
+
+        # model fn that always gets a DataFrame with correct columns/order
         def proba_fn_local(X_in):
-            if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
-            else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
-            return model.predict_proba(prepare_inputs(X_df))[:, 1]
+            if isinstance(X_in, np.ndarray):
+                X_df = pd.DataFrame(X_in, columns=cols)
+            else:
+                X_df = X_in.reindex(columns=cols, fill_value=np.nan)
+            Xp = prepare_inputs(X_df)
+            return model.predict_proba(Xp)[:, 1]
+
+        # ---- Full-dataset Kernel SHAP (no nsamples/background prompts) ----
         explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
         shap_vals = explainer.shap_values(X_raw)
-        if isinstance(shap_vals, list): shap_vals = np.array(shap_vals)
-        j = cols.index(feature_x)
-        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode=="sum" else shap_vals[:, j].tolist())
-        x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
-        color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist() if feature_color in cols else None
-        return {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color, "y_mode": y_mode}}
+        if isinstance(shap_vals, list):
+            shap_vals = np.array(shap_vals)
+
+        # y values
+        if y_mode == "sum":
+            y = np.abs(shap_vals).sum(axis=1).tolist()
+        else:
+            j = cols.index(fx)
+            y = shap_vals[:, j].tolist()
+
+        # x and optional color
+        x = X_raw[fx].astype(object).where(~X_raw[fx].isna(), None).tolist()
+        color = None
+        if fc:
+            color = X_raw[fc].astype(object).where(~X_raw[fc].isna(), None).tolist()
+
+        meta = {"columns": cols, "fx": fx, "fc": fc, "y_mode": y_mode}
+        return {"x": x, "shap": y, "color": color, "meta": meta}
+
     except Exception as e:
+        traceback.print_exc()
         return JSONResponse({"error": str(e)}, status_code=500)
+
+
+# --- Streaming SHAP with progress (SSE over fetch streaming) ---
+from fastapi.responses import StreamingResponse
+import json as _json
 
 @app.post("/shap/dependence-stream")
 def shap_dependence_stream(payload: dict = Body(...)):
     try:
-        import shap
+        import shap  # lazy import
     except Exception:
         def _err():
             yield b"event: error\ndata: \"SHAP not installed\"\n\n"
@@ -496,31 +768,51 @@ def shap_dependence_stream(payload: dict = Body(...)):
     feature_x = payload.get("feature_x")
     feature_color = payload.get("feature_color")
     y_mode = payload.get("y_mode", "by_x")
+
     if not rows or not feature_x:
-        def _bad(): yield b"event: error\ndata: \"rows and feature_x required\"\n\n"
+        def _bad():
+            yield b"event: error\ndata: \"rows and feature_x required\"\n\n"
         return StreamingResponse(_bad(), media_type="text/event-stream")
 
-    X_raw = pd.DataFrame(rows); cols = list(X_raw.columns)
+    X_raw = pd.DataFrame(rows)
+    cols = list(X_raw.columns)
+
+    # local model fn that always sees a DataFrame with correct columns
     def proba_fn_local(X_in):
-        if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
-        else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
-        return model.predict_proba(prepare_inputs(X_df))[:, 1]
+        if isinstance(X_in, np.ndarray):
+            X_df = pd.DataFrame(X_in, columns=cols)
+        else:
+            X_df = X_in.reindex(columns=cols, fill_value=np.nan)
+        Xp = prepare_inputs(X_df)
+        return model.predict_proba(Xp)[:, 1]
+
     explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
 
     def _gen():
-        n = len(X_raw); shap_rows = []
+        n = len(X_raw)
+        # accumulate row-wise shap values so we can compute final output
+        shap_rows = []
         for i in range(n):
             sv = explainer.shap_values(X_raw.iloc[[i]])
-            if isinstance(sv, list): sv = np.array(sv)
+            if isinstance(sv, list):
+                sv = np.array(sv)
             shap_rows.append(sv[0].tolist())
-            yield f"event: progress\ndata: {_json.dumps({'pct': int((i+1)/n*100)})}\n\n".encode()
+            pct = int((i + 1) / n * 100)
+            yield f"event: progress\ndata: {_json.dumps({'pct': pct})}\n\n".encode()
 
         shap_vals = np.array(shap_rows)
-        j = cols.index(feature_x)
-        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode=="sum" else shap_vals[:, j].tolist())
+        if y_mode == "sum":
+            y = np.abs(shap_vals).sum(axis=1).tolist()
+        else:
+            j = cols.index(feature_x)
+            y = shap_vals[:, j].tolist()
+
         x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
-        color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist() if feature_color in cols else None
-        final = {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color}}
-        yield f"event: done\ndata: {_json.dumps(final)}\n\n".encode()
+        color = None
+        if feature_color and feature_color in cols:
+            color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
+
+        payload_final = {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color}}
+        yield f"event: done\ndata: {_json.dumps(payload_final)}\n\n".encode()
 
     return StreamingResponse(_gen(), media_type="text/event-stream")
