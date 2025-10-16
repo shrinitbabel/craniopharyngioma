@@ -102,47 +102,308 @@ app.add_middleware(
 FORM_HTML = """
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Permanent DI Risk</title>
-<style>
-body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto; margin: 2rem; }
-label { display:block; margin-top:0.6rem; }
-input, select { padding:0.3rem; width: 280px; }
-button { margin-top:1rem; padding:0.5rem 1rem; }
-.small { color:#666; font-size:0.9em; }
-</style>
+<head>
+  <meta charset="utf-8">
+  <title>Permanent DI Risk</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto; margin: 2rem; max-width: 980px; }
+    label { display:block; margin-top:0.6rem; }
+    input, select { padding:0.3rem; width: 280px; }
+    button { margin-top:1rem; padding:0.5rem 1rem; }
+    .small { color:#666; font-size:0.9em; }
+    .row { display:flex; gap:1.25rem; flex-wrap:wrap; }
+    .card { border:1px solid #e5e5e5; border-radius:8px; padding:1rem; margin-top:1rem; background:#fafafa; }
+    .ok { color:#065f46; }
+    .err { color:#b91c1c; }
+  </style>
+  <!-- Plotly CDN -->
+  <script src="https://cdn.plot.ly/plotly-2.26.2.min.js"></script>
 </head>
 <body>
+
 <h2>Permanent DI Risk (Pilot)</h2>
-<form method="post" action="/predict-form">
-  <label>Age <input type="number" name="Age " step="1" required></label>
-  <label>BMI <input type="number" name="BMI" step="0.1"></label>
-  <label>Tumor size (A) <input type="number" name="Tumor size" step="0.1" required></label>
-  <label>Tumor size (B) <input type="number" name="Tumor size.1" step="0.1" required></label>
-  <label>Tumor size (C) <input type="number" name="Tumor size.2" step="0.1" required></label>
-  <label>Last BMI on file <input type="number" name="Last BMI on file" step="0.1"></label>
-  <label>Pre-op visual impairment (0/1) <input type="number" name="Pre-op visual impairment (y/n) - symptomatic complaint of visual loss" min="0" max="1"></label>
-  <label>Pre-op hydrocephalus (0/1) <input type="number" name="Pre-op hydrocephalus (y/n)" min="0" max="1"></label>
-  <label>Pre-op intracranial pressure symptoms (0/1) <input type="number" name="Pre-op intacranial pressure symptoms" min="0" max="1"></label>
-  <label>Pre-op headache (0/1) <input type="number" name="Pre-op headache" min="0" max="1"></label>
-  <label>Pre-op endocrine changes (0/1) <input type="number" name="Pre-op endocrine changes (y/n)" min="0" max="1"></label>
-  <label>Pre-op panhypopit (0/1) <input type="number" name="Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional" min="0" max="1"></label>
-  <label>Intraventricular extension (0/1) <input type="number" name="Intraventricular extension" min="0" max="1"></label>
-  <label>Surgical Approach
-    <select name="Surgical Approach">
-      <option value="craniotomy">craniotomy</option>
-      <option value="endoscopic">endoscopic</option>
-    </select>
-  </label>
-  <label>Resection outcome
-    <select name="Resection outcome (total, subtotal, partial)">
-      <option value="total">total</option>
-      <option value="subtotal">subtotal</option>
-      <option value="near total">near total</option>
-    </select>
-  </label>
+
+<form id="predict-form">
+  <div class="row">
+    <div>
+      <label>Age <input type="number" name="Age " step="1" required></label>
+      <label>BMI <input type="number" name="BMI" step="0.1" required></label>
+      <label>Tumor size (A) <input type="number" name="Tumor size" step="0.1" required></label>
+      <label>Tumor size (B) <input type="number" name="Tumor size.1" step="0.1" required></label>
+      <label>Tumor size (C) <input type="number" name="Tumor size.2" step="0.1" required></label>
+      <label>Last BMI on file <input type="number" name="Last BMI on file" step="0.1"></label>
+    </div>
+
+    <div>
+      <label>Pre-op visual impairment (0/1)
+        <input type="number" name="Pre-op visual impairment (y/n) - symptomatic complaint of visual loss" min="0" max="1" value="0">
+      </label>
+      <label>Pre-op hydrocephalus (0/1)
+        <input type="number" name="Pre-op hydrocephalus (y/n)" min="0" max="1" value="0">
+      </label>
+      <label>Pre-op intracranial pressure symptoms (0/1)
+        <input type="number" name="Pre-op intacranial pressure symptoms" min="0" max="1" value="0">
+      </label>
+      <label>Pre-op headache (0/1)
+        <input type="number" name="Pre-op headache" min="0" max="1" value="0">
+      </label>
+      <label>Pre-op endocrine changes (0/1)
+        <input type="number" name="Pre-op endocrine changes (y/n)" min="0" max="1" value="0">
+      </label>
+      <label>Pre-op panhypopit (0/1)
+        <input type="number" name="Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional" min="0" max="1" value="0">
+      </label>
+      <label>Intraventricular extension (0/1)
+        <input type="number" name="Intraventricular extension" min="0" max="1" value="0">
+      </label>
+      <label>Surgical Approach
+        <select name="Surgical Approach">
+          <option value="craniotomy">craniotomy</option>
+          <option value="endoscopic">endoscopic</option>
+        </select>
+      </label>
+      <label>Resection outcome
+        <select name="Resection outcome (total, subtotal, partial)">
+          <option value="total">total</option>
+          <option value="subtotal">subtotal</option>
+          <option value="near total">near total</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
   <div class="small">This pilot is research-only, not a clinical device.</div>
   <button type="submit">Predict</button>
 </form>
+
+<div id="msg" class="small" style="margin-top:6px;"></div>
+
+<!-- Results -->
+<div id="results" class="card" style="display:none;"></div>
+
+<!-- SHAP controls -->
+<div id="shap-card" class="card" style="display:none;">
+  <h3 style="margin-top:0">Build a SHAP dependence plot</h3>
+  <div class="row">
+    <div>
+      <label>X feature
+        <select id="feat-x"></select>
+      </label>
+    </div>
+    <div>
+      <label>Color (optional)
+        <select id="feat-color">
+          <option value="">(none)</option>
+        </select>
+      </label>
+    </div>
+    <div>
+      <label>Background size
+        <input id="bg-size" type="number" min="1" max="60" value="25" style="width:100px;">
+      </label>
+    </div>
+    <div>
+      <label>nsamples
+        <input id="nsamples" type="number" min="20" max="400" value="100" style="width:100px;">
+      </label>
+    </div>
+  </div>
+  <button id="btn-shap">Build plot</button>
+  <div id="shap-msg" class="small" style="margin-top:6px;"></div>
+  <div id="plot" style="height:520px; margin-top:10px;"></div>
+</div>
+
+<script>
+  // Keep these in sync with your backend FEATURES (exact spelling, including "Age ")
+  const ALL_FEATURES = [
+    "Age ", "BMI", "Tumor size", "Tumor size.1", "Tumor size.2", "Tumor volume",
+    "Last BMI on file",
+    "Pre-op visual impairment (y/n) - symptomatic complaint of visual loss",
+    "Pre-op hydrocephalus (y/n)", "Pre-op intacranial pressure symptoms",
+    "Pre-op headache", "Pre-op endocrine changes (y/n)",
+    "Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional",
+    "Intraventricular extension",
+    "Surgical Approach", "Resection outcome (total, subtotal, partial)"
+  ];
+
+  const BIN_LIKE = new Set([
+    "Pre-op visual impairment (y/n) - symptomatic complaint of visual loss",
+    "Pre-op hydrocephalus (y/n)", "Pre-op intacranial pressure symptoms",
+    "Pre-op headache", "Pre-op endocrine changes (y/n)",
+    "Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional",
+    "Intraventricular extension",
+  ]);
+
+  const form = document.getElementById("predict-form");
+  const results = document.getElementById("results");
+  const msg = document.getElementById("msg");
+  const shapCard = document.getElementById("shap-card");
+  const shapMsg = document.getElementById("shap-msg");
+  const featX = document.getElementById("feat-x");
+  const featColor = document.getElementById("feat-color");
+  const plotDiv = document.getElementById("plot");
+  const bgInput = document.getElementById("bg-size");
+  const nsInput = document.getElementById("nsamples");
+
+  // populate selects
+  function fillFeatureSelects() {
+    featX.innerHTML = "";
+    featColor.innerHTML = '<option value="">(none)</option>';
+    for (const f of ALL_FEATURES) {
+      const o1 = document.createElement("option");
+      o1.value = f; o1.textContent = f;
+      featX.appendChild(o1);
+
+      const o2 = document.createElement("option");
+      o2.value = f; o2.textContent = f;
+      featColor.appendChild(o2);
+    }
+    // a useful default
+    featX.value = "BMI";
+    featColor.value = "";
+  }
+  fillFeatureSelects();
+
+  // Read form -> payload (numbers except categories)
+  function readPayload() {
+    const fd = new FormData(form);
+    const cats = new Set(["Surgical Approach","Resection outcome (total, subtotal, partial)"]);
+    const payload = {};
+    for (const [k, vRaw] of fd.entries()) {
+      const v = (vRaw || "").toString().trim();
+      if (cats.has(k)) payload[k] = v || null;
+      else payload[k] = (v === "" ? null : Number(v));
+    }
+    // If Last BMI empty, mirror BMI
+    if (payload["BMI"] != null && (payload["Last BMI on file"] == null || isNaN(payload["Last BMI on file"]))) {
+      payload["Last BMI on file"] = payload["BMI"];
+    }
+    // ensure all bin fields at least exist
+    for (const b of BIN_LIKE) {
+      if (!(b in payload)) payload[b] = 0;
+    }
+    return payload;
+  }
+
+  // make N jittered rows around current payload (±8% for numerics)
+  function makeCohortRows(base, n=30) {
+    const rows = [];
+    for (let i=0; i<n; i++) {
+      const r = {};
+      for (const k of Object.keys(base)) {
+        const v = base[k];
+        if (typeof v === "number" && Number.isFinite(v)) {
+          const noise = (Math.random()-0.5)*0.16; // ±8%
+          r[k] = v + v*noise;
+        } else {
+          r[k] = v;
+        }
+      }
+      rows.push(r);
+    }
+    return rows;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    msg.textContent = "Predicting…";
+    shapMsg.textContent = "";
+    results.style.display = "none";
+    shapCard.style.display = "none";
+
+    const payload = readPayload();
+
+    try {
+      // Predict permanent DI
+      const r1 = await fetch("/predict", {
+        method: "POST",
+        headers: {"content-type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      const d1 = await r1.json();
+      if (!r1.ok || d1.error) throw new Error(d1.error || "Prediction failed");
+
+      // Predict recurrence (optional, but you asked to show both earlier)
+      const r2 = await fetch("/predict-recurrence", {
+        method: "POST",
+        headers: {"content-type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      const d2 = await r2.json();
+
+      // Show results
+      results.innerHTML =
+        "<div><b>Permanent DI probability:</b> " + (d1.prob_permanent_DI ?? 0).toFixed(3) + "</div>" +
+        "<div><b>Permanent DI label (0/1):</b> " + (d1.label ?? 0) + "</div>" +
+        "<div><b>Permanent DI threshold:</b> " + (d1.threshold ?? 0.5) + "</div>" +
+        "<hr>" +
+        "<div><b>Recurrence probability:</b> " + (d2.prob_recurrence ?? 0).toFixed(3) + "</div>" +
+        "<div><b>Recurrence label (0/1):</b> " + (d2.label ?? 0) + "</div>" +
+        "<div><b>Recurrence threshold:</b> " + (d2.threshold ?? 0.5) + "</div>";
+      results.style.display = "block";
+      msg.textContent = "";
+
+      // Store last payload & reveal SHAP builder
+      window.__lastPayload = payload;
+      shapCard.style.display = "block";
+
+    } catch (err) {
+      console.error(err);
+      msg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+    }
+  });
+
+  document.getElementById("btn-shap").addEventListener("click", async () => {
+    shapMsg.textContent = "Building SHAP plot…";
+    const payload = window.__lastPayload;
+    if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
+
+    const rows = makeCohortRows(payload, Math.max(5, Math.min(60, Number(bgInput.value)||25)));
+    const body = {
+      rows,
+      feature_x: featX.value,
+      feature_color: featColor.value || undefined,
+      y_mode: "by_x",
+      nsamples: Number(nsInput.value)||100,
+      background_size: Number(bgInput.value)||25
+    };
+
+    try {
+      const r = await fetch("/shap/dependence", {
+        method: "POST",
+        headers: {"content-type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      const data = await r.json();
+      if (!r.ok || data.error) throw new Error(data.error || "SHAP failed");
+
+      const trace = {
+        x: data.x,
+        y: data.shap,
+        mode: "markers",
+        type: "scatter",
+        marker: {
+          size: 8,
+          color: data.color || undefined,
+          showscale: !!data.color
+        },
+        hovertemplate: featX.value + "=%{x}<br>SHAP=%{y:.3f}<extra></extra>"
+      };
+      Plotly.newPlot(plotDiv, [trace], {
+        title: "SHAP dependence: " + featX.value,
+        xaxis: { title: featX.value },
+        yaxis: { title: "SHAP value (Permanent DI)" },
+        margin: { l: 60, r: 20, t: 50, b: 50 }
+      }, {responsive:true});
+
+      shapMsg.innerHTML = '<span class="ok">Done.</span>';
+    } catch (err) {
+      console.error(err);
+      shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+    }
+  });
+</script>
+
 </body>
 </html>
 """
