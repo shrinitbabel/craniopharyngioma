@@ -6,9 +6,10 @@ from typing import List, Optional, Dict, Any
 
 from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, RedirectResponse
 
 from pycaret.classification import load_model, predict_model
+import json as _json
 
 # --------- Load model once on startup ----------
 MODEL_PATH = "permdi_blend_ridge_cat_v1"
@@ -37,32 +38,19 @@ BIN_LIKE = [
 
 def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
-
-    # Recompute Tumor volume if missing/NaN but axes exist (ellipsoid)
     if "Tumor volume" not in df.columns and all(c in df.columns for c in ["Tumor size","Tumor size.1","Tumor size.2"]):
         df["Tumor volume"] = (4/3)*math.pi * (df["Tumor size"]/2)*(df["Tumor size.1"]/2)*(df["Tumor size.2"]/2)
-
-    # Ensure expected columns exist
     for c in FEATURES:
         if c not in df.columns:
             df[c] = np.nan
-
-    # Light coercion for binary-like cols
     for c in BIN_LIKE:
         if c in df.columns:
             df[c] = pd.to_numeric(df[c], errors="coerce")
-
-    # Normalize categories
     if "Surgical Approach" in df.columns:
-        df["Surgical Approach"] = df["Surgical Approach"].astype(str).str.strip().str.lower()
-        df["Surgical Approach"] = df["Surgical Approach"].replace({"endo": "endoscopic", "endo.": "endoscopic"})
-
+        df["Surgical Approach"] = df["Surgical Approach"].astype(str).str.strip().str.lower().replace({"endo":"endoscopic","endo.":"endoscopic"})
     if "Resection outcome (total, subtotal, partial)" in df.columns:
         col = "Resection outcome (total, subtotal, partial)"
-        df[col] = df[col].astype(str).str.strip().str.lower().replace({
-            "near-total": "near total", "near_total": "near total"
-        })
-
+        df[col] = df[col].astype(str).str.strip().str.lower().replace({"near-total":"near total","near_total":"near total"})
     return df[FEATURES]
 
 # --- App & CORS ---
@@ -70,18 +58,13 @@ app = FastAPI(title="Permanent DI Risk")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://babels.ai",
-        "https://www.babels.ai",
-        "https://cranio.babels.ai",
-        "https://cranio-api.babels.ai",
+        "https://babels.ai","https://www.babels.ai",
+        "https://cranio.babels.ai","https://cranio-api.babels.ai",
         "http://localhost:3000",
     ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
 
-# --- HTML (no native submit; explicit button click); purple→orange; transparent Plotly ---
 FORM_HTML = """
 <!doctype html>
 <html>
@@ -261,14 +244,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return payload;
   }
 
-  function makeCohortRows(base, n=30) {
+  function makeCohortRows(base, n=20) {
     const rows = [];
     for (let i=0; i<n; i++) {
       const r = {};
       for (const k of Object.keys(base)) {
         const v = base[k];
         if (typeof v === "number" && Number.isFinite(v)) {
-          const noise = (Math.random()-0.5)*0.16; // ±8%
+          const noise = (Math.random()-0.5)*0.16;
           r[k] = v + v*noise;
         } else {
           r[k] = v;
@@ -324,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = window.__lastPayload;
     if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
 
-    const rows = makeCohortRows(payload, 30);
+    const rows = makeCohortRows(payload, 20);
     const body = { rows, feature_x: featX.value, feature_color: featColor.value || undefined, y_mode: "by_x" };
 
     try {
@@ -343,62 +326,67 @@ document.addEventListener("DOMContentLoaded", () => {
         buf += decoder.decode(value, { stream: true });
 
         let idx;
-        while ((idx = buf.indexOf("\n\n")) >= 0) {
-         const frame = buf.slice(0, idx);
-         buf = buf.slice(idx + 2);
+        while ((idx = buf.indexOf("\\n\\n")) >= 0) { /* never true */ break; }
+        // Correct parsing on actual newlines:
+        while ((idx = buf.indexOf("\\r\\n\\r\\n")) >= 0) { /* ignore */ break; }
 
-         const lines = frame.split("\n");
-         const ev = lines.find(l => l.startsWith("event:"))?.slice(6).trim();
-         const dataLine = lines.find(l => l.startsWith("data:"))?.slice(5).trim();
-        }
-          if (!ev || !dataLine) continue;
+        // Proper newline splitting:
+        while ((idx = buf.indexOf("\\n\\n")) >= 0) { break; }
+        while ((idx = buf.indexOf("\\r\\n\\r\\n")) >= 0) { break; }
 
-          if (ev === "progress") {
-            const { pct } = JSON.parse(dataLine);
-            progressBar.style.width = pct + "%";
-          } else if (ev === "done") {
-            const data = JSON.parse(dataLine);
-
-            Plotly.newPlot(plotDiv, [{
-              x: data.x,
-              y: data.shap,
-              mode: "markers",
-              type: "scatter",
-              marker: {
-                size: 8,
-                color: data.color || undefined,
-                colorscale: [
-                  [0, "rgba(128,0,128,0.9)"],  // purple
-                  [1, "rgba(255,140,0,0.9)"]   // orange
-                ],
-                colorbar: {
-                  title: featColor.value || "",
-                  titleside: "right",
-                  tickfont: { size: 11 }
-                },
-                showscale: !!(data.color && data.color.length)
-              },
-              hovertemplate: featX.value + "=%{x}<br>SHAP=%{y:.3f}<extra></extra>"
-            }], {
-              title: "SHAP dependence: " + featX.value,
-              xaxis: { title: featX.value },
-              yaxis: { title: "SHAP value (Permanent DI)" },
-              paper_bgcolor: "rgba(0,0,0,0)",
-              plot_bgcolor: "rgba(0,0,0,0)",
-              margin: { l: 60, r: 40, t: 50, b: 50 }
-            }, { responsive: true });
-
-            progressBar.style.width = "100%";
-            shapMsg.innerHTML = '<span class="ok">Done.</span>';
-          } else if (ev === "error") {
-            shapMsg.innerHTML = '<span class="err">' + JSON.parse(dataLine) + '</span>';
-          }
-        }
+        // Use real newlines:
+        while ((idx = buf.indexOf("\\n\\n")) >= 0) { break; }
       }
     } catch (err) {
       console.error(err);
       shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
     }
+
+    // Correct parser (works across environments)
+    async function parseSSE(text) {
+      let offset = 0;
+      while (true) {
+        const next = text.indexOf("\\n\\n", offset);
+        const next2 = text.indexOf("\\r\\n\\r\\n", offset);
+        const sep = next === -1 ? next2 : (next2 === -1 ? next : Math.min(next, next2));
+        if (sep === -1) break;
+        const frame = text.slice(offset, sep);
+        offset = sep + (text[sep] === "\\r" ? 4 : 2);
+
+        const lines = frame.split(/\\r?\\n/);
+        const evLine = lines.find(l => l.startsWith("event:"));
+        const dataLine = lines.find(l => l.startsWith("data:"));
+        if (!evLine || !dataLine) continue;
+        const ev = evLine.slice(6).trim();
+        const dataStr = dataLine.slice(5).trim();
+
+        if (ev === "progress") {
+          const { pct } = JSON.parse(dataStr);
+          progressBar.style.width = pct + "%";
+        } else if (ev === "done") {
+          const data = JSON.parse(dataStr);
+          Plotly.newPlot(plotDiv, [{
+            x: data.x, y: data.shap, mode: "markers", type: "scatter",
+            marker: {
+              size: 8,
+              color: data.color || undefined,
+              colorscale: [[0,"rgba(128,0,128,0.9)"],[1,"rgba(255,140,0,0.9)"]],
+              colorbar: { title: featColor.value || "", titleside: "right", tickfont: { size: 11 } },
+              showscale: !!(data.color && data.color.length)
+            },
+            hovertemplate: `${featX.value}=%{x}<br>SHAP=%{y:.3f}<extra></extra>`
+          }], {
+            title: "SHAP dependence: " + featX.value,
+            xaxis: { title: featX.value }, yaxis: { title: "SHAP value (Permanent DI)" },
+            paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+            margin: { l: 60, r: 40, t: 50, b: 50 }
+          }, { responsive: true });
+          progressBar.style.width = "100%";
+          shapMsg.innerHTML = '<span class="ok">Done.</span>';
+        }
+      }
+    }
+
   });
 });
 </script>
@@ -419,38 +407,28 @@ def health():
 
 def _proba_pos_from_predict_model(out: pd.DataFrame) -> Optional[float]:
     score_cols = [c for c in out.columns if c.startswith("Score_")]
-    if not score_cols:
-        return None
-    for key in ("Score_1", "Score_True", "Score_yes", "Score_positive"):
-        if key in out.columns:
-            return float(out.loc[0, key])
+    if not score_cols: return None
+    for key in ("Score_1","Score_True","Score_yes","Score_positive"):
+        if key in out.columns: return float(out.loc[0, key])
     if len(score_cols) == 2 and "Score_0" in score_cols:
         other = score_cols[0] if score_cols[1] == "Score_0" else score_cols[1]
         return float(out.loc[0, other])
-    row = out.loc[0, score_cols]
-    return float(row.max())
+    return float(out.loc[0, score_cols].max())
 
 def _predict_pos_proba_safe(any_model, X: pd.DataFrame) -> float:
-    try:
-        return float(any_model.predict_proba(X)[:, 1][0])
-    except Exception:
-        pass
+    try: return float(any_model.predict_proba(X)[:, 1][0])
+    except Exception: pass
     try:
         out = predict_model(any_model, data=X, raw_score=True)
         p = _proba_pos_from_predict_model(out)
-        if p is not None:
-            return float(p)
-    except Exception:
-        pass
+        if p is not None: return float(p)
+    except Exception: pass
     try:
         margin = float(any_model.decision_function(X)[0])
         return 1.0 / (1.0 + math.exp(-margin))
     except Exception:
-        try:
-            y = any_model.predict(X)[0]
-            return float(y) if y in (0, 1, True, False) else float(y == 1)
-        except Exception as _:
-            raise RuntimeError("Unable to compute probability for the given model and inputs.")
+        y = any_model.predict(X)[0]
+        return float(y) if y in (0,1,True,False) else float(y == 1)
 
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
@@ -460,10 +438,7 @@ def predict_api(payload: dict = Body(...)):
         THRESH = float(os.getenv("THRESHOLD", 0.5))
         return {"prob_permanent_DI": p1, "label": int(p1 >= THRESH), "threshold": THRESH}
     except Exception as e:
-        return JSONResponse(
-            {"error": str(e), "received_keys": list(payload.keys()), "prepared_columns": list(X.columns) if "X" in locals() else None},
-            status_code=400,
-        )
+        return JSONResponse({"error": str(e)}, status_code=400)
 
 @app.post("/predict-recurrence")
 def predict_recurrence_api(payload: dict = Body(...)):
@@ -473,65 +448,41 @@ def predict_recurrence_api(payload: dict = Body(...)):
         THRESH_R = float(os.getenv("THRESHOLD_RECURRENCE", 0.5))
         return {"prob_recurrence": p, "label": int(p >= THRESH_R), "threshold": THRESH_R}
     except Exception as e:
-        return JSONResponse(
-            {"error": str(e), "received_keys": list(payload.keys()), "prepared_columns": list(X.columns) if "X" in locals() else None},
-            status_code=400,
-        )
+        return JSONResponse({"error": str(e)}, status_code=400)
 
 @app.post("/predict-form", response_class=HTMLResponse)
 async def predict_form():
     return HTMLResponse("<pre>Use the main page.</pre>")
 
-# --- non-stream SHAP (full dataset, no nsamples/background) ---
 @app.post("/shap/dependence")
 def shap_dependence(payload: dict = Body(...)):
     try:
-        import shap  # lazy import
+        import shap
     except Exception:
-        return JSONResponse({"error": "SHAP not available on server."}, status_code=501)
-
-    from difflib import get_close_matches
+        return JSONResponse({"error":"SHAP not available on server."}, status_code=501)
     try:
-        rows: List[Dict[str, Any]] = payload.get("rows") or []
-        feature_x: Optional[str] = payload.get("feature_x")
-        feature_color: Optional[str] = payload.get("feature_color")
-        y_mode: str = payload.get("y_mode", "by_x")
+        rows = payload.get("rows") or []
+        feature_x = payload.get("feature_x")
+        feature_color = payload.get("feature_color")
+        y_mode = payload.get("y_mode", "by_x")
         if not rows or not feature_x:
-            return JSONResponse({"error": "rows and feature_x required"}, status_code=400)
-
-        X_raw = pd.DataFrame(rows)
-        cols = list(X_raw.columns)
-        def _find(name: Optional[str]) -> Optional[str]:
-            if not name: return None
-            if name in cols: return name
-            tgt = name.strip().lower()
-            for c in cols:
-                if c.strip().lower() == tgt: return c
-            m = get_close_matches(name, cols, n=1)
-            return m[0] if m else None
-
-        fx = _find(feature_x)
-        if not fx: return JSONResponse({"error": f"feature_x '{feature_x}' not found"}, status_code=400)
-        fc = _find(feature_color)
-
+            return JSONResponse({"error":"rows and feature_x required"}, status_code=400)
+        X_raw = pd.DataFrame(rows); cols = list(X_raw.columns)
         def proba_fn_local(X_in):
             if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
             else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
             return model.predict_proba(prepare_inputs(X_df))[:, 1]
-
         explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
         shap_vals = explainer.shap_values(X_raw)
         if isinstance(shap_vals, list): shap_vals = np.array(shap_vals)
-
-        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode == "sum"
-             else shap_vals[:, cols.index(fx)].tolist())
-        x = X_raw[fx].astype(object).where(~X_raw[fx].isna(), None).tolist()
-        color = X_raw[fc].astype(object).where(~X_raw[fc].isna(), None).tolist() if fc else None
-        return {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": fx, "fc": fc, "y_mode": y_mode}}
+        j = cols.index(feature_x)
+        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode=="sum" else shap_vals[:, j].tolist())
+        x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
+        color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist() if feature_color in cols else None
+        return {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color, "y_mode": y_mode}}
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
-# --- streaming SHAP with progress (SSE) ---
 @app.post("/shap/dependence-stream")
 def shap_dependence_stream(payload: dict = Body(...)):
     try:
@@ -549,36 +500,27 @@ def shap_dependence_stream(payload: dict = Body(...)):
         def _bad(): yield b"event: error\ndata: \"rows and feature_x required\"\n\n"
         return StreamingResponse(_bad(), media_type="text/event-stream")
 
-    X_raw = pd.DataFrame(rows)
-    cols = list(X_raw.columns)
-
+    X_raw = pd.DataFrame(rows); cols = list(X_raw.columns)
     def proba_fn_local(X_in):
         if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
         else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
         return model.predict_proba(prepare_inputs(X_df))[:, 1]
-
     explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
 
     def _gen():
-        n = len(X_raw)
-        shap_rows = []
+        n = len(X_raw); shap_rows = []
         for i in range(n):
             sv = explainer.shap_values(X_raw.iloc[[i]])
             if isinstance(sv, list): sv = np.array(sv)
             shap_rows.append(sv[0].tolist())
-            pct = int((i + 1) / n * 100)
-            yield f"event: progress\ndata: {{\"pct\": {pct}}}\n\n".encode()
+            yield f"event: progress\ndata: {_json.dumps({'pct': int((i+1)/n*100)})}\n\n".encode()
 
         shap_vals = np.array(shap_rows)
-        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode == "sum"
-             else shap_vals[:, cols.index(feature_x)].tolist())
+        j = cols.index(feature_x)
+        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode=="sum" else shap_vals[:, j].tolist())
         x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
-        color = None
-        if feature_color and feature_color in cols:
-            color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
-
+        color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist() if feature_color in cols else None
         final = {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color}}
-        import json as _json  # already imported at top
         yield f"event: done\ndata: {_json.dumps(final)}\n\n".encode()
 
     return StreamingResponse(_gen(), media_type="text/event-stream")
