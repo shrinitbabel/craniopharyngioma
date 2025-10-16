@@ -343,13 +343,14 @@ document.addEventListener("DOMContentLoaded", () => {
         buf += decoder.decode(value, { stream: true });
 
         let idx;
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) {
-          const frame = buf.slice(0, idx);
-          buf = buf.slice(idx + 2);
+        while ((idx = buf.indexOf("\n\n")) >= 0) {
+         const frame = buf.slice(0, idx);
+         buf = buf.slice(idx + 2);
 
-          const lines = frame.split("\\n");
-          const ev = lines.find(l => l.startsWith("event:"))?.slice(6).trim();
-          const dataLine = lines.find(l => l.startsWith("data:"))?.slice(5).trim();
+         const lines = frame.split("\n");
+         const ev = lines.find(l => l.startsWith("event:"))?.slice(6).trim();
+         const dataLine = lines.find(l => l.startsWith("data:"))?.slice(5).trim();
+        }
           if (!ev || !dataLine) continue;
 
           if (ev === "progress") {
@@ -577,6 +578,7 @@ def shap_dependence_stream(payload: dict = Body(...)):
             color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
 
         final = {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color}}
-        yield f"event: done\ndata: {final}\n\n".encode()
+        import json as _json  # already imported at top
+        yield f"event: done\ndata: {_json.dumps(final)}\n\n".encode()
 
     return StreamingResponse(_gen(), media_type="text/event-stream")
