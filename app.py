@@ -180,7 +180,14 @@ FORM_HTML = """
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+/* ---- tiny diagnostics: show errors on page ---- */
+window.addEventListener("error", (e) => {
+  const m = document.getElementById("msg");
+  if (m) m.innerHTML = '<span class="err">JS error: ' + (e?.message || 'unknown') + '</span>';
+});
+
+/* ---- main app ---- */
+(function init() {
   const ALL_FEATURES = [
     "Age ", "BMI", "Tumor size", "Tumor size.1", "Tumor size.2", "Tumor volume",
     "Last BMI on file",
@@ -200,28 +207,27 @@ document.addEventListener("DOMContentLoaded", () => {
     "Intraventricular extension",
   ]);
 
-  const form = document.getElementById("predict-form");
-  const btnPredict = document.getElementById("btn-predict");
-  const results = document.getElementById("results");
-  const msg = document.getElementById("msg");
-  const shapCard = document.getElementById("shap-card");
-  const shapMsg = document.getElementById("shap-msg");
-  const featX = document.getElementById("feat-x");
-  const featColor = document.getElementById("feat-color");
-  const plotDiv = document.getElementById("plot");
-  const progressWrap = document.getElementById("xai-progress-wrap");
+  const form        = document.getElementById("predict-form");
+  const btnPredict  = document.getElementById("btn-predict");
+  const results     = document.getElementById("results");
+  const msg         = document.getElementById("msg");
+  const shapCard    = document.getElementById("shap-card");
+  const shapMsg     = document.getElementById("shap-msg");
+  const featX       = document.getElementById("feat-x");
+  const featColor   = document.getElementById("feat-color");
+  const plotDiv     = document.getElementById("plot");
+  const progressWrap= document.getElementById("xai-progress-wrap");
   const progressBar = document.getElementById("xai-progress");
+
+  // banner so you know JS attached
+  if (msg) msg.innerHTML = '<span class="ok">wired ✓</span>';
 
   function fillFeatureSelects() {
     featX.innerHTML = "";
     featColor.innerHTML = '<option value="">(none)</option>';
     for (const f of ALL_FEATURES) {
-      const o1 = document.createElement("option");
-      o1.value = f; o1.textContent = f;
-      featX.appendChild(o1);
-      const o2 = document.createElement("option");
-      o2.value = f; o2.textContent = f;
-      featColor.appendChild(o2);
+      const o1 = document.createElement("option"); o1.value = f; o1.textContent = f; featX.appendChild(o1);
+      const o2 = document.createElement("option"); o2.value = f; o2.textContent = f; featColor.appendChild(o2);
     }
     featX.value = "BMI";
     featColor.value = "";
@@ -234,8 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = {};
     for (const [k, vRaw] of fd.entries()) {
       const v = (vRaw || "").toString().trim();
-      if (cats.has(k)) payload[k] = v || null;
-      else payload[k] = (v === "" ? null : Number(v));
+      payload[k] = cats.has(k) ? (v || null) : (v === "" ? null : Number(v));
     }
     if (payload["BMI"] != null && (payload["Last BMI on file"] == null || isNaN(payload["Last BMI on file"]))) {
       payload["Last BMI on file"] = payload["BMI"];
@@ -246,34 +251,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function makeCohortRows(base, n=20) {
     const rows = [];
-    for (let i=0; i<n; i++) {
+    for (let i=0;i<n;i++) {
       const r = {};
       for (const k of Object.keys(base)) {
         const v = base[k];
-        if (typeof v === "number" && Number.isFinite(v)) {
-          const noise = (Math.random()-0.5)*0.16;
-          r[k] = v + v*noise;
-        } else {
-          r[k] = v;
-        }
+        r[k] = (typeof v === "number" && Number.isFinite(v))
+          ? v + v*((Math.random()-0.5)*0.16)   // ±8%
+          : v;
       }
       rows.push(r);
     }
     return rows;
   }
 
+  // PREDICT
   btnPredict.addEventListener("click", async () => {
-    msg.textContent = "Predicting…";
     shapMsg.textContent = "";
     results.style.display = "none";
     shapCard.style.display = "none";
+    if (msg) msg.textContent = "Predicting…";
 
     const payload = readPayload();
 
     try {
       const [r1, r2] = await Promise.all([
-        fetch("/predict", { method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify(payload) }),
-        fetch("/predict-recurrence", { method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify(payload) }),
+        fetch("/predict",            { method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify(payload) }),
+        fetch("/predict-recurrence", { method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify(payload) }),
       ]);
       const d1 = await r1.json();
       const d2 = await r2.json();
@@ -289,22 +292,20 @@ document.addEventListener("DOMContentLoaded", () => {
         "<div><b>Recurrence label (0/1):</b> " + (d2.label ?? 0) + "</div>" +
         "<div><b>Recurrence threshold:</b> " + (d2.threshold ?? 0.5) + "</div>";
       results.style.display = "block";
-      msg.textContent = "";
+      if (msg) msg.textContent = "";
 
       window.__lastPayload = payload;
       shapCard.style.display = "block";
     } catch (err) {
       console.error(err);
-      msg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+      if (msg) msg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
     }
   });
 
-  // optional: cancel any prior run if user clicks again
+  // SHAP streaming with real progress
   let shapController = null;
-
   document.getElementById("btn-shap").addEventListener("click", async () => {
-    // cancel older stream if running
-    try { shapController?.abort(); } catch (_) {}
+    try { shapController?.abort(); } catch {}
     shapController = new AbortController();
 
     shapMsg.textContent = "";
@@ -314,113 +315,89 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = window.__lastPayload;
     if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
 
-    // smaller cohort for speed on Render
-    const rows = (function makeCohortRows(base, n=20){
-      const out = [];
-      for (let i=0;i<n;i++){
-        const r = {};
-        for (const k of Object.keys(base)) {
-          const v = base[k];
-          r[k] = (typeof v === "number" && Number.isFinite(v))
-            ? v + v*((Math.random()-0.5)*0.16)
-            : v;
-        }
-        out.push(r);
-      }
-      return out;
-    })(payload, 20);
-
+    const rows = makeCohortRows(payload, 20);
     const body = { rows, feature_x: featX.value, feature_color: featColor.value || undefined, y_mode: "by_x" };
 
-    try {
-      const res = await fetch("/shap/dependence-stream", {
-        method: "POST",
-        headers: {"content-type":"application/json"},
-        body: JSON.stringify(body),
-        signal: shapController.signal,
-      });
-      if (!res.ok || !res.body) {
-        shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>';
-        return;
-      }
+    const res = await fetch("/shap/dependence-stream", {
+      method: "POST",
+      headers: { "content-type":"application/json" },
+      body: JSON.stringify(body),
+      signal: shapController.signal,
+    });
+    if (!res.ok || !res.body) {
+      shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>';
+      return;
+    }
 
-      const reader  = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer    = "";
+    const reader  = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer    = "";
 
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // parse frames on either \n\n or \r\n\r\n
       while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
+        const i1 = buffer.indexOf("\n\n");
+        const i2 = buffer.indexOf("\r\n\r\n");
+        const sep = (i1 === -1 ? i2 : (i2 === -1 ? i1 : Math.min(i1, i2)));
+        if (sep === -1) break;
 
-        buffer += decoder.decode(value, { stream: true });
+        const frame = buffer.slice(0, sep);
+        buffer = buffer.slice(sep + (buffer[sep] === "\r" ? 4 : 2));
 
-        // parse frames on either \n\n or \r\n\r\n
-        while (true) {
-          const i1 = buffer.indexOf("\n\n");
-          const i2 = buffer.indexOf("\r\n\r\n");
-          const sep = (i1 === -1 ? i2 : (i2 === -1 ? i1 : Math.min(i1, i2)));
-          if (sep === -1) break;
+        const lines    = frame.split(/\r?\n/);
+        const evLine   = lines.find(l => l.startsWith("event:"));
+        const dataLine = lines.find(l => l.startsWith("data:"));
+        if (!evLine || !dataLine) continue;
 
-          const frame = buffer.slice(0, sep);
-          buffer = buffer.slice(sep + (buffer[sep] === "\r" ? 4 : 2));
+        const ev   = evLine.slice(6).trim();
+        const data = JSON.parse(dataLine.slice(5).trim());
 
-          const lines    = frame.split(/\r?\n/);
-          const evLine   = lines.find(l => l.startsWith("event:"));
-          const dataLine = lines.find(l => l.startsWith("data:"));
-          if (!evLine || !dataLine) continue;
-
-          const ev   = evLine.slice(6).trim();
-          const data = JSON.parse(dataLine.slice(5).trim());
-
-          if (ev === "progress") {
-            progressBar.style.width = (data.pct || 0) + "%";
-          } else if (ev === "done") {
-            // draw the plot
-            Plotly.newPlot(plotDiv, [{
-              x: data.x,
-              y: data.shap,
-              mode: "markers",
-              type: "scatter",
-              marker: {
-                size: 8,
-                color: data.color || undefined,
-                colorscale: [
-                  [0, "rgba(128,0,128,0.9)"],   // purple
-                  [1, "rgba(255,140,0,0.9)"]    // orange
-                ],
-                colorbar: {
-                  title: featColor.value || "",
-                  titleside: "right",
-                  tickfont: { size: 11 }
-                },
-                showscale: !!(data.color && data.color.length)
+        if (ev === "progress") {
+          progressBar.style.width = (data.pct || 0) + "%";
+        } else if (ev === "done") {
+          Plotly.newPlot(plotDiv, [{
+            x: data.x,
+            y: data.shap,
+            mode: "markers",
+            type: "scatter",
+            marker: {
+              size: 8,
+              color: data.color || undefined,
+              colorscale: [
+                [0, "rgba(128,0,128,0.9)"],   // purple
+                [1, "rgba(255,140,0,0.9)"]    // orange
+              ],
+              colorbar: {
+                title: featColor.value || "",
+                titleside: "right",
+                tickfont: { size: 11 }
               },
-              hovertemplate: `${featX.value}=%{x}<br>SHAP=%{y:.3f}<extra></extra>`
-            }], {
-              title: "SHAP dependence: " + featX.value,
-              xaxis: { title: featX.value },
-              yaxis: { title: "SHAP value (Permanent DI)" },
-              paper_bgcolor: "rgba(0,0,0,0)",
-              plot_bgcolor:  "rgba(0,0,0,0)",
-              margin: { l: 60, r: 40, t: 50, b: 50 }
-            }, { responsive: true });
+              showscale: !!(data.color && data.color.length)
+            },
+            hovertemplate: `${featX.value}=%{x}<br>SHAP=%{y:.3f}<extra></extra>`
+          }], {
+            title: "SHAP dependence: " + featX.value,
+            xaxis: { title: featX.value },
+            yaxis: { title: "SHAP value (Permanent DI)" },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor:  "rgba(0,0,0,0)",
+            margin: { l: 60, r: 40, t: 50, b: 50 }
+          }, { responsive: true });
 
-            progressBar.style.width = "100%";
-            shapMsg.innerHTML = '<span class="ok">Done.</span>';
-          } else if (ev === "error") {
-            shapMsg.innerHTML = '<span class="err">' + data + '</span>';
-          }
+          progressBar.style.width = "100%";
+          shapMsg.innerHTML = '<span class="ok">Done.</span>';
+        } else if (ev === "error") {
+          shapMsg.innerHTML = '<span class="err">' + data + '</span>';
         }
-      }
-    } catch (err) {
-      if (err?.name !== "AbortError") {
-        console.error(err);
-        shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
       }
     }
   });
-
-});
+})();
 </script>
 
 </body>
