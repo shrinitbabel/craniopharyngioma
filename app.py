@@ -183,7 +183,7 @@ FORM_HTML = """
 
 <!-- SHAP controls -->
 <div id="shap-card" class="card" style="display:none;">
-  <h3 style="margin-top:0">Build a SHAP dependence plot</h3>
+  <h3 style="margin-top:0">XAI analysis</h3>
   <div class="row">
     <div>
       <label>X feature
@@ -197,21 +197,24 @@ FORM_HTML = """
         </select>
       </label>
     </div>
-    <div>
-      <label>Background size
-        <input id="bg-size" type="number" min="1" max="60" value="25" style="width:100px;">
-      </label>
-    </div>
-    <div>
-      <label>nsamples
-        <input id="nsamples" type="number" min="20" max="400" value="100" style="width:100px;">
-      </label>
+    <div class="flex items-end">
+      <button id="btn-shap" type="button">Build SHAP plot</button>
     </div>
   </div>
-  <button id="btn-shap">Build plot</button>
+
+  <!-- gradient progress bar -->
+  <div id="xai-progress-wrap" style="display:none; margin-top:8px; width:100%; height:8px; border-radius:8px; background:#e5e7eb; overflow:hidden;">
+    <div id="xai-progress"
+         style="height:100%; width:0%;
+                background-image:linear-gradient(90deg, #7c3aed, #f59e0b);
+                transition: width .2s ease; border-radius:8px;">
+    </div>
+  </div>
+
   <div id="shap-msg" class="small" style="margin-top:6px;"></div>
   <div id="plot" style="height:520px; margin-top:10px;"></div>
 </div>
+
 
 <script>
   // Keep these in sync with your backend FEATURES (exact spelling, including "Age ")
@@ -242,8 +245,8 @@ FORM_HTML = """
   const featX = document.getElementById("feat-x");
   const featColor = document.getElementById("feat-color");
   const plotDiv = document.getElementById("plot");
-  const bgInput = document.getElementById("bg-size");
-  const nsInput = document.getElementById("nsamples");
+  const progressWrap = document.getElementById("xai-progress-wrap");
+  const progressBar = document.getElementById("xai-progress");
 
   // populate selects
   function fillFeatureSelects() {
@@ -352,56 +355,120 @@ FORM_HTML = """
       msg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
     }
   });
-
+  
   document.getElementById("btn-shap").addEventListener("click", async () => {
-    shapMsg.textContent = "Building SHAP plot…";
-    const payload = window.__lastPayload;
-    if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
+  shapMsg.textContent = "";
+  progressWrap.style.display = "block";
+  progressBar.style.width = "0%";
 
-    const rows = makeCohortRows(payload, Math.max(5, Math.min(60, Number(bgInput.value)||25)));
-    const body = {
-      rows,
-      feature_x: featX.value,
-      feature_color: featColor.value || undefined,
-      y_mode: "by_x",
-      nsamples: Number(nsInput.value)||100,
-      background_size: Number(bgInput.value)||25
-    };
+  const payload = window.__lastPayload;
+  if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
 
-    try {
-      const r = await fetch("/shap/dependence", {
-        method: "POST",
-        headers: {"content-type":"application/json"},
-        body: JSON.stringify(body)
-      });
-      const data = await r.json();
-      if (!r.ok || data.error) throw new Error(data.error || "SHAP failed");
-
-      const trace = {
-        x: data.x,
-        y: data.shap,
-        mode: "markers",
-        type: "scatter",
-        marker: {
-          size: 8,
-          color: data.color || undefined,
-          showscale: !!data.color
-        },
-        hovertemplate: featX.value + "=%{x}<br>SHAP=%{y:.3f}<extra></extra>"
-      };
-      Plotly.newPlot(plotDiv, [trace], {
-        title: "SHAP dependence: " + featX.value,
-        xaxis: { title: featX.value },
-        yaxis: { title: "SHAP value (Permanent DI)" },
-        margin: { l: 60, r: 20, t: 50, b: 50 }
-      }, {responsive:true});
-
-      shapMsg.innerHTML = '<span class="ok">Done.</span>';
-    } catch (err) {
-      console.error(err);
-      shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+  // small cohort around the current case (same jitter as before)
+  function makeCohortRows(base, n=30) {
+    const rows = [];
+    for (let i=0; i<n; i++) {
+      const r = {};
+      for (const k of Object.keys(base)) {
+        const v = base[k];
+        if (typeof v === "number" && Number.isFinite(v)) {
+          const noise = (Math.random()-0.5)*0.16; // ±8%
+          r[k] = v + v*noise;
+        } else {
+          r[k] = v;
+        }
+      }
+      rows.push(r);
     }
-  });
+    return rows;
+  }
+
+  const rows = makeCohortRows(payload, 30);
+  const body = {
+    rows,
+    feature_x: featX.value,
+    feature_color: featColor.value || undefined,
+    y_mode: "by_x"
+  };
+
+  try {
+    const res = await fetch("/shap/dependence-stream", {
+      method: "POST",
+      headers: {"content-type":"application/json"},
+      body: JSON.stringify(body)
+    });
+    if (!res.ok || !res.body) {
+      shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>';
+      return;
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+
+      let idx;
+      while ((idx = buf.indexOf("\n\n")) >= 0) {
+        const frame = buf.slice(0, idx);
+        buf = buf.slice(idx + 2);
+
+        const lines = frame.split("\n");
+        const ev = lines.find((l)=>l.startsWith("event:"))?.slice(6).trim();
+        const dataLine = lines.find((l)=>l.startsWith("data:"))?.slice(5).trim();
+        if (!ev || !dataLine) continue;
+
+        if (ev === "progress") {
+          const { pct } = JSON.parse(dataLine);
+          progressBar.style.width = pct + "%";
+        } else if (ev === "done") {
+          const data = JSON.parse(dataLine);
+          // Draw Plotly with purple→orange and transparent bg
+          Plotly.newPlot(plot, [{
+            x: data.x,
+            y: data.shap,
+            mode: "markers",
+            type: "scatter",
+            marker: {
+              size: 8,
+              color: data.color || undefined,
+              colorscale: [
+                [0, "rgba(128,0,128,0.9)"],  // purple
+                [1, "rgba(255,140,0,0.9)"]   // orange
+              ],
+              colorbar: {
+                title: featColor.value || "",
+                titleside: "right",
+                tickfont: { size: 11 }
+              },
+              showscale: !!(data.color && data.color.length)
+            },
+            hovertemplate: featX.value + "=%{x}<br>SHAP=%{y:.3f}<extra></extra>"
+          }], {
+            title: "SHAP dependence: " + featX.value,
+            xaxis: { title: featX.value },
+            yaxis: { title: "SHAP value (Permanent DI)" },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            margin: { l: 60, r: 40, t: 50, b: 50 }
+          }, {responsive:true});
+
+          progressBar.style.width = "100%";
+          shapMsg.innerHTML = '<span class="ok">Done.</span>';
+        } else if (ev === "error") {
+          shapMsg.innerHTML = '<span class="err">' + JSON.parse(dataLine) + '</span>';
+        }
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+  }
+});
+
 </script>
 
 </body>
@@ -606,8 +673,6 @@ def shap_dependence(payload: dict = Body(...)):
       feature_x: str     (REQUIRED)
       feature_color: str (OPTIONAL)
       y_mode: "by_x" | "sum" (default "by_x")
-      nsamples: "auto" | int (default "auto")
-      background_size: int   (default = min(50, n_rows))
     """
     try:
         import shap  # lazy import so app still boots if SHAP missing
@@ -624,8 +689,6 @@ def shap_dependence(payload: dict = Body(...)):
         feature_x: Optional[str] = payload.get("feature_x")
         feature_color: Optional[str] = payload.get("feature_color")
         y_mode: str = payload.get("y_mode", "by_x")
-        nsamples = payload.get("nsamples", "auto")
-        bg_size: Optional[int] = payload.get("background_size")
 
         if not rows or not isinstance(rows, list):
             return JSONResponse({"error": "'rows' must be a non-empty list of payloads"}, status_code=400)
@@ -636,37 +699,23 @@ def shap_dependence(payload: dict = Body(...)):
         X_raw = pd.DataFrame(rows)
         cols = list(X_raw.columns)
 
-        # minor helper to normalize lookup (handle trailing spaces/case)
+        # tolerant lookup (handles trailing space on "Age ", case, etc.)
         def _find_col(name: str) -> Optional[str]:
             if name in cols:
                 return name
-            # try whitespace/case tolerant match
-            target = name.strip().lower()
+            tgt = name.strip().lower()
             for c in cols:
-                if c.strip().lower() == target:
+                if c.strip().lower() == tgt:
                     return c
-            # try fuzzy
             m = get_close_matches(name, cols, n=1)
             return m[0] if m else None
 
         fx = _find_col(feature_x)
         if not fx:
             return JSONResponse({"error": f"feature_x '{feature_x}' not found in provided rows"}, status_code=400)
+        fc = _find_col(feature_color) if feature_color else None
 
-        fc = None
-        if feature_color:
-            fc = _find_col(feature_color)
-            if not fc:
-                return JSONResponse({"error": f"feature_color '{feature_color}' not in rows"}, status_code=400)
-
-        # Background for KernelExplainer: small sample of submitted rows
-        n = len(X_raw)
-        if bg_size is None:
-            bg_size = min(50, n)
-        replace = bg_size > n
-        bg = X_raw.sample(bg_size, random_state=42, replace=replace).reset_index(drop=True)
-
-        # ---- model function that always receives a DataFrame with proper columns ----
+        # model fn that always gets a DataFrame with correct columns/order
         def proba_fn_local(X_in):
             if isinstance(X_in, np.ndarray):
                 X_df = pd.DataFrame(X_in, columns=cols)
@@ -675,17 +724,10 @@ def shap_dependence(payload: dict = Body(...)):
             Xp = prepare_inputs(X_df)
             return model.predict_proba(Xp)[:, 1]
 
-        # --- SHAP computation (use all rows, no nsamples prompt) ---
+        # ---- Full-dataset Kernel SHAP (no nsamples/background prompts) ----
         explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
-        shap_vals = explainer.shap_values(X_raw)  # full dataset, no nsamples
+        shap_vals = explainer.shap_values(X_raw)
         if isinstance(shap_vals, list):
-            shap_vals = np.array(shap_vals)
-
-
-        # Build explainer and compute SHAP
-        explainer = shap.KernelExplainer(model=proba_fn_local, data=bg)
-        shap_vals = explainer.shap_values(X_raw, nsamples=nsamples)
-        if isinstance(shap_vals, list):  # some SHAP versions return list
             shap_vals = np.array(shap_vals)
 
         # y values
@@ -701,23 +743,13 @@ def shap_dependence(payload: dict = Body(...)):
         if fc:
             color = X_raw[fc].astype(object).where(~X_raw[fc].isna(), None).tolist()
 
-        meta = {
-            "expected_value": (float(explainer.expected_value)
-                               if hasattr(explainer, "expected_value") and np.isscalar(explainer.expected_value)
-                               else None),
-            "columns": cols,
-            "y_mode": y_mode,
-            "nsamples": nsamples,
-            "background_size": bg_size,
-            "fx": fx,
-            "fc": fc,
-        }
-
+        meta = {"columns": cols, "fx": fx, "fc": fc, "y_mode": y_mode}
         return {"x": x, "shap": y, "color": color, "meta": meta}
 
     except Exception as e:
         traceback.print_exc()
         return JSONResponse({"error": str(e)}, status_code=500)
+
 
 # --- Streaming SHAP with progress (SSE over fetch streaming) ---
 from fastapi.responses import StreamingResponse
