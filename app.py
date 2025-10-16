@@ -668,14 +668,19 @@ def shap_dependence(payload: dict = Body(...)):
 
         # ---- model function that always receives a DataFrame with proper columns ----
         def proba_fn_local(X_in):
-            # SHAP may pass ndarray; wrap it with the same column order as 'cols'
             if isinstance(X_in, np.ndarray):
                 X_df = pd.DataFrame(X_in, columns=cols)
             else:
-                # ensure column order matches training expectation
                 X_df = X_in.reindex(columns=cols, fill_value=np.nan)
             Xp = prepare_inputs(X_df)
             return model.predict_proba(Xp)[:, 1]
+
+        # --- SHAP computation (use all rows, no nsamples prompt) ---
+        explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
+        shap_vals = explainer.shap_values(X_raw)  # full dataset, no nsamples
+        if isinstance(shap_vals, list):
+            shap_vals = np.array(shap_vals)
+
 
         # Build explainer and compute SHAP
         explainer = shap.KernelExplainer(model=proba_fn_local, data=bg)
