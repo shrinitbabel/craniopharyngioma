@@ -718,3 +718,69 @@ def shap_dependence(payload: dict = Body(...)):
     except Exception as e:
         traceback.print_exc()
         return JSONResponse({"error": str(e)}, status_code=500)
+
+# --- Streaming SHAP with progress (SSE over fetch streaming) ---
+from fastapi.responses import StreamingResponse
+import json as _json
+
+@app.post("/shap/dependence-stream")
+def shap_dependence_stream(payload: dict = Body(...)):
+    try:
+        import shap  # lazy import
+    except Exception:
+        def _err():
+            yield b"event: error\ndata: \"SHAP not installed\"\n\n"
+        return StreamingResponse(_err(), media_type="text/event-stream")
+
+    rows = payload.get("rows") or []
+    feature_x = payload.get("feature_x")
+    feature_color = payload.get("feature_color")
+    y_mode = payload.get("y_mode", "by_x")
+
+    if not rows or not feature_x:
+        def _bad():
+            yield b"event: error\ndata: \"rows and feature_x required\"\n\n"
+        return StreamingResponse(_bad(), media_type="text/event-stream")
+
+    X_raw = pd.DataFrame(rows)
+    cols = list(X_raw.columns)
+
+    # local model fn that always sees a DataFrame with correct columns
+    def proba_fn_local(X_in):
+        if isinstance(X_in, np.ndarray):
+            X_df = pd.DataFrame(X_in, columns=cols)
+        else:
+            X_df = X_in.reindex(columns=cols, fill_value=np.nan)
+        Xp = prepare_inputs(X_df)
+        return model.predict_proba(Xp)[:, 1]
+
+    explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
+
+    def _gen():
+        n = len(X_raw)
+        # accumulate row-wise shap values so we can compute final output
+        shap_rows = []
+        for i in range(n):
+            sv = explainer.shap_values(X_raw.iloc[[i]])
+            if isinstance(sv, list):
+                sv = np.array(sv)
+            shap_rows.append(sv[0].tolist())
+            pct = int((i + 1) / n * 100)
+            yield f"event: progress\ndata: {_json.dumps({'pct': pct})}\n\n".encode()
+
+        shap_vals = np.array(shap_rows)
+        if y_mode == "sum":
+            y = np.abs(shap_vals).sum(axis=1).tolist()
+        else:
+            j = cols.index(feature_x)
+            y = shap_vals[:, j].tolist()
+
+        x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
+        color = None
+        if feature_color and feature_color in cols:
+            color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
+
+        payload_final = {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color}}
+        yield f"event: done\ndata: {_json.dumps(payload_final)}\n\n".encode()
+
+    return StreamingResponse(_gen(), media_type="text/event-stream")
