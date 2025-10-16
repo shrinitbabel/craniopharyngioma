@@ -602,26 +602,26 @@ def predict_form_get():
 def shap_dependence(payload: dict = Body(...)):
     """
     Body:
-    {
-      "rows": [ {<same keys as /predict>}, ... ],   # REQUIRED, 10-100 rows recommended
-      "feature_x": "BMI",                           # REQUIRED
-      "feature_color": "Tumor volume",              # OPTIONAL
-      "y_mode": "by_x" | "sum",                     # OPTIONAL (default "by_x")
-      "nsamples": "auto" | int,                     # OPTIONAL (default "auto")
-      "background_size": int                        # OPTIONAL (default=min(50, n_rows))
-    }
-    Returns: { x:[], shap:[], color:[], meta:{} }   # ready for Plotly on the client
+      rows: list[dict]   (REQUIRED)
+      feature_x: str     (REQUIRED)
+      feature_color: str (OPTIONAL)
+      y_mode: "by_x" | "sum" (default "by_x")
+      nsamples: "auto" | int (default "auto")
+      background_size: int   (default = min(50, n_rows))
     """
     try:
-        import shap  # type: ignore
+        import shap  # lazy import so app still boots if SHAP missing
     except Exception:
         return JSONResponse(
             {"error": "SHAP not available on server. Add to requirements: shap==0.44.1, numba==0.57.1, llvmlite==0.40.1"},
             status_code=501,
         )
+
+    from difflib import get_close_matches
+
     try:
         rows: List[Dict[str, Any]] = payload.get("rows") or []
-        feature_x: str = payload.get("feature_x")
+        feature_x: Optional[str] = payload.get("feature_x")
         feature_color: Optional[str] = payload.get("feature_color")
         y_mode: str = payload.get("y_mode", "by_x")
         nsamples = payload.get("nsamples", "auto")
@@ -632,62 +632,83 @@ def shap_dependence(payload: dict = Body(...)):
         if not feature_x or not isinstance(feature_x, str):
             return JSONResponse({"error": "'feature_x' is required"}, status_code=400)
 
-        # Build DataFrame in ORIGINAL feature space
+        # Build DataFrame in ORIGINAL feature space (exact keys from client)
         X_raw = pd.DataFrame(rows)
-        # Ensure model can consume it (adds missing cols, fixes types)
-        X_prep = prepare_inputs(X_raw)
+        cols = list(X_raw.columns)
 
-        # Background for KernelExplainer: a small sample of submitted rows
-        n = len(X_prep)
+        # minor helper to normalize lookup (handle trailing spaces/case)
+        def _find_col(name: str) -> Optional[str]:
+            if name in cols:
+                return name
+            # try whitespace/case tolerant match
+            target = name.strip().lower()
+            for c in cols:
+                if c.strip().lower() == target:
+                    return c
+            # try fuzzy
+            m = get_close_matches(name, cols, n=1)
+            return m[0] if m else None
+
+        fx = _find_col(feature_x)
+        if not fx:
+            return JSONResponse({"error": f"feature_x '{feature_x}' not found in provided rows"}, status_code=400)
+
+        fc = None
+        if feature_color:
+            fc = _find_col(feature_color)
+            if not fc:
+                return JSONResponse({"error": f"feature_color '{feature_color}' not in rows"}, status_code=400)
+
+        # Background for KernelExplainer: small sample of submitted rows
+        n = len(X_raw)
         if bg_size is None:
             bg_size = min(50, n)
-        bg = X_raw.sample(bg_size, random_state=42).reset_index(drop=True)
+        replace = bg_size > n
+        bg = X_raw.sample(bg_size, random_state=42, replace=replace).reset_index(drop=True)
 
-        # Build explainer in ORIGINAL space (KernelExplainer uses the columns you pass)
-        explainer = shap.KernelExplainer(model=_proba_pipeline_fn, data=bg)
+        # ---- model function that always receives a DataFrame with proper columns ----
+        def proba_fn_local(X_in):
+            # SHAP may pass ndarray; wrap it with the same column order as 'cols'
+            if isinstance(X_in, np.ndarray):
+                X_df = pd.DataFrame(X_in, columns=cols)
+            else:
+                # ensure column order matches training expectation
+                X_df = X_in.reindex(columns=cols, fill_value=np.nan)
+            Xp = prepare_inputs(X_df)
+            return model.predict_proba(Xp)[:, 1]
 
-        # Explain the submitted rows
+        # Build explainer and compute SHAP
+        explainer = shap.KernelExplainer(model=proba_fn_local, data=bg)
         shap_vals = explainer.shap_values(X_raw, nsamples=nsamples)
-        # shap_vals -> (n_rows, n_features) aligned to X_raw.columns
-        if isinstance(shap_vals, list):  # safety for some SHAP versions
+        if isinstance(shap_vals, list):  # some SHAP versions return list
             shap_vals = np.array(shap_vals)
-
-        cols = list(X_raw.columns)
-        if feature_x not in cols:
-            return JSONResponse({"error": f"feature_x '{feature_x}' not found in provided rows"}, status_code=400)
 
         # y values
         if y_mode == "sum":
             y = np.abs(shap_vals).sum(axis=1).tolist()
         else:
-            j = cols.index(feature_x)
+            j = cols.index(fx)
             y = shap_vals[:, j].tolist()
 
-        # x values
-        x = X_raw[feature_x].astype(object).where(~X_raw[feature_x].isna(), None).tolist()
-
-        # optional color channel
+        # x and optional color
+        x = X_raw[fx].astype(object).where(~X_raw[fx].isna(), None).tolist()
         color = None
-        if feature_color:
-            if feature_color not in cols:
-                return JSONResponse({"error": f"feature_color '{feature_color}' not in rows"}, status_code=400)
-            color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
+        if fc:
+            color = X_raw[fc].astype(object).where(~X_raw[fc].isna(), None).tolist()
 
-        # some meta for the client
         meta = {
-            "expected_value": float(explainer.expected_value) if hasattr(explainer, "expected_value") else None,
+            "expected_value": (float(explainer.expected_value)
+                               if hasattr(explainer, "expected_value") and np.isscalar(explainer.expected_value)
+                               else None),
             "columns": cols,
             "y_mode": y_mode,
             "nsamples": nsamples,
             "background_size": bg_size,
+            "fx": fx,
+            "fc": fc,
         }
 
-        return {
-            "x": x,
-            "shap": y,
-            "color": color,
-            "meta": meta,
-        }
+        return {"x": x, "shap": y, "color": color, "meta": meta}
 
     except Exception as e:
         traceback.print_exc()
