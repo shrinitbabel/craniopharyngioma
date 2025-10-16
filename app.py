@@ -299,7 +299,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // optional: cancel any prior run if user clicks again
+  let shapController = null;
+
   document.getElementById("btn-shap").addEventListener("click", async () => {
+    // cancel older stream if running
+    try { shapController?.abort(); } catch (_) {}
+    shapController = new AbortController();
+
     shapMsg.textContent = "";
     progressWrap.style.display = "block";
     progressBar.style.width = "0%";
@@ -307,87 +314,112 @@ document.addEventListener("DOMContentLoaded", () => {
     const payload = window.__lastPayload;
     if (!payload) { shapMsg.innerHTML = '<span class="err">Submit a prediction first.</span>'; return; }
 
-    const rows = makeCohortRows(payload, 20);
+    // smaller cohort for speed on Render
+    const rows = (function makeCohortRows(base, n=20){
+      const out = [];
+      for (let i=0;i<n;i++){
+        const r = {};
+        for (const k of Object.keys(base)) {
+          const v = base[k];
+          r[k] = (typeof v === "number" && Number.isFinite(v))
+            ? v + v*((Math.random()-0.5)*0.16)
+            : v;
+        }
+        out.push(r);
+      }
+      return out;
+    })(payload, 20);
+
     const body = { rows, feature_x: featX.value, feature_color: featColor.value || undefined, y_mode: "by_x" };
 
     try {
       const res = await fetch("/shap/dependence-stream", {
-        method: "POST", headers: {"content-type":"application/json"}, body: JSON.stringify(body)
+        method: "POST",
+        headers: {"content-type":"application/json"},
+        body: JSON.stringify(body),
+        signal: shapController.signal,
       });
-      if (!res.ok || !res.body) { shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>'; return; }
+      if (!res.ok || !res.body) {
+        shapMsg.innerHTML = '<span class="err">SHAP stream failed</span>';
+        return;
+      }
 
-      const reader = res.body.getReader();
+      const reader  = res.body.getReader();
       const decoder = new TextDecoder();
-      let buf = "";
+      let buffer    = "";
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        buf += decoder.decode(value, { stream: true });
 
-        let idx;
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) { /* never true */ break; }
-        // Correct parsing on actual newlines:
-        while ((idx = buf.indexOf("\\r\\n\\r\\n")) >= 0) { /* ignore */ break; }
+        buffer += decoder.decode(value, { stream: true });
 
-        // Proper newline splitting:
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) { break; }
-        while ((idx = buf.indexOf("\\r\\n\\r\\n")) >= 0) { break; }
+        // parse frames on either \n\n or \r\n\r\n
+        while (true) {
+          const i1 = buffer.indexOf("\n\n");
+          const i2 = buffer.indexOf("\r\n\r\n");
+          const sep = (i1 === -1 ? i2 : (i2 === -1 ? i1 : Math.min(i1, i2)));
+          if (sep === -1) break;
 
-        // Use real newlines:
-        while ((idx = buf.indexOf("\\n\\n")) >= 0) { break; }
-      }
-    } catch (err) {
-      console.error(err);
-      shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
-    }
+          const frame = buffer.slice(0, sep);
+          buffer = buffer.slice(sep + (buffer[sep] === "\r" ? 4 : 2));
 
-    // Correct parser (works across environments)
-    async function parseSSE(text) {
-      let offset = 0;
-      while (true) {
-        const next = text.indexOf("\\n\\n", offset);
-        const next2 = text.indexOf("\\r\\n\\r\\n", offset);
-        const sep = next === -1 ? next2 : (next2 === -1 ? next : Math.min(next, next2));
-        if (sep === -1) break;
-        const frame = text.slice(offset, sep);
-        offset = sep + (text[sep] === "\\r" ? 4 : 2);
+          const lines    = frame.split(/\r?\n/);
+          const evLine   = lines.find(l => l.startsWith("event:"));
+          const dataLine = lines.find(l => l.startsWith("data:"));
+          if (!evLine || !dataLine) continue;
 
-        const lines = frame.split(/\\r?\\n/);
-        const evLine = lines.find(l => l.startsWith("event:"));
-        const dataLine = lines.find(l => l.startsWith("data:"));
-        if (!evLine || !dataLine) continue;
-        const ev = evLine.slice(6).trim();
-        const dataStr = dataLine.slice(5).trim();
+          const ev   = evLine.slice(6).trim();
+          const data = JSON.parse(dataLine.slice(5).trim());
 
-        if (ev === "progress") {
-          const { pct } = JSON.parse(dataStr);
-          progressBar.style.width = pct + "%";
-        } else if (ev === "done") {
-          const data = JSON.parse(dataStr);
-          Plotly.newPlot(plotDiv, [{
-            x: data.x, y: data.shap, mode: "markers", type: "scatter",
-            marker: {
-              size: 8,
-              color: data.color || undefined,
-              colorscale: [[0,"rgba(128,0,128,0.9)"],[1,"rgba(255,140,0,0.9)"]],
-              colorbar: { title: featColor.value || "", titleside: "right", tickfont: { size: 11 } },
-              showscale: !!(data.color && data.color.length)
-            },
-            hovertemplate: `${featX.value}=%{x}<br>SHAP=%{y:.3f}<extra></extra>`
-          }], {
-            title: "SHAP dependence: " + featX.value,
-            xaxis: { title: featX.value }, yaxis: { title: "SHAP value (Permanent DI)" },
-            paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-            margin: { l: 60, r: 40, t: 50, b: 50 }
-          }, { responsive: true });
-          progressBar.style.width = "100%";
-          shapMsg.innerHTML = '<span class="ok">Done.</span>';
+          if (ev === "progress") {
+            progressBar.style.width = (data.pct || 0) + "%";
+          } else if (ev === "done") {
+            // draw the plot
+            Plotly.newPlot(plotDiv, [{
+              x: data.x,
+              y: data.shap,
+              mode: "markers",
+              type: "scatter",
+              marker: {
+                size: 8,
+                color: data.color || undefined,
+                colorscale: [
+                  [0, "rgba(128,0,128,0.9)"],   // purple
+                  [1, "rgba(255,140,0,0.9)"]    // orange
+                ],
+                colorbar: {
+                  title: featColor.value || "",
+                  titleside: "right",
+                  tickfont: { size: 11 }
+                },
+                showscale: !!(data.color && data.color.length)
+              },
+              hovertemplate: `${featX.value}=%{x}<br>SHAP=%{y:.3f}<extra></extra>`
+            }], {
+              title: "SHAP dependence: " + featX.value,
+              xaxis: { title: featX.value },
+              yaxis: { title: "SHAP value (Permanent DI)" },
+              paper_bgcolor: "rgba(0,0,0,0)",
+              plot_bgcolor:  "rgba(0,0,0,0)",
+              margin: { l: 60, r: 40, t: 50, b: 50 }
+            }, { responsive: true });
+
+            progressBar.style.width = "100%";
+            shapMsg.innerHTML = '<span class="ok">Done.</span>';
+          } else if (ev === "error") {
+            shapMsg.innerHTML = '<span class="err">' + data + '</span>';
+          }
         }
       }
+    } catch (err) {
+      if (err?.name !== "AbortError") {
+        console.error(err);
+        shapMsg.innerHTML = '<span class="err">' + (err?.message || String(err)) + '</span>';
+      }
     }
-
   });
+
 });
 </script>
 
