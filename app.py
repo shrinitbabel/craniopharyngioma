@@ -592,18 +592,6 @@ def shap_dependence(payload: dict = Body(...)):
         fc = _find(feature_color)
 
         def proba_fn_local(X_in):
-<<<<<<< HEAD
-            if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
-            else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
-            return model.predict_proba(prepare_inputs(X_df))[:, 1]
-
-        explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
-        shap_vals = explainer.shap_values(X_raw)
-        if isinstance(shap_vals, list): shap_vals = np.array(shap_vals)
-
-        y = (np.abs(shap_vals).sum(axis=1).tolist() if y_mode == "sum"
-             else shap_vals[:, cols.index(fx)].tolist())
-=======
             # SHAP may pass ndarray; wrap it with the same column order as 'cols'
             if isinstance(X_in, np.ndarray):
                 X_df = pd.DataFrame(X_in, columns=cols)
@@ -627,7 +615,6 @@ def shap_dependence(payload: dict = Body(...)):
             y = shap_vals[:, j].tolist()
 
         # x and optional color
->>>>>>> parent of 74917cc (Update app.py)
         x = X_raw[fx].astype(object).where(~X_raw[fx].isna(), None).tolist()
         color = X_raw[fc].astype(object).where(~X_raw[fc].isna(), None).tolist() if fc else None
         return {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": fx, "fc": fc, "y_mode": y_mode}}
