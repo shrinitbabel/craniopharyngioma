@@ -3,6 +3,8 @@ import math
 import numpy as np
 import pandas as pd
 from typing import List, Optional, Dict, Any
+import json as _json
+
 
 from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
@@ -577,6 +579,6 @@ def shap_dependence_stream(payload: dict = Body(...)):
             color = X_raw[feature_color].astype(object).where(~X_raw[feature_color].isna(), None).tolist()
 
         final = {"x": x, "shap": y, "color": color, "meta": {"columns": cols, "fx": feature_x, "fc": feature_color}}
-        yield f"event: done\ndata: {final}\n\n".encode()
+        yield f"event: done\ndata: {_json.dumps(final)}\n\n".encode()
 
     return StreamingResponse(_gen(), media_type="text/event-stream")
