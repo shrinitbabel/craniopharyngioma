@@ -536,7 +536,7 @@ def shap_dependence(payload: dict = Body(...)):
             if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
             else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
             X_prep = prepare_inputs(X_df, needed_features=FEATURES_DI)
-            return model.predict_proba(prepare_inputs(X_df))[:, 1]
+            return model.predict_proba(X_df)[:, 1]
 
         explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
         shap_vals = explainer.shap_values(X_raw)
@@ -575,7 +575,7 @@ def shap_dependence_stream(payload: dict = Body(...)):
         if isinstance(X_in, np.ndarray): X_df = pd.DataFrame(X_in, columns=cols)
         else: X_df = X_in.reindex(columns=cols, fill_value=np.nan)
         X_prep = prepare_inputs(X_df, needed_features=FEATURES_DI)
-        return model.predict_proba(prepare_inputs(X_df))[:, 1]
+        return model.predict_proba(X_df)[:, 1]
 
     explainer = shap.KernelExplainer(model=proba_fn_local, data=X_raw)
 
