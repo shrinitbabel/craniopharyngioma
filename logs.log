@@ -214555,3 +214555,1485 @@ Name: Recurrence after this operation, dtype: int8
                    n_jobs=-1, passthrough=False, stack_method='auto',
                    verbose=0)
 2025-11-07 12:39:36,678:INFO:stack_models() successfully completed......................................
+2025-11-07 15:34:59,107:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-11-07 15:34:59,108:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-11-07 15:34:59,108:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-11-07 15:34:59,108:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-11-07 15:35:01,584:INFO:Initializing load_model()
+2025-11-07 15:35:01,584:INFO:load_model(model_name=recurrence_nb_calibrated_v1, platform=None, authentication=None, verbose=True)
+2025-11-07 15:35:10,069:INFO:Initializing load_model()
+2025-11-07 15:35:10,070:INFO:load_model(model_name=recurrence_nb_v1.pkl, platform=None, authentication=None, verbose=True)
+2025-11-07 15:35:20,998:INFO:Initializing load_model()
+2025-11-07 15:35:20,999:INFO:load_model(model_name=recurrence_nb_v1.pkl, platform=None, authentication=None, verbose=True)
+2025-11-07 15:35:26,732:INFO:Initializing load_model()
+2025-11-07 15:35:26,733:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2025-11-07 15:36:25,932:INFO:PyCaret ClassificationExperiment
+2025-11-07 15:36:25,933:INFO:Logging name: clf-default-name
+2025-11-07 15:36:25,933:INFO:ML Usecase: MLUsecase.CLASSIFICATION
+2025-11-07 15:36:25,933:INFO:version 3.3.2
+2025-11-07 15:36:25,933:INFO:Initializing setup()
+2025-11-07 15:36:25,933:INFO:self.USI: 0eea
+2025-11-07 15:36:25,933:INFO:self._variable_keys: {'target_param', 'seed', 'n_jobs_param', 'y', 'memory', 'html_param', 'exp_id', 'fold_shuffle_param', 'data', 'fix_imbalance', 'log_plots_param', 'pipeline', 'exp_name_log', 'is_multiclass', '_available_plots', 'y_train', 'X', 'idx', 'gpu_n_jobs_param', 'gpu_param', 'logging_param', '_ml_usecase', 'fold_groups_param', 'USI', 'y_test', 'X_train', 'fold_generator', 'X_test'}
+2025-11-07 15:36:25,933:INFO:Checking environment
+2025-11-07 15:36:25,933:INFO:python_version: 3.10.18
+2025-11-07 15:36:25,933:INFO:python_build: ('main', 'Jun  5 2025 13:08:55')
+2025-11-07 15:36:25,933:INFO:machine: AMD64
+2025-11-07 15:36:25,933:INFO:platform: Windows-10-10.0.26100-SP0
+2025-11-07 15:36:25,934:INFO:Memory: svmem(total=34069602304, available=8117596160, percent=76.2, used=25952006144, free=8117596160)
+2025-11-07 15:36:25,934:INFO:Physical Core: 14
+2025-11-07 15:36:25,934:INFO:Logical Core: 20
+2025-11-07 15:36:25,934:INFO:Checking libraries
+2025-11-07 15:36:25,934:INFO:System:
+2025-11-07 15:36:25,934:INFO:    python: 3.10.18 | packaged by Anaconda, Inc. | (main, Jun  5 2025, 13:08:55) [MSC v.1929 64 bit (AMD64)]
+2025-11-07 15:36:25,934:INFO:executable: c:\Users\shrin\anaconda3\envs\pycaret310\python.exe
+2025-11-07 15:36:25,934:INFO:   machine: Windows-10-10.0.26100-SP0
+2025-11-07 15:36:25,934:INFO:PyCaret required dependencies:
+2025-11-07 15:36:25,935:INFO:                 pip: 25.2
+2025-11-07 15:36:25,935:INFO:          setuptools: 78.1.1
+2025-11-07 15:36:25,935:INFO:             pycaret: 3.3.2
+2025-11-07 15:36:25,935:INFO:             IPython: 8.37.0
+2025-11-07 15:36:25,935:INFO:          ipywidgets: 8.1.7
+2025-11-07 15:36:25,935:INFO:                tqdm: 4.67.1
+2025-11-07 15:36:25,935:INFO:               numpy: 1.26.4
+2025-11-07 15:36:25,935:INFO:              pandas: 2.1.4
+2025-11-07 15:36:25,935:INFO:              jinja2: 3.1.6
+2025-11-07 15:36:25,935:INFO:               scipy: 1.11.4
+2025-11-07 15:36:25,935:INFO:              joblib: 1.3.2
+2025-11-07 15:36:25,935:INFO:             sklearn: 1.4.2
+2025-11-07 15:36:25,935:INFO:                pyod: 2.0.5
+2025-11-07 15:36:25,935:INFO:            imblearn: 0.14.0
+2025-11-07 15:36:25,935:INFO:   category_encoders: 2.7.0
+2025-11-07 15:36:25,935:INFO:            lightgbm: 4.6.0
+2025-11-07 15:36:25,935:INFO:               numba: 0.62.1
+2025-11-07 15:36:25,935:INFO:            requests: 2.32.5
+2025-11-07 15:36:25,935:INFO:          matplotlib: 3.7.5
+2025-11-07 15:36:25,935:INFO:          scikitplot: 0.3.7
+2025-11-07 15:36:25,935:INFO:         yellowbrick: 1.5
+2025-11-07 15:36:25,935:INFO:              plotly: 6.3.1
+2025-11-07 15:36:25,936:INFO:    plotly-resampler: Not installed
+2025-11-07 15:36:25,936:INFO:             kaleido: 1.1.0
+2025-11-07 15:36:25,936:INFO:           schemdraw: 0.15
+2025-11-07 15:36:25,936:INFO:         statsmodels: 0.14.5
+2025-11-07 15:36:25,936:INFO:              sktime: 0.26.0
+2025-11-07 15:36:25,936:INFO:               tbats: 1.1.3
+2025-11-07 15:36:25,936:INFO:            pmdarima: 2.0.4
+2025-11-07 15:36:25,936:INFO:              psutil: 7.1.0
+2025-11-07 15:36:25,936:INFO:          markupsafe: 3.0.3
+2025-11-07 15:36:25,936:INFO:             pickle5: Not installed
+2025-11-07 15:36:25,936:INFO:         cloudpickle: 3.1.1
+2025-11-07 15:36:25,936:INFO:         deprecation: 2.1.0
+2025-11-07 15:36:25,936:INFO:              xxhash: 3.6.0
+2025-11-07 15:36:25,936:INFO:           wurlitzer: Not installed
+2025-11-07 15:36:25,936:INFO:PyCaret optional dependencies:
+2025-11-07 15:36:25,936:INFO:                shap: 0.44.1
+2025-11-07 15:36:25,936:INFO:           interpret: 0.7.2
+2025-11-07 15:36:25,936:INFO:                umap: 0.5.7
+2025-11-07 15:36:25,936:INFO:     ydata_profiling: 4.17.0
+2025-11-07 15:36:25,936:INFO:  explainerdashboard: 0.5.1
+2025-11-07 15:36:25,936:INFO:             autoviz: Not installed
+2025-11-07 15:36:25,936:INFO:           fairlearn: 0.7.0
+2025-11-07 15:36:25,936:INFO:          deepchecks: Not installed
+2025-11-07 15:36:25,936:INFO:             xgboost: 3.0.5
+2025-11-07 15:36:25,936:INFO:            catboost: 1.2.8
+2025-11-07 15:36:25,936:INFO:              kmodes: 0.12.2
+2025-11-07 15:36:25,937:INFO:             mlxtend: 0.23.4
+2025-11-07 15:36:25,937:INFO:       statsforecast: 1.5.0
+2025-11-07 15:36:25,937:INFO:        tune_sklearn: Not installed
+2025-11-07 15:36:25,937:INFO:                 ray: Not installed
+2025-11-07 15:36:25,937:INFO:            hyperopt: 0.2.7
+2025-11-07 15:36:25,937:INFO:              optuna: 4.5.0
+2025-11-07 15:36:25,937:INFO:               skopt: 0.10.2
+2025-11-07 15:36:25,937:INFO:              mlflow: 3.4.0
+2025-11-07 15:36:25,937:INFO:              gradio: 5.49.0
+2025-11-07 15:36:25,937:INFO:             fastapi: 0.118.0
+2025-11-07 15:36:25,937:INFO:             uvicorn: 0.37.0
+2025-11-07 15:36:25,937:INFO:              m2cgen: 0.10.0
+2025-11-07 15:36:25,937:INFO:           evidently: 0.4.40
+2025-11-07 15:36:25,937:INFO:               fugue: 0.8.7
+2025-11-07 15:36:25,937:INFO:           streamlit: Not installed
+2025-11-07 15:36:25,937:INFO:             prophet: Not installed
+2025-11-07 15:36:25,937:INFO:None
+2025-11-07 15:36:25,937:INFO:Set up data.
+2025-11-07 15:36:25,948:INFO:Set up folding strategy.
+2025-11-07 15:36:25,949:INFO:Set up train/test split.
+2025-11-07 15:36:25,959:INFO:Set up index.
+2025-11-07 15:36:25,960:INFO:Assigning column types.
+2025-11-07 15:36:25,964:INFO:Engine successfully changes for model 'lr' to 'sklearn'.
+2025-11-07 15:36:26,006:INFO:Engine for model 'knn' has not been set explicitly, hence returning None.
+2025-11-07 15:36:26,009:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:36:26,034:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,038:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,074:INFO:Engine for model 'knn' has not been set explicitly, hence returning None.
+2025-11-07 15:36:26,075:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:36:26,098:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,101:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,101:INFO:Engine successfully changes for model 'knn' to 'sklearn'.
+2025-11-07 15:36:26,136:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:36:26,157:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,159:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,195:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:36:26,216:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,219:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,220:INFO:Engine successfully changes for model 'rbfsvm' to 'sklearn'.
+2025-11-07 15:36:26,276:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,278:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,339:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,341:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,344:INFO:Preparing preprocessing pipeline...
+2025-11-07 15:36:26,346:INFO:Set up simple imputation.
+2025-11-07 15:36:26,350:INFO:Set up encoding of ordinal features.
+2025-11-07 15:36:26,352:INFO:Set up encoding of categorical features.
+2025-11-07 15:36:26,352:INFO:Set up imbalanced handling.
+2025-11-07 15:36:26,353:INFO:Set up column name cleaning.
+2025-11-07 15:36:26,459:INFO:Finished creating preprocessing pipeline.
+2025-11-07 15:36:26,477:INFO:Pipeline: Pipeline(memory=FastMemory(location=C:\Users\shrin\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '...
+                                                              return_df=True,
+                                                              use_cat_names=True,
+                                                              verbose=0))),
+                ('balance',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+')))],
+         verbose=False)
+2025-11-07 15:36:26,477:INFO:Creating final display dataframe.
+2025-11-07 15:36:26,676:INFO:Setup _display_container:                     Description                            Value
+0                    Session id                               42
+1                        Target  Recurrence after this operation
+2                   Target type                           Binary
+3           Original data shape                         (59, 19)
+4        Transformed data shape                         (76, 21)
+5   Transformed train set shape                         (58, 21)
+6    Transformed test set shape                         (18, 21)
+7              Numeric features                               16
+8          Categorical features                                2
+9      Rows with missing values                            45.8%
+10                   Preprocess                             True
+11              Imputation type                           simple
+12           Numeric imputation                             mean
+13       Categorical imputation                             mode
+14     Maximum one-hot encoding                               25
+15              Encoding method                             None
+16                Fix imbalance                             True
+17         Fix imbalance method                            SMOTE
+18               Fold Generator                  StratifiedKFold
+19                  Fold Number                                3
+20                     CPU Jobs                               -1
+21                      Use GPU                            False
+22               Log Experiment                            False
+23              Experiment Name                 clf-default-name
+24                          USI                             0eea
+2025-11-07 15:36:26,755:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,758:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,814:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:36:26,816:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:36:26,819:INFO:setup() successfully completed in 0.95s...............
+2025-11-07 15:36:26,853:INFO:Initializing create_model()
+2025-11-07 15:36:26,854:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=nb, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:26,854:INFO:Checking exceptions
+2025-11-07 15:36:26,886:INFO:Importing libraries
+2025-11-07 15:36:26,887:INFO:Copying training dataset
+2025-11-07 15:36:26,894:INFO:Defining folds
+2025-11-07 15:36:26,894:INFO:Declaring metric variables
+2025-11-07 15:36:26,902:INFO:Importing untrained model
+2025-11-07 15:36:26,909:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:26,933:INFO:Starting cross validation
+2025-11-07 15:36:26,938:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:31,883:INFO:Calculating mean and std
+2025-11-07 15:36:31,886:INFO:Creating metrics dataframe
+2025-11-07 15:36:31,900:INFO:Finalizing model
+2025-11-07 15:36:31,993:INFO:Uploading results into container
+2025-11-07 15:36:31,994:INFO:Uploading model into container now
+2025-11-07 15:36:32,006:INFO:_master_model_container: 1
+2025-11-07 15:36:32,006:INFO:_display_container: 2
+2025-11-07 15:36:32,006:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:32,006:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:32,665:INFO:Initializing tune_model()
+2025-11-07 15:36:32,666:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=F1, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>)
+2025-11-07 15:36:32,666:INFO:Checking exceptions
+2025-11-07 15:36:32,707:INFO:Copying training dataset
+2025-11-07 15:36:32,728:INFO:Checking base model
+2025-11-07 15:36:32,728:INFO:Base model : Naive Bayes
+2025-11-07 15:36:32,756:INFO:Declaring metric variables
+2025-11-07 15:36:32,778:INFO:Defining Hyperparameters
+2025-11-07 15:36:33,070:INFO:Tuning with n_jobs=-1
+2025-11-07 15:36:33,070:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:36:40,425:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:36:40,427:INFO:Hyperparameter search completed
+2025-11-07 15:36:40,427:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:40,428:INFO:Initializing create_model()
+2025-11-07 15:36:40,428:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F47C955780>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:36:40,429:INFO:Checking exceptions
+2025-11-07 15:36:40,429:INFO:Importing libraries
+2025-11-07 15:36:40,429:INFO:Copying training dataset
+2025-11-07 15:36:40,438:INFO:Defining folds
+2025-11-07 15:36:40,438:INFO:Declaring metric variables
+2025-11-07 15:36:40,449:INFO:Importing untrained model
+2025-11-07 15:36:40,449:INFO:Declaring custom model
+2025-11-07 15:36:40,460:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:40,476:INFO:Starting cross validation
+2025-11-07 15:36:40,479:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:40,593:INFO:Calculating mean and std
+2025-11-07 15:36:40,594:INFO:Creating metrics dataframe
+2025-11-07 15:36:40,602:INFO:Finalizing model
+2025-11-07 15:36:40,663:INFO:Uploading results into container
+2025-11-07 15:36:40,664:INFO:Uploading model into container now
+2025-11-07 15:36:40,665:INFO:_master_model_container: 2
+2025-11-07 15:36:40,665:INFO:_display_container: 3
+2025-11-07 15:36:40,665:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:36:40,665:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:40,958:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:40,959:INFO:choose_better activated
+2025-11-07 15:36:40,973:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:40,974:INFO:Initializing create_model()
+2025-11-07 15:36:40,974:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:40,974:INFO:Checking exceptions
+2025-11-07 15:36:40,978:INFO:Importing libraries
+2025-11-07 15:36:40,979:INFO:Copying training dataset
+2025-11-07 15:36:40,991:INFO:Defining folds
+2025-11-07 15:36:40,991:INFO:Declaring metric variables
+2025-11-07 15:36:40,992:INFO:Importing untrained model
+2025-11-07 15:36:40,992:INFO:Declaring custom model
+2025-11-07 15:36:40,992:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:40,993:INFO:Starting cross validation
+2025-11-07 15:36:40,995:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:41,107:INFO:Calculating mean and std
+2025-11-07 15:36:41,107:INFO:Creating metrics dataframe
+2025-11-07 15:36:41,109:INFO:Finalizing model
+2025-11-07 15:36:41,161:INFO:Uploading results into container
+2025-11-07 15:36:41,161:INFO:Uploading model into container now
+2025-11-07 15:36:41,162:INFO:_master_model_container: 3
+2025-11-07 15:36:41,162:INFO:_display_container: 4
+2025-11-07 15:36:41,162:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:41,162:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:41,529:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:41,529:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for F1 is 0.6406
+2025-11-07 15:36:41,530:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for F1 is 0.6406
+2025-11-07 15:36:41,530:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:36:41,530:INFO:choose_better completed
+2025-11-07 15:36:41,530:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:36:41,556:INFO:_master_model_container: 3
+2025-11-07 15:36:41,557:INFO:_display_container: 3
+2025-11-07 15:36:41,557:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:41,557:INFO:tune_model() successfully completed......................................
+2025-11-07 15:36:41,940:INFO:Initializing tune_model()
+2025-11-07 15:36:41,940:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=AUC, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>)
+2025-11-07 15:36:41,941:INFO:Checking exceptions
+2025-11-07 15:36:42,001:INFO:Copying training dataset
+2025-11-07 15:36:42,015:INFO:Checking base model
+2025-11-07 15:36:42,016:INFO:Base model : Naive Bayes
+2025-11-07 15:36:42,035:INFO:Declaring metric variables
+2025-11-07 15:36:42,051:INFO:Defining Hyperparameters
+2025-11-07 15:36:42,380:INFO:Tuning with n_jobs=-1
+2025-11-07 15:36:42,380:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:36:42,809:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:36:42,810:INFO:Hyperparameter search completed
+2025-11-07 15:36:42,810:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:42,810:INFO:Initializing create_model()
+2025-11-07 15:36:42,810:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F4000B8700>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:36:42,810:INFO:Checking exceptions
+2025-11-07 15:36:42,810:INFO:Importing libraries
+2025-11-07 15:36:42,810:INFO:Copying training dataset
+2025-11-07 15:36:42,814:INFO:Defining folds
+2025-11-07 15:36:42,814:INFO:Declaring metric variables
+2025-11-07 15:36:42,819:INFO:Importing untrained model
+2025-11-07 15:36:42,819:INFO:Declaring custom model
+2025-11-07 15:36:42,823:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:42,834:INFO:Starting cross validation
+2025-11-07 15:36:42,836:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:42,963:INFO:Calculating mean and std
+2025-11-07 15:36:42,964:INFO:Creating metrics dataframe
+2025-11-07 15:36:42,972:INFO:Finalizing model
+2025-11-07 15:36:43,041:INFO:Uploading results into container
+2025-11-07 15:36:43,042:INFO:Uploading model into container now
+2025-11-07 15:36:43,042:INFO:_master_model_container: 4
+2025-11-07 15:36:43,042:INFO:_display_container: 4
+2025-11-07 15:36:43,042:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:36:43,042:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:43,383:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:43,384:INFO:choose_better activated
+2025-11-07 15:36:43,399:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:43,400:INFO:Initializing create_model()
+2025-11-07 15:36:43,401:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:43,402:INFO:Checking exceptions
+2025-11-07 15:36:43,406:INFO:Importing libraries
+2025-11-07 15:36:43,406:INFO:Copying training dataset
+2025-11-07 15:36:43,414:INFO:Defining folds
+2025-11-07 15:36:43,414:INFO:Declaring metric variables
+2025-11-07 15:36:43,414:INFO:Importing untrained model
+2025-11-07 15:36:43,414:INFO:Declaring custom model
+2025-11-07 15:36:43,416:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:43,416:INFO:Starting cross validation
+2025-11-07 15:36:43,418:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:43,575:INFO:Calculating mean and std
+2025-11-07 15:36:43,576:INFO:Creating metrics dataframe
+2025-11-07 15:36:43,578:INFO:Finalizing model
+2025-11-07 15:36:43,632:INFO:Uploading results into container
+2025-11-07 15:36:43,633:INFO:Uploading model into container now
+2025-11-07 15:36:43,633:INFO:_master_model_container: 5
+2025-11-07 15:36:43,633:INFO:_display_container: 5
+2025-11-07 15:36:43,633:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:43,633:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:43,969:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:43,971:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for AUC is 0.7912
+2025-11-07 15:36:43,972:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for AUC is 0.7829
+2025-11-07 15:36:43,972:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:36:43,972:INFO:choose_better completed
+2025-11-07 15:36:43,973:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:36:43,994:INFO:_master_model_container: 5
+2025-11-07 15:36:43,994:INFO:_display_container: 4
+2025-11-07 15:36:43,995:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:43,995:INFO:tune_model() successfully completed......................................
+2025-11-07 15:36:44,359:INFO:Initializing tune_model()
+2025-11-07 15:36:44,360:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=Precision, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>)
+2025-11-07 15:36:44,360:INFO:Checking exceptions
+2025-11-07 15:36:44,400:INFO:Copying training dataset
+2025-11-07 15:36:44,408:INFO:Checking base model
+2025-11-07 15:36:44,409:INFO:Base model : Naive Bayes
+2025-11-07 15:36:44,419:INFO:Declaring metric variables
+2025-11-07 15:36:44,437:INFO:Defining Hyperparameters
+2025-11-07 15:36:44,768:INFO:Tuning with n_jobs=-1
+2025-11-07 15:36:44,768:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:36:45,072:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:36:45,073:INFO:Hyperparameter search completed
+2025-11-07 15:36:45,073:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:45,073:INFO:Initializing create_model()
+2025-11-07 15:36:45,073:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F40082C970>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:36:45,073:INFO:Checking exceptions
+2025-11-07 15:36:45,073:INFO:Importing libraries
+2025-11-07 15:36:45,074:INFO:Copying training dataset
+2025-11-07 15:36:45,078:INFO:Defining folds
+2025-11-07 15:36:45,078:INFO:Declaring metric variables
+2025-11-07 15:36:45,083:INFO:Importing untrained model
+2025-11-07 15:36:45,083:INFO:Declaring custom model
+2025-11-07 15:36:45,088:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:45,098:INFO:Starting cross validation
+2025-11-07 15:36:45,100:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:45,197:INFO:Calculating mean and std
+2025-11-07 15:36:45,197:INFO:Creating metrics dataframe
+2025-11-07 15:36:45,204:INFO:Finalizing model
+2025-11-07 15:36:45,262:INFO:Uploading results into container
+2025-11-07 15:36:45,263:INFO:Uploading model into container now
+2025-11-07 15:36:45,264:INFO:_master_model_container: 6
+2025-11-07 15:36:45,264:INFO:_display_container: 5
+2025-11-07 15:36:45,264:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:36:45,264:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:45,594:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:45,594:INFO:choose_better activated
+2025-11-07 15:36:45,601:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:45,602:INFO:Initializing create_model()
+2025-11-07 15:36:45,602:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:45,602:INFO:Checking exceptions
+2025-11-07 15:36:45,604:INFO:Importing libraries
+2025-11-07 15:36:45,604:INFO:Copying training dataset
+2025-11-07 15:36:45,609:INFO:Defining folds
+2025-11-07 15:36:45,609:INFO:Declaring metric variables
+2025-11-07 15:36:45,609:INFO:Importing untrained model
+2025-11-07 15:36:45,609:INFO:Declaring custom model
+2025-11-07 15:36:45,609:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:45,610:INFO:Starting cross validation
+2025-11-07 15:36:45,612:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:45,712:INFO:Calculating mean and std
+2025-11-07 15:36:45,712:INFO:Creating metrics dataframe
+2025-11-07 15:36:45,714:INFO:Finalizing model
+2025-11-07 15:36:45,764:INFO:Uploading results into container
+2025-11-07 15:36:45,765:INFO:Uploading model into container now
+2025-11-07 15:36:45,765:INFO:_master_model_container: 7
+2025-11-07 15:36:45,765:INFO:_display_container: 6
+2025-11-07 15:36:45,765:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:45,765:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:46,062:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:46,063:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for Prec. is 0.5738
+2025-11-07 15:36:46,064:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for Prec. is 0.5738
+2025-11-07 15:36:46,064:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:36:46,064:INFO:choose_better completed
+2025-11-07 15:36:46,065:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:36:46,087:INFO:_master_model_container: 7
+2025-11-07 15:36:46,088:INFO:_display_container: 5
+2025-11-07 15:36:46,089:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:46,089:INFO:tune_model() successfully completed......................................
+2025-11-07 15:36:46,419:INFO:Initializing tune_model()
+2025-11-07 15:36:46,419:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=Recall, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>)
+2025-11-07 15:36:46,420:INFO:Checking exceptions
+2025-11-07 15:36:46,458:INFO:Copying training dataset
+2025-11-07 15:36:46,464:INFO:Checking base model
+2025-11-07 15:36:46,465:INFO:Base model : Naive Bayes
+2025-11-07 15:36:46,474:INFO:Declaring metric variables
+2025-11-07 15:36:46,481:INFO:Defining Hyperparameters
+2025-11-07 15:36:46,848:INFO:Tuning with n_jobs=-1
+2025-11-07 15:36:46,848:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:36:47,223:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:36:47,223:INFO:Hyperparameter search completed
+2025-11-07 15:36:47,223:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:47,223:INFO:Initializing create_model()
+2025-11-07 15:36:47,224:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F49038CBE0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:36:47,224:INFO:Checking exceptions
+2025-11-07 15:36:47,224:INFO:Importing libraries
+2025-11-07 15:36:47,224:INFO:Copying training dataset
+2025-11-07 15:36:47,228:INFO:Defining folds
+2025-11-07 15:36:47,228:INFO:Declaring metric variables
+2025-11-07 15:36:47,235:INFO:Importing untrained model
+2025-11-07 15:36:47,235:INFO:Declaring custom model
+2025-11-07 15:36:47,243:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:47,255:INFO:Starting cross validation
+2025-11-07 15:36:47,258:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:47,378:INFO:Calculating mean and std
+2025-11-07 15:36:47,378:INFO:Creating metrics dataframe
+2025-11-07 15:36:47,385:INFO:Finalizing model
+2025-11-07 15:36:47,453:INFO:Uploading results into container
+2025-11-07 15:36:47,453:INFO:Uploading model into container now
+2025-11-07 15:36:47,454:INFO:_master_model_container: 8
+2025-11-07 15:36:47,454:INFO:_display_container: 6
+2025-11-07 15:36:47,454:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:36:47,454:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:47,683:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:47,684:INFO:choose_better activated
+2025-11-07 15:36:47,690:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:47,691:INFO:Initializing create_model()
+2025-11-07 15:36:47,691:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:47,691:INFO:Checking exceptions
+2025-11-07 15:36:47,693:INFO:Importing libraries
+2025-11-07 15:36:47,694:INFO:Copying training dataset
+2025-11-07 15:36:47,698:INFO:Defining folds
+2025-11-07 15:36:47,698:INFO:Declaring metric variables
+2025-11-07 15:36:47,698:INFO:Importing untrained model
+2025-11-07 15:36:47,698:INFO:Declaring custom model
+2025-11-07 15:36:47,699:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:47,699:INFO:Starting cross validation
+2025-11-07 15:36:47,700:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:47,797:INFO:Calculating mean and std
+2025-11-07 15:36:47,798:INFO:Creating metrics dataframe
+2025-11-07 15:36:47,799:INFO:Finalizing model
+2025-11-07 15:36:47,850:INFO:Uploading results into container
+2025-11-07 15:36:47,850:INFO:Uploading model into container now
+2025-11-07 15:36:47,851:INFO:_master_model_container: 9
+2025-11-07 15:36:47,851:INFO:_display_container: 7
+2025-11-07 15:36:47,851:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:47,851:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:48,173:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:48,175:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for Recall is 0.75
+2025-11-07 15:36:48,176:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for Recall is 0.75
+2025-11-07 15:36:48,177:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:36:48,177:INFO:choose_better completed
+2025-11-07 15:36:48,177:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:36:48,198:INFO:_master_model_container: 9
+2025-11-07 15:36:48,199:INFO:_display_container: 6
+2025-11-07 15:36:48,199:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:36:48,199:INFO:tune_model() successfully completed......................................
+2025-11-07 15:36:48,534:INFO:Initializing calibrate_model()
+2025-11-07 15:36:48,535:INFO:calibrate_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), method=sigmoid, calibrate_fold=5, fold=None, round=4, fit_kwargs=None, groups=None, verbose=True, return_train_score=False)
+2025-11-07 15:36:48,535:INFO:Checking exceptions
+2025-11-07 15:36:48,541:INFO:Preloading libraries
+2025-11-07 15:36:48,541:INFO:Preparing display monitor
+2025-11-07 15:36:48,573:INFO:Getting model name
+2025-11-07 15:36:48,574:INFO:Base model : Naive Bayes
+2025-11-07 15:36:48,590:INFO:Importing untrained CalibratedClassifierCV
+2025-11-07 15:36:48,590:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:48,591:INFO:Initializing create_model()
+2025-11-07 15:36:48,591:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='sigmoid', n_jobs=None), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F4000B96C0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:48,591:INFO:Checking exceptions
+2025-11-07 15:36:48,591:INFO:Importing libraries
+2025-11-07 15:36:48,591:INFO:Copying training dataset
+2025-11-07 15:36:48,596:INFO:Defining folds
+2025-11-07 15:36:48,596:INFO:Declaring metric variables
+2025-11-07 15:36:48,602:INFO:Importing untrained model
+2025-11-07 15:36:48,602:INFO:Declaring custom model
+2025-11-07 15:36:48,607:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:48,618:INFO:Starting cross validation
+2025-11-07 15:36:48,620:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:48,769:INFO:Calculating mean and std
+2025-11-07 15:36:48,769:INFO:Creating metrics dataframe
+2025-11-07 15:36:48,775:INFO:Finalizing model
+2025-11-07 15:36:48,860:INFO:Uploading results into container
+2025-11-07 15:36:48,861:INFO:Uploading model into container now
+2025-11-07 15:36:48,862:INFO:_master_model_container: 10
+2025-11-07 15:36:48,862:INFO:_display_container: 7
+2025-11-07 15:36:48,863:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='sigmoid', n_jobs=None)
+2025-11-07 15:36:48,863:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:49,180:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:49,206:INFO:_master_model_container: 10
+2025-11-07 15:36:49,207:INFO:_display_container: 7
+2025-11-07 15:36:49,208:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='sigmoid', n_jobs=None)
+2025-11-07 15:36:49,208:INFO:calibrate_model() successfully completed......................................
+2025-11-07 15:36:49,560:INFO:Initializing calibrate_model()
+2025-11-07 15:36:49,560:INFO:calibrate_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), method=isotonic, calibrate_fold=5, fold=None, round=4, fit_kwargs=None, groups=None, verbose=True, return_train_score=False)
+2025-11-07 15:36:49,560:INFO:Checking exceptions
+2025-11-07 15:36:49,563:INFO:Preloading libraries
+2025-11-07 15:36:49,563:INFO:Preparing display monitor
+2025-11-07 15:36:49,589:INFO:Getting model name
+2025-11-07 15:36:49,589:INFO:Base model : Naive Bayes
+2025-11-07 15:36:49,603:INFO:Importing untrained CalibratedClassifierCV
+2025-11-07 15:36:49,603:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:36:49,604:INFO:Initializing create_model()
+2025-11-07 15:36:49,604:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F47C956EC0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:49,604:INFO:Checking exceptions
+2025-11-07 15:36:49,604:INFO:Importing libraries
+2025-11-07 15:36:49,604:INFO:Copying training dataset
+2025-11-07 15:36:49,610:INFO:Defining folds
+2025-11-07 15:36:49,610:INFO:Declaring metric variables
+2025-11-07 15:36:49,615:INFO:Importing untrained model
+2025-11-07 15:36:49,616:INFO:Declaring custom model
+2025-11-07 15:36:49,622:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:49,632:INFO:Starting cross validation
+2025-11-07 15:36:49,634:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:36:49,795:INFO:Calculating mean and std
+2025-11-07 15:36:49,795:INFO:Creating metrics dataframe
+2025-11-07 15:36:49,802:INFO:Finalizing model
+2025-11-07 15:36:49,877:INFO:Uploading results into container
+2025-11-07 15:36:49,877:INFO:Uploading model into container now
+2025-11-07 15:36:49,878:INFO:_master_model_container: 11
+2025-11-07 15:36:49,878:INFO:_display_container: 8
+2025-11-07 15:36:49,878:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None)
+2025-11-07 15:36:49,878:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:50,198:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:36:50,224:INFO:_master_model_container: 11
+2025-11-07 15:36:50,224:INFO:_display_container: 8
+2025-11-07 15:36:50,224:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None)
+2025-11-07 15:36:50,224:INFO:calibrate_model() successfully completed......................................
+2025-11-07 15:36:50,637:INFO:Initializing finalize_model()
+2025-11-07 15:36:50,638:INFO:finalize_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None), fit_kwargs=None, groups=None, model_only=False, experiment_custom_tags=None)
+2025-11-07 15:36:50,638:INFO:Finalizing CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None)
+2025-11-07 15:36:50,642:INFO:Initializing create_model()
+2025-11-07 15:36:50,643:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None), fold=None, round=4, cross_validation=False, predict=False, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=False, metrics=None, display=None, model_only=False, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:36:50,643:INFO:Checking exceptions
+2025-11-07 15:36:50,644:INFO:Importing libraries
+2025-11-07 15:36:50,644:INFO:Copying training dataset
+2025-11-07 15:36:50,644:INFO:Defining folds
+2025-11-07 15:36:50,646:INFO:Declaring metric variables
+2025-11-07 15:36:50,646:INFO:Importing untrained model
+2025-11-07 15:36:50,646:INFO:Declaring custom model
+2025-11-07 15:36:50,646:INFO:Naive Bayes Imported successfully
+2025-11-07 15:36:50,648:INFO:Cross validation set to False
+2025-11-07 15:36:50,648:INFO:Fitting Model
+2025-11-07 15:36:50,752:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False)
+2025-11-07 15:36:50,752:INFO:create_model() successfully completed......................................
+2025-11-07 15:36:51,062:INFO:_master_model_container: 11
+2025-11-07 15:36:51,062:INFO:_display_container: 8
+2025-11-07 15:36:51,086:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False)
+2025-11-07 15:36:51,087:INFO:finalize_model() successfully completed......................................
+2025-11-07 15:36:51,486:INFO:Initializing save_model()
+2025-11-07 15:36:51,486:INFO:save_model(model=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False), model_name=recurrence_nb_v1, prep_pipe_=Pipeline(memory=FastMemory(location=C:\Users\shrin\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '...
+                                                              return_df=True,
+                                                              use_cat_names=True,
+                                                              verbose=0))),
+                ('balance',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+')))],
+         verbose=False), verbose=True, use_case=MLUsecase.CLASSIFICATION, kwargs={})
+2025-11-07 15:36:51,486:INFO:Adding model into prep_pipe
+2025-11-07 15:36:51,486:WARNING:Only Model saved as it was a pipeline.
+2025-11-07 15:36:51,494:INFO:recurrence_nb_v1.pkl saved in current working directory
+2025-11-07 15:36:51,512:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False)
+2025-11-07 15:36:51,513:INFO:save_model() successfully completed......................................
+2025-11-07 15:36:51,854:INFO:Initializing predict_model()
+2025-11-07 15:36:51,854:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F47C76A530>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001F49065D6C0>)
+2025-11-07 15:36:51,854:INFO:Checking exceptions
+2025-11-07 15:36:51,854:INFO:Preloading libraries
+2025-11-07 15:39:19,668:INFO:PyCaret ClassificationExperiment
+2025-11-07 15:39:19,668:INFO:Logging name: clf-default-name
+2025-11-07 15:39:19,669:INFO:ML Usecase: MLUsecase.CLASSIFICATION
+2025-11-07 15:39:19,669:INFO:version 3.3.2
+2025-11-07 15:39:19,669:INFO:Initializing setup()
+2025-11-07 15:39:19,669:INFO:self.USI: c8e3
+2025-11-07 15:39:19,669:INFO:self._variable_keys: {'target_param', 'seed', 'n_jobs_param', 'y', 'memory', 'html_param', 'exp_id', 'fold_shuffle_param', 'data', 'fix_imbalance', 'log_plots_param', 'pipeline', 'exp_name_log', 'is_multiclass', '_available_plots', 'y_train', 'X', 'idx', 'gpu_n_jobs_param', 'gpu_param', 'logging_param', '_ml_usecase', 'fold_groups_param', 'USI', 'y_test', 'X_train', 'fold_generator', 'X_test'}
+2025-11-07 15:39:19,669:INFO:Checking environment
+2025-11-07 15:39:19,669:INFO:python_version: 3.10.18
+2025-11-07 15:39:19,669:INFO:python_build: ('main', 'Jun  5 2025 13:08:55')
+2025-11-07 15:39:19,669:INFO:machine: AMD64
+2025-11-07 15:39:19,669:INFO:platform: Windows-10-10.0.26100-SP0
+2025-11-07 15:39:19,669:INFO:Memory: svmem(total=34069602304, available=4932718592, percent=85.5, used=29136883712, free=4932718592)
+2025-11-07 15:39:19,669:INFO:Physical Core: 14
+2025-11-07 15:39:19,669:INFO:Logical Core: 20
+2025-11-07 15:39:19,669:INFO:Checking libraries
+2025-11-07 15:39:19,669:INFO:System:
+2025-11-07 15:39:19,669:INFO:    python: 3.10.18 | packaged by Anaconda, Inc. | (main, Jun  5 2025, 13:08:55) [MSC v.1929 64 bit (AMD64)]
+2025-11-07 15:39:19,670:INFO:executable: c:\Users\shrin\anaconda3\envs\pycaret310\python.exe
+2025-11-07 15:39:19,670:INFO:   machine: Windows-10-10.0.26100-SP0
+2025-11-07 15:39:19,670:INFO:PyCaret required dependencies:
+2025-11-07 15:39:19,670:INFO:                 pip: 25.2
+2025-11-07 15:39:19,670:INFO:          setuptools: 78.1.1
+2025-11-07 15:39:19,670:INFO:             pycaret: 3.3.2
+2025-11-07 15:39:19,670:INFO:             IPython: 8.37.0
+2025-11-07 15:39:19,670:INFO:          ipywidgets: 8.1.7
+2025-11-07 15:39:19,670:INFO:                tqdm: 4.67.1
+2025-11-07 15:39:19,670:INFO:               numpy: 1.26.4
+2025-11-07 15:39:19,670:INFO:              pandas: 2.1.4
+2025-11-07 15:39:19,670:INFO:              jinja2: 3.1.6
+2025-11-07 15:39:19,670:INFO:               scipy: 1.11.4
+2025-11-07 15:39:19,670:INFO:              joblib: 1.3.2
+2025-11-07 15:39:19,670:INFO:             sklearn: 1.4.2
+2025-11-07 15:39:19,670:INFO:                pyod: 2.0.5
+2025-11-07 15:39:19,670:INFO:            imblearn: 0.14.0
+2025-11-07 15:39:19,670:INFO:   category_encoders: 2.7.0
+2025-11-07 15:39:19,670:INFO:            lightgbm: 4.6.0
+2025-11-07 15:39:19,670:INFO:               numba: 0.62.1
+2025-11-07 15:39:19,670:INFO:            requests: 2.32.5
+2025-11-07 15:39:19,670:INFO:          matplotlib: 3.7.5
+2025-11-07 15:39:19,670:INFO:          scikitplot: 0.3.7
+2025-11-07 15:39:19,670:INFO:         yellowbrick: 1.5
+2025-11-07 15:39:19,670:INFO:              plotly: 6.3.1
+2025-11-07 15:39:19,670:INFO:    plotly-resampler: Not installed
+2025-11-07 15:39:19,670:INFO:             kaleido: 1.1.0
+2025-11-07 15:39:19,670:INFO:           schemdraw: 0.15
+2025-11-07 15:39:19,670:INFO:         statsmodels: 0.14.5
+2025-11-07 15:39:19,670:INFO:              sktime: 0.26.0
+2025-11-07 15:39:19,670:INFO:               tbats: 1.1.3
+2025-11-07 15:39:19,670:INFO:            pmdarima: 2.0.4
+2025-11-07 15:39:19,670:INFO:              psutil: 7.1.0
+2025-11-07 15:39:19,670:INFO:          markupsafe: 3.0.3
+2025-11-07 15:39:19,670:INFO:             pickle5: Not installed
+2025-11-07 15:39:19,670:INFO:         cloudpickle: 3.1.1
+2025-11-07 15:39:19,670:INFO:         deprecation: 2.1.0
+2025-11-07 15:39:19,670:INFO:              xxhash: 3.6.0
+2025-11-07 15:39:19,670:INFO:           wurlitzer: Not installed
+2025-11-07 15:39:19,670:INFO:PyCaret optional dependencies:
+2025-11-07 15:39:19,670:INFO:                shap: 0.44.1
+2025-11-07 15:39:19,670:INFO:           interpret: 0.7.2
+2025-11-07 15:39:19,670:INFO:                umap: 0.5.7
+2025-11-07 15:39:19,670:INFO:     ydata_profiling: 4.17.0
+2025-11-07 15:39:19,670:INFO:  explainerdashboard: 0.5.1
+2025-11-07 15:39:19,670:INFO:             autoviz: Not installed
+2025-11-07 15:39:19,670:INFO:           fairlearn: 0.7.0
+2025-11-07 15:39:19,670:INFO:          deepchecks: Not installed
+2025-11-07 15:39:19,670:INFO:             xgboost: 3.0.5
+2025-11-07 15:39:19,671:INFO:            catboost: 1.2.8
+2025-11-07 15:39:19,671:INFO:              kmodes: 0.12.2
+2025-11-07 15:39:19,671:INFO:             mlxtend: 0.23.4
+2025-11-07 15:39:19,671:INFO:       statsforecast: 1.5.0
+2025-11-07 15:39:19,671:INFO:        tune_sklearn: Not installed
+2025-11-07 15:39:19,671:INFO:                 ray: Not installed
+2025-11-07 15:39:19,671:INFO:            hyperopt: 0.2.7
+2025-11-07 15:39:19,671:INFO:              optuna: 4.5.0
+2025-11-07 15:39:19,671:INFO:               skopt: 0.10.2
+2025-11-07 15:39:19,671:INFO:              mlflow: 3.4.0
+2025-11-07 15:39:19,671:INFO:              gradio: 5.49.0
+2025-11-07 15:39:19,671:INFO:             fastapi: 0.118.0
+2025-11-07 15:39:19,671:INFO:             uvicorn: 0.37.0
+2025-11-07 15:39:19,671:INFO:              m2cgen: 0.10.0
+2025-11-07 15:39:19,671:INFO:           evidently: 0.4.40
+2025-11-07 15:39:19,671:INFO:               fugue: 0.8.7
+2025-11-07 15:39:19,671:INFO:           streamlit: Not installed
+2025-11-07 15:39:19,671:INFO:             prophet: Not installed
+2025-11-07 15:39:19,671:INFO:None
+2025-11-07 15:39:19,671:INFO:Set up data.
+2025-11-07 15:39:19,679:INFO:Set up folding strategy.
+2025-11-07 15:39:19,679:INFO:Set up train/test split.
+2025-11-07 15:39:19,683:INFO:Set up index.
+2025-11-07 15:39:19,684:INFO:Assigning column types.
+2025-11-07 15:39:19,688:INFO:Engine successfully changes for model 'lr' to 'sklearn'.
+2025-11-07 15:39:19,721:INFO:Engine for model 'knn' has not been set explicitly, hence returning None.
+2025-11-07 15:39:19,722:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:39:19,743:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:19,744:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:19,779:INFO:Engine for model 'knn' has not been set explicitly, hence returning None.
+2025-11-07 15:39:19,779:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:39:19,801:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:19,804:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:19,804:INFO:Engine successfully changes for model 'knn' to 'sklearn'.
+2025-11-07 15:39:19,837:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:39:19,858:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:19,861:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:19,898:INFO:Engine for model 'rbfsvm' has not been set explicitly, hence returning None.
+2025-11-07 15:39:19,924:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:19,925:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:19,926:INFO:Engine successfully changes for model 'rbfsvm' to 'sklearn'.
+2025-11-07 15:39:19,983:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:19,986:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:20,051:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:20,053:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:20,054:INFO:Preparing preprocessing pipeline...
+2025-11-07 15:39:20,056:INFO:Set up simple imputation.
+2025-11-07 15:39:20,059:INFO:Set up encoding of ordinal features.
+2025-11-07 15:39:20,061:INFO:Set up encoding of categorical features.
+2025-11-07 15:39:20,061:INFO:Set up imbalanced handling.
+2025-11-07 15:39:20,061:INFO:Set up column name cleaning.
+2025-11-07 15:39:20,155:INFO:Finished creating preprocessing pipeline.
+2025-11-07 15:39:20,174:INFO:Pipeline: Pipeline(memory=FastMemory(location=C:\Users\shrin\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '...
+                                                              return_df=True,
+                                                              use_cat_names=True,
+                                                              verbose=0))),
+                ('balance',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+')))],
+         verbose=False)
+2025-11-07 15:39:20,174:INFO:Creating final display dataframe.
+2025-11-07 15:39:20,403:INFO:Setup _display_container:                     Description                            Value
+0                    Session id                               42
+1                        Target  Recurrence after this operation
+2                   Target type                           Binary
+3           Original data shape                         (59, 19)
+4        Transformed data shape                         (76, 21)
+5   Transformed train set shape                         (58, 21)
+6    Transformed test set shape                         (18, 21)
+7              Numeric features                               16
+8          Categorical features                                2
+9      Rows with missing values                            45.8%
+10                   Preprocess                             True
+11              Imputation type                           simple
+12           Numeric imputation                             mean
+13       Categorical imputation                             mode
+14     Maximum one-hot encoding                               25
+15              Encoding method                             None
+16                Fix imbalance                             True
+17         Fix imbalance method                            SMOTE
+18               Fold Generator                  StratifiedKFold
+19                  Fold Number                                3
+20                     CPU Jobs                               -1
+21                      Use GPU                            False
+22               Log Experiment                            False
+23              Experiment Name                 clf-default-name
+24                          USI                             c8e3
+2025-11-07 15:39:20,461:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:20,463:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:20,520:INFO:Soft dependency imported: xgboost: 3.0.5
+2025-11-07 15:39:20,522:INFO:Soft dependency imported: catboost: 1.2.8
+2025-11-07 15:39:20,523:INFO:setup() successfully completed in 0.88s...............
+2025-11-07 15:39:20,541:INFO:Initializing create_model()
+2025-11-07 15:39:20,542:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=nb, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:20,542:INFO:Checking exceptions
+2025-11-07 15:39:20,558:INFO:Importing libraries
+2025-11-07 15:39:20,558:INFO:Copying training dataset
+2025-11-07 15:39:20,563:INFO:Defining folds
+2025-11-07 15:39:20,564:INFO:Declaring metric variables
+2025-11-07 15:39:20,568:INFO:Importing untrained model
+2025-11-07 15:39:20,576:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:20,593:INFO:Starting cross validation
+2025-11-07 15:39:20,595:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:20,699:INFO:Calculating mean and std
+2025-11-07 15:39:20,700:INFO:Creating metrics dataframe
+2025-11-07 15:39:20,707:INFO:Finalizing model
+2025-11-07 15:39:20,772:INFO:Uploading results into container
+2025-11-07 15:39:20,773:INFO:Uploading model into container now
+2025-11-07 15:39:20,781:INFO:_master_model_container: 1
+2025-11-07 15:39:20,781:INFO:_display_container: 2
+2025-11-07 15:39:20,782:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:20,782:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:21,131:INFO:Initializing tune_model()
+2025-11-07 15:39:21,132:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=F1, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>)
+2025-11-07 15:39:21,132:INFO:Checking exceptions
+2025-11-07 15:39:21,191:INFO:Copying training dataset
+2025-11-07 15:39:21,209:INFO:Checking base model
+2025-11-07 15:39:21,210:INFO:Base model : Naive Bayes
+2025-11-07 15:39:21,230:INFO:Declaring metric variables
+2025-11-07 15:39:21,251:INFO:Defining Hyperparameters
+2025-11-07 15:39:21,528:INFO:Tuning with n_jobs=-1
+2025-11-07 15:39:21,528:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:39:21,887:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:39:21,887:INFO:Hyperparameter search completed
+2025-11-07 15:39:21,887:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:21,887:INFO:Initializing create_model()
+2025-11-07 15:39:21,887:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F4787027A0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:39:21,887:INFO:Checking exceptions
+2025-11-07 15:39:21,887:INFO:Importing libraries
+2025-11-07 15:39:21,888:INFO:Copying training dataset
+2025-11-07 15:39:21,891:INFO:Defining folds
+2025-11-07 15:39:21,891:INFO:Declaring metric variables
+2025-11-07 15:39:21,897:INFO:Importing untrained model
+2025-11-07 15:39:21,897:INFO:Declaring custom model
+2025-11-07 15:39:21,902:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:21,912:INFO:Starting cross validation
+2025-11-07 15:39:21,914:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:22,011:INFO:Calculating mean and std
+2025-11-07 15:39:22,011:INFO:Creating metrics dataframe
+2025-11-07 15:39:22,017:INFO:Finalizing model
+2025-11-07 15:39:22,074:INFO:Uploading results into container
+2025-11-07 15:39:22,076:INFO:Uploading model into container now
+2025-11-07 15:39:22,077:INFO:_master_model_container: 2
+2025-11-07 15:39:22,077:INFO:_display_container: 3
+2025-11-07 15:39:22,077:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:39:22,077:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:22,399:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:22,399:INFO:choose_better activated
+2025-11-07 15:39:22,416:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:22,417:INFO:Initializing create_model()
+2025-11-07 15:39:22,419:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:22,419:INFO:Checking exceptions
+2025-11-07 15:39:22,423:INFO:Importing libraries
+2025-11-07 15:39:22,423:INFO:Copying training dataset
+2025-11-07 15:39:22,434:INFO:Defining folds
+2025-11-07 15:39:22,434:INFO:Declaring metric variables
+2025-11-07 15:39:22,434:INFO:Importing untrained model
+2025-11-07 15:39:22,434:INFO:Declaring custom model
+2025-11-07 15:39:22,436:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:22,436:INFO:Starting cross validation
+2025-11-07 15:39:22,439:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:22,542:INFO:Calculating mean and std
+2025-11-07 15:39:22,542:INFO:Creating metrics dataframe
+2025-11-07 15:39:22,544:INFO:Finalizing model
+2025-11-07 15:39:22,595:INFO:Uploading results into container
+2025-11-07 15:39:22,597:INFO:Uploading model into container now
+2025-11-07 15:39:22,597:INFO:_master_model_container: 3
+2025-11-07 15:39:22,597:INFO:_display_container: 4
+2025-11-07 15:39:22,597:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:22,597:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:22,942:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:22,943:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for F1 is 0.6406
+2025-11-07 15:39:22,944:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for F1 is 0.6406
+2025-11-07 15:39:22,946:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:39:22,946:INFO:choose_better completed
+2025-11-07 15:39:22,947:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:39:22,966:INFO:_master_model_container: 3
+2025-11-07 15:39:22,967:INFO:_display_container: 3
+2025-11-07 15:39:22,967:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:22,967:INFO:tune_model() successfully completed......................................
+2025-11-07 15:39:23,320:INFO:Initializing tune_model()
+2025-11-07 15:39:23,321:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=AUC, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>)
+2025-11-07 15:39:23,321:INFO:Checking exceptions
+2025-11-07 15:39:23,365:INFO:Copying training dataset
+2025-11-07 15:39:23,383:INFO:Checking base model
+2025-11-07 15:39:23,383:INFO:Base model : Naive Bayes
+2025-11-07 15:39:23,397:INFO:Declaring metric variables
+2025-11-07 15:39:23,419:INFO:Defining Hyperparameters
+2025-11-07 15:39:23,785:INFO:Tuning with n_jobs=-1
+2025-11-07 15:39:23,785:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:39:24,146:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:39:24,146:INFO:Hyperparameter search completed
+2025-11-07 15:39:24,146:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:24,146:INFO:Initializing create_model()
+2025-11-07 15:39:24,146:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F400C00B80>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:39:24,146:INFO:Checking exceptions
+2025-11-07 15:39:24,146:INFO:Importing libraries
+2025-11-07 15:39:24,146:INFO:Copying training dataset
+2025-11-07 15:39:24,150:INFO:Defining folds
+2025-11-07 15:39:24,151:INFO:Declaring metric variables
+2025-11-07 15:39:24,155:INFO:Importing untrained model
+2025-11-07 15:39:24,155:INFO:Declaring custom model
+2025-11-07 15:39:24,162:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:24,171:INFO:Starting cross validation
+2025-11-07 15:39:24,172:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:24,271:INFO:Calculating mean and std
+2025-11-07 15:39:24,271:INFO:Creating metrics dataframe
+2025-11-07 15:39:24,277:INFO:Finalizing model
+2025-11-07 15:39:24,334:INFO:Uploading results into container
+2025-11-07 15:39:24,334:INFO:Uploading model into container now
+2025-11-07 15:39:24,334:INFO:_master_model_container: 4
+2025-11-07 15:39:24,334:INFO:_display_container: 4
+2025-11-07 15:39:24,335:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:39:24,335:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:24,627:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:24,627:INFO:choose_better activated
+2025-11-07 15:39:24,634:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:24,635:INFO:Initializing create_model()
+2025-11-07 15:39:24,635:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:24,635:INFO:Checking exceptions
+2025-11-07 15:39:24,639:INFO:Importing libraries
+2025-11-07 15:39:24,639:INFO:Copying training dataset
+2025-11-07 15:39:24,644:INFO:Defining folds
+2025-11-07 15:39:24,644:INFO:Declaring metric variables
+2025-11-07 15:39:24,644:INFO:Importing untrained model
+2025-11-07 15:39:24,644:INFO:Declaring custom model
+2025-11-07 15:39:24,644:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:24,646:INFO:Starting cross validation
+2025-11-07 15:39:24,647:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:24,770:INFO:Calculating mean and std
+2025-11-07 15:39:24,771:INFO:Creating metrics dataframe
+2025-11-07 15:39:24,772:INFO:Finalizing model
+2025-11-07 15:39:24,827:INFO:Uploading results into container
+2025-11-07 15:39:24,827:INFO:Uploading model into container now
+2025-11-07 15:39:24,828:INFO:_master_model_container: 5
+2025-11-07 15:39:24,828:INFO:_display_container: 5
+2025-11-07 15:39:24,828:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:24,828:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:25,130:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:25,131:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for AUC is 0.7912
+2025-11-07 15:39:25,131:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for AUC is 0.7829
+2025-11-07 15:39:25,131:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:39:25,132:INFO:choose_better completed
+2025-11-07 15:39:25,132:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:39:25,140:INFO:_master_model_container: 5
+2025-11-07 15:39:25,141:INFO:_display_container: 4
+2025-11-07 15:39:25,141:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:25,141:INFO:tune_model() successfully completed......................................
+2025-11-07 15:39:25,466:INFO:Initializing tune_model()
+2025-11-07 15:39:25,467:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=Precision, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>)
+2025-11-07 15:39:25,467:INFO:Checking exceptions
+2025-11-07 15:39:25,497:INFO:Copying training dataset
+2025-11-07 15:39:25,503:INFO:Checking base model
+2025-11-07 15:39:25,503:INFO:Base model : Naive Bayes
+2025-11-07 15:39:25,516:INFO:Declaring metric variables
+2025-11-07 15:39:25,531:INFO:Defining Hyperparameters
+2025-11-07 15:39:25,868:INFO:Tuning with n_jobs=-1
+2025-11-07 15:39:25,868:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:39:26,184:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:39:26,184:INFO:Hyperparameter search completed
+2025-11-07 15:39:26,184:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:26,184:INFO:Initializing create_model()
+2025-11-07 15:39:26,184:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F40011E6E0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:39:26,184:INFO:Checking exceptions
+2025-11-07 15:39:26,184:INFO:Importing libraries
+2025-11-07 15:39:26,184:INFO:Copying training dataset
+2025-11-07 15:39:26,188:INFO:Defining folds
+2025-11-07 15:39:26,188:INFO:Declaring metric variables
+2025-11-07 15:39:26,193:INFO:Importing untrained model
+2025-11-07 15:39:26,193:INFO:Declaring custom model
+2025-11-07 15:39:26,198:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:26,208:INFO:Starting cross validation
+2025-11-07 15:39:26,210:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:26,306:INFO:Calculating mean and std
+2025-11-07 15:39:26,306:INFO:Creating metrics dataframe
+2025-11-07 15:39:26,314:INFO:Finalizing model
+2025-11-07 15:39:26,376:INFO:Uploading results into container
+2025-11-07 15:39:26,377:INFO:Uploading model into container now
+2025-11-07 15:39:26,377:INFO:_master_model_container: 6
+2025-11-07 15:39:26,377:INFO:_display_container: 5
+2025-11-07 15:39:26,377:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:39:26,378:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:26,749:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:26,749:INFO:choose_better activated
+2025-11-07 15:39:26,764:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:26,765:INFO:Initializing create_model()
+2025-11-07 15:39:26,765:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:26,766:INFO:Checking exceptions
+2025-11-07 15:39:26,769:INFO:Importing libraries
+2025-11-07 15:39:26,770:INFO:Copying training dataset
+2025-11-07 15:39:26,781:INFO:Defining folds
+2025-11-07 15:39:26,781:INFO:Declaring metric variables
+2025-11-07 15:39:26,781:INFO:Importing untrained model
+2025-11-07 15:39:26,782:INFO:Declaring custom model
+2025-11-07 15:39:26,782:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:26,783:INFO:Starting cross validation
+2025-11-07 15:39:26,785:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:26,890:INFO:Calculating mean and std
+2025-11-07 15:39:26,890:INFO:Creating metrics dataframe
+2025-11-07 15:39:26,893:INFO:Finalizing model
+2025-11-07 15:39:26,947:INFO:Uploading results into container
+2025-11-07 15:39:26,947:INFO:Uploading model into container now
+2025-11-07 15:39:26,948:INFO:_master_model_container: 7
+2025-11-07 15:39:26,948:INFO:_display_container: 6
+2025-11-07 15:39:26,948:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:26,948:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:27,208:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:27,209:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for Prec. is 0.5738
+2025-11-07 15:39:27,209:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for Prec. is 0.5738
+2025-11-07 15:39:27,209:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:39:27,209:INFO:choose_better completed
+2025-11-07 15:39:27,209:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:39:27,219:INFO:_master_model_container: 7
+2025-11-07 15:39:27,219:INFO:_display_container: 5
+2025-11-07 15:39:27,219:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:27,219:INFO:tune_model() successfully completed......................................
+2025-11-07 15:39:27,464:INFO:Initializing tune_model()
+2025-11-07 15:39:27,464:INFO:tune_model(estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=None, round=4, n_iter=10, custom_grid=None, optimize=Recall, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>)
+2025-11-07 15:39:27,465:INFO:Checking exceptions
+2025-11-07 15:39:27,484:INFO:Copying training dataset
+2025-11-07 15:39:27,488:INFO:Checking base model
+2025-11-07 15:39:27,489:INFO:Base model : Naive Bayes
+2025-11-07 15:39:27,494:INFO:Declaring metric variables
+2025-11-07 15:39:27,501:INFO:Defining Hyperparameters
+2025-11-07 15:39:27,827:INFO:Tuning with n_jobs=-1
+2025-11-07 15:39:27,828:INFO:Initializing RandomizedSearchCV
+2025-11-07 15:39:28,212:INFO:best_params: {'actual_estimator__var_smoothing': 2e-07}
+2025-11-07 15:39:28,212:INFO:Hyperparameter search completed
+2025-11-07 15:39:28,212:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:28,212:INFO:Initializing create_model()
+2025-11-07 15:39:28,212:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F40077CFA0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'var_smoothing': 2e-07})
+2025-11-07 15:39:28,212:INFO:Checking exceptions
+2025-11-07 15:39:28,212:INFO:Importing libraries
+2025-11-07 15:39:28,212:INFO:Copying training dataset
+2025-11-07 15:39:28,216:INFO:Defining folds
+2025-11-07 15:39:28,216:INFO:Declaring metric variables
+2025-11-07 15:39:28,223:INFO:Importing untrained model
+2025-11-07 15:39:28,223:INFO:Declaring custom model
+2025-11-07 15:39:28,228:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:28,239:INFO:Starting cross validation
+2025-11-07 15:39:28,241:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:28,381:INFO:Calculating mean and std
+2025-11-07 15:39:28,381:INFO:Creating metrics dataframe
+2025-11-07 15:39:28,390:INFO:Finalizing model
+2025-11-07 15:39:28,455:INFO:Uploading results into container
+2025-11-07 15:39:28,456:INFO:Uploading model into container now
+2025-11-07 15:39:28,457:INFO:_master_model_container: 8
+2025-11-07 15:39:28,457:INFO:_display_container: 6
+2025-11-07 15:39:28,457:INFO:GaussianNB(priors=None, var_smoothing=2e-07)
+2025-11-07 15:39:28,457:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:28,707:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:28,707:INFO:choose_better activated
+2025-11-07 15:39:28,713:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:28,714:INFO:Initializing create_model()
+2025-11-07 15:39:28,714:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:28,714:INFO:Checking exceptions
+2025-11-07 15:39:28,716:INFO:Importing libraries
+2025-11-07 15:39:28,716:INFO:Copying training dataset
+2025-11-07 15:39:28,720:INFO:Defining folds
+2025-11-07 15:39:28,720:INFO:Declaring metric variables
+2025-11-07 15:39:28,720:INFO:Importing untrained model
+2025-11-07 15:39:28,720:INFO:Declaring custom model
+2025-11-07 15:39:28,721:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:28,721:INFO:Starting cross validation
+2025-11-07 15:39:28,722:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:28,817:INFO:Calculating mean and std
+2025-11-07 15:39:28,817:INFO:Creating metrics dataframe
+2025-11-07 15:39:28,819:INFO:Finalizing model
+2025-11-07 15:39:28,870:INFO:Uploading results into container
+2025-11-07 15:39:28,871:INFO:Uploading model into container now
+2025-11-07 15:39:28,871:INFO:_master_model_container: 9
+2025-11-07 15:39:28,871:INFO:_display_container: 7
+2025-11-07 15:39:28,871:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:28,871:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:29,216:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:29,216:INFO:GaussianNB(priors=None, var_smoothing=1e-09) result for Recall is 0.75
+2025-11-07 15:39:29,217:INFO:GaussianNB(priors=None, var_smoothing=2e-07) result for Recall is 0.75
+2025-11-07 15:39:29,217:INFO:GaussianNB(priors=None, var_smoothing=1e-09) is best model
+2025-11-07 15:39:29,217:INFO:choose_better completed
+2025-11-07 15:39:29,217:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-11-07 15:39:29,227:INFO:_master_model_container: 9
+2025-11-07 15:39:29,227:INFO:_display_container: 6
+2025-11-07 15:39:29,228:INFO:GaussianNB(priors=None, var_smoothing=1e-09)
+2025-11-07 15:39:29,228:INFO:tune_model() successfully completed......................................
+2025-11-07 15:39:29,614:INFO:Initializing calibrate_model()
+2025-11-07 15:39:29,615:INFO:calibrate_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), method=sigmoid, calibrate_fold=5, fold=None, round=4, fit_kwargs=None, groups=None, verbose=True, return_train_score=False)
+2025-11-07 15:39:29,615:INFO:Checking exceptions
+2025-11-07 15:39:29,622:INFO:Preloading libraries
+2025-11-07 15:39:29,622:INFO:Preparing display monitor
+2025-11-07 15:39:29,661:INFO:Getting model name
+2025-11-07 15:39:29,661:INFO:Base model : Naive Bayes
+2025-11-07 15:39:29,675:INFO:Importing untrained CalibratedClassifierCV
+2025-11-07 15:39:29,675:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:29,676:INFO:Initializing create_model()
+2025-11-07 15:39:29,676:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='sigmoid', n_jobs=None), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F40021DC90>, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:29,676:INFO:Checking exceptions
+2025-11-07 15:39:29,676:INFO:Importing libraries
+2025-11-07 15:39:29,676:INFO:Copying training dataset
+2025-11-07 15:39:29,686:INFO:Defining folds
+2025-11-07 15:39:29,686:INFO:Declaring metric variables
+2025-11-07 15:39:29,694:INFO:Importing untrained model
+2025-11-07 15:39:29,694:INFO:Declaring custom model
+2025-11-07 15:39:29,702:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:29,728:INFO:Starting cross validation
+2025-11-07 15:39:29,733:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:29,914:INFO:Calculating mean and std
+2025-11-07 15:39:29,914:INFO:Creating metrics dataframe
+2025-11-07 15:39:29,921:INFO:Finalizing model
+2025-11-07 15:39:30,009:INFO:Uploading results into container
+2025-11-07 15:39:30,010:INFO:Uploading model into container now
+2025-11-07 15:39:30,011:INFO:_master_model_container: 10
+2025-11-07 15:39:30,011:INFO:_display_container: 7
+2025-11-07 15:39:30,011:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='sigmoid', n_jobs=None)
+2025-11-07 15:39:30,011:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:30,327:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:30,364:INFO:_master_model_container: 10
+2025-11-07 15:39:30,365:INFO:_display_container: 7
+2025-11-07 15:39:30,367:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='sigmoid', n_jobs=None)
+2025-11-07 15:39:30,367:INFO:calibrate_model() successfully completed......................................
+2025-11-07 15:39:30,776:INFO:Initializing calibrate_model()
+2025-11-07 15:39:30,778:INFO:calibrate_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=GaussianNB(priors=None, var_smoothing=1e-09), method=isotonic, calibrate_fold=5, fold=None, round=4, fit_kwargs=None, groups=None, verbose=True, return_train_score=False)
+2025-11-07 15:39:30,778:INFO:Checking exceptions
+2025-11-07 15:39:30,781:INFO:Preloading libraries
+2025-11-07 15:39:30,783:INFO:Preparing display monitor
+2025-11-07 15:39:30,805:INFO:Getting model name
+2025-11-07 15:39:30,806:INFO:Base model : Naive Bayes
+2025-11-07 15:39:30,844:INFO:Importing untrained CalibratedClassifierCV
+2025-11-07 15:39:30,844:INFO:SubProcess create_model() called ==================================
+2025-11-07 15:39:30,847:INFO:Initializing create_model()
+2025-11-07 15:39:30,847:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None), fold=StratifiedKFold(n_splits=3, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001F40077CFA0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:30,847:INFO:Checking exceptions
+2025-11-07 15:39:30,848:INFO:Importing libraries
+2025-11-07 15:39:30,848:INFO:Copying training dataset
+2025-11-07 15:39:30,868:INFO:Defining folds
+2025-11-07 15:39:30,869:INFO:Declaring metric variables
+2025-11-07 15:39:30,888:INFO:Importing untrained model
+2025-11-07 15:39:30,888:INFO:Declaring custom model
+2025-11-07 15:39:30,906:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:30,929:INFO:Starting cross validation
+2025-11-07 15:39:30,931:INFO:Cross validating with StratifiedKFold(n_splits=3, random_state=None, shuffle=False), n_jobs=-1
+2025-11-07 15:39:31,114:INFO:Calculating mean and std
+2025-11-07 15:39:31,114:INFO:Creating metrics dataframe
+2025-11-07 15:39:31,123:INFO:Finalizing model
+2025-11-07 15:39:31,203:INFO:Uploading results into container
+2025-11-07 15:39:31,204:INFO:Uploading model into container now
+2025-11-07 15:39:31,204:INFO:_master_model_container: 11
+2025-11-07 15:39:31,204:INFO:_display_container: 8
+2025-11-07 15:39:31,204:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None)
+2025-11-07 15:39:31,205:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:31,519:INFO:SubProcess create_model() end ==================================
+2025-11-07 15:39:31,551:INFO:_master_model_container: 11
+2025-11-07 15:39:31,552:INFO:_display_container: 8
+2025-11-07 15:39:31,552:INFO:CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None)
+2025-11-07 15:39:31,552:INFO:calibrate_model() successfully completed......................................
+2025-11-07 15:39:31,923:INFO:Initializing finalize_model()
+2025-11-07 15:39:31,923:INFO:finalize_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None), fit_kwargs=None, groups=None, model_only=False, experiment_custom_tags=None)
+2025-11-07 15:39:31,925:INFO:Finalizing CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None)
+2025-11-07 15:39:31,936:INFO:Initializing create_model()
+2025-11-07 15:39:31,936:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=CalibratedClassifierCV(cv=5, ensemble=True,
+                       estimator=GaussianNB(priors=None, var_smoothing=1e-09),
+                       method='isotonic', n_jobs=None), fold=None, round=4, cross_validation=False, predict=False, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=False, metrics=None, display=None, model_only=False, return_train_score=False, error_score=0.0, kwargs={})
+2025-11-07 15:39:31,936:INFO:Checking exceptions
+2025-11-07 15:39:31,942:INFO:Importing libraries
+2025-11-07 15:39:31,943:INFO:Copying training dataset
+2025-11-07 15:39:31,944:INFO:Defining folds
+2025-11-07 15:39:31,945:INFO:Declaring metric variables
+2025-11-07 15:39:31,945:INFO:Importing untrained model
+2025-11-07 15:39:31,945:INFO:Declaring custom model
+2025-11-07 15:39:31,947:INFO:Naive Bayes Imported successfully
+2025-11-07 15:39:31,951:INFO:Cross validation set to False
+2025-11-07 15:39:31,951:INFO:Fitting Model
+2025-11-07 15:39:32,060:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False)
+2025-11-07 15:39:32,060:INFO:create_model() successfully completed......................................
+2025-11-07 15:39:32,318:INFO:_master_model_container: 11
+2025-11-07 15:39:32,318:INFO:_display_container: 8
+2025-11-07 15:39:32,340:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False)
+2025-11-07 15:39:32,340:INFO:finalize_model() successfully completed......................................
+2025-11-07 15:39:32,717:INFO:Initializing save_model()
+2025-11-07 15:39:32,717:INFO:save_model(model=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False), model_name=recurrence_nb_v1, prep_pipe_=Pipeline(memory=FastMemory(location=C:\Users\shrin\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '...
+                                                              return_df=True,
+                                                              use_cat_names=True,
+                                                              verbose=0))),
+                ('balance',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+')))],
+         verbose=False), verbose=True, use_case=MLUsecase.CLASSIFICATION, kwargs={})
+2025-11-07 15:39:32,717:INFO:Adding model into prep_pipe
+2025-11-07 15:39:32,717:WARNING:Only Model saved as it was a pipeline.
+2025-11-07 15:39:32,726:INFO:recurrence_nb_v1.pkl saved in current working directory
+2025-11-07 15:39:32,745:INFO:Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False)
+2025-11-07 15:39:32,747:INFO:save_model() successfully completed......................................
+2025-11-07 15:39:33,109:INFO:Initializing predict_model()
+2025-11-07 15:39:33,110:INFO:predict_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001F490BF3190>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(exclude=None,
+                                    include=['Age ', 'BMI', 'Tumor size',
+                                             'Tumor size.1', 'Tumor size.2',
+                                             'Tumor volume', 'Last BMI on file',
+                                             'Pre-op visual impairment (y/n) - '
+                                             'symptomatic complaint of visual '
+                                             'loss',
+                                             'Pre-op hydrocephalus (y/n)',
+                                             'Pre-op intacranial pressure '
+                                             'symptoms',
+                                             'Pre-op headache',
+                                             'Pre-op endoc...
+                                    transformer=FixImbalancer(estimator=SMOTE(k_neighbors=5,
+                                                                              random_state=42,
+                                                                              sampling_strategy='auto')))),
+                ('clean_column_names',
+                 TransformerWrapper(exclude=None, include=None,
+                                    transformer=CleanColumnNames(match='[\\]\\[\\,\\{\\}\\"\\:]+'))),
+                ('actual_estimator',
+                 CalibratedClassifierCV(cv=5, ensemble=True,
+                                        estimator=GaussianNB(priors=None,
+                                                             var_smoothing=1e-09),
+                                        method='isotonic', n_jobs=None))],
+         verbose=False), probability_threshold=None, encoded_labels=False, raw_score=False, round=4, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x000001F49077E950>)
+2025-11-07 15:39:33,110:INFO:Checking exceptions
+2025-11-07 15:39:33,110:INFO:Preloading libraries

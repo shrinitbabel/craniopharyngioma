@@ -84,7 +84,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- HTML (no native submit; explicit button click); purple→orange; transparent Plotly ---
+# --- HTML (no native submit; explicit button click); purple1→orange; transparent Plotly ---
 FORM_HTML = """
 <!doctype html>
 <html>
