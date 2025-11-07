@@ -14,11 +14,11 @@ from pycaret.classification import load_model, predict_model
 
 # --------- Load model once on startup ----------
 MODEL_PATH = "permdi_blend_ridge_cat_v1"
-RECURRENCE_MODEL_PATH = "recurrence_nb_calibrated_v1"
+RECURRENCE_MODEL_PATH = "recurrence_nb_v1"
 model = load_model(MODEL_PATH)
 recurrence = load_model(RECURRENCE_MODEL_PATH)
 
-FEATURES = [
+FEATURES_DI = [
     "Age ", "BMI", "Tumor size", "Tumor size.1", "Tumor size.2", "Tumor volume",
     "Last BMI on file",
     "Pre-op visual impairment (y/n) - symptomatic complaint of visual loss",
@@ -28,16 +28,17 @@ FEATURES = [
     "Intraventricular extension",
     "Surgical Approach", "Resection outcome (total, subtotal, partial)"
 ]
+FEATURES_RECURRENCE = FEATURES_DI + ["prior radiation", "BRAF+"]
 
 BIN_LIKE = [
     "Pre-op visual impairment (y/n) - symptomatic complaint of visual loss",
     "Pre-op hydrocephalus (y/n)", "Pre-op intacranial pressure symptoms",
     "Pre-op headache", "Pre-op endocrine changes (y/n)",
     "Pre-op panhypopit (y/n) - define number of hormone axes that are non-functional",
-    "Intraventricular extension",
+    "Intraventricular extension", "prior radiation", "BRAF+"
 ]
 
-def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
+def prepare_inputs(df: pd.DataFrame, needed_features: list[str]) -> pd.DataFrame:
     df = df.copy()
 
     # Recompute Tumor volume if missing/NaN but axes exist (ellipsoid)
@@ -45,7 +46,7 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
         df["Tumor volume"] = (4/3)*math.pi * (df["Tumor size"]/2)*(df["Tumor size.1"]/2)*(df["Tumor size.2"]/2)
 
     # Ensure expected columns exist
-    for c in FEATURES:
+    for c in needed_features:
         if c not in df.columns:
             df[c] = np.nan
 
@@ -65,7 +66,7 @@ def prepare_inputs(df: pd.DataFrame) -> pd.DataFrame:
             "near-total": "near total", "near_total": "near total"
         })
 
-    return df[FEATURES]
+    return df[needed_features]
 
 # --- App & CORS ---
 app = FastAPI(title="Permanent DI Risk")
@@ -153,6 +154,22 @@ FORM_HTML = """
           <option value="near total">near total</option>
         </select>
       </label>
+      <label>BRAF+ (0/1)
+        <select name="BRAF+">
+          <option value="">Unknown</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+      </label>
+
+      <label>Prior radiation (0/1)
+        <select name="prior radiation">
+          <option value="">Unknown</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+        </select>
+      </label>
+
     </div>
   </div>
 
@@ -456,7 +473,7 @@ def _predict_pos_proba_safe(any_model, X: pd.DataFrame) -> float:
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
     try:
-        X = prepare_inputs(pd.DataFrame([payload]))
+        X = prepare_inputs(pd.DataFrame([payload]), needed_features=FEATURES_DI)
         p1 = _predict_pos_proba_safe(model, X)
         THRESH = float(os.getenv("THRESHOLD", 0.5))
         return {"prob_permanent_DI": p1, "label": int(p1 >= THRESH), "threshold": THRESH}
@@ -469,7 +486,7 @@ def predict_api(payload: dict = Body(...)):
 @app.post("/predict-recurrence")
 def predict_recurrence_api(payload: dict = Body(...)):
     try:
-        X = prepare_inputs(pd.DataFrame([payload]))
+        X = prepare_inputs(pd.DataFrame([payload]), needed_features=FEATURES_RECURRENCE)
         p = _predict_pos_proba_safe(recurrence, X)
         THRESH_R = float(os.getenv("THRESHOLD_RECURRENCE", 0.5))
         return {"prob_recurrence": p, "label": int(p >= THRESH_R), "threshold": THRESH_R}
