@@ -14,7 +14,7 @@ from pycaret.classification import load_model, predict_model
 
 # --------- Load model once on startup ----------
 MODEL_PATH = "permdi_blend_ridge_cat_v1"
-RECURRENCE_MODEL_PATH = "recurrence_nb_v1"
+RECURRENCE_MODEL_PATH = "recurrence_blend_nb_et_v1"
 model = load_model(MODEL_PATH)
 recurrence = load_model(RECURRENCE_MODEL_PATH)
 
