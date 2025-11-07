@@ -448,27 +448,70 @@ def _proba_pos_from_predict_model(out: pd.DataFrame) -> Optional[float]:
     row = out.loc[0, score_cols]
     return float(row.max())
 
+def _get_pos_index(any_model) -> int:
+    """
+    Return the column index in predict_proba that corresponds to the positive class (1/True/yes).
+    Tries to unwrap PyCaret pipeline -> calibrated model if needed.
+    """
+    est = any_model
+    # Unwrap PyCaret pipeline
+    if hasattr(est, "named_steps") and "trained_model" in est.named_steps:
+        est = est.named_steps["trained_model"]
+
+    # If there's a voting/stack model, try _final_estimator
+    if hasattr(est, "_final_estimator") and hasattr(est._final_estimator, "classes_"):
+        classes = list(est._final_estimator.classes_)
+    elif hasattr(est, "classes_"):
+        classes = list(est.classes_)
+    else:
+        # As a last resort assume [0, 1]
+        classes = [0, 1]
+
+    # Find index for positive class label
+    for lab in (1, True, "yes", "Yes", "positive", "Positive"):
+        if lab in classes:
+            return classes.index(lab)
+    # Fallback: if 0 and 1 are the only labels, assume index of 1
+    if 1 in classes:
+        return classes.index(1)
+    # Worst-case: pick the last column
+    return len(classes) - 1
+
+
 def _predict_pos_proba_safe(any_model, X: pd.DataFrame) -> float:
-    try:
-        return float(any_model.predict_proba(X)[:, 1][0])
-    except Exception:
-        pass
+    """
+    Robustly return P(y=1) for binary classifiers trained via PyCaret.
+    1) Prefer predict_model(..., raw_score=True) with Score_* column detection
+    2) Else use predict_proba with class-index lookup
+    3) Else degrade gracefully
+    """
+    # 1) Prefer PyCaret helper — avoids class-order ambiguity
     try:
         out = predict_model(any_model, data=X, raw_score=True)
-        p = _proba_pos_from_predict_model(out)
+        p = _proba_pos_from_predict_model(out)  # uses Score_1 / Score_True / Score_yes / etc.
         if p is not None:
             return float(p)
     except Exception:
         pass
+
+    # 2) Fall back to predict_proba with explicit positive-class index
+    try:
+        proba = any_model.predict_proba(X)
+        pos_idx = _get_pos_index(any_model)
+        return float(proba[:, pos_idx][0])
+    except Exception:
+        pass
+
+    # 3) Decision function fallback
     try:
         margin = float(any_model.decision_function(X)[0])
         return 1.0 / (1.0 + math.exp(-margin))
     except Exception:
-        try:
-            y = any_model.predict(X)[0]
-            return float(y) if y in (0, 1, True, False) else float(y == 1)
-        except Exception as _:
-            raise RuntimeError("Unable to compute probability for the given model and inputs.")
+        pass
+
+    # 4) Last-ditch: use predict() and coerce to {0,1}
+    y = any_model.predict(X)[0]
+    return float(y in (1, True, "yes", "Yes", "positive", "Positive"))
 
 @app.post("/predict")
 def predict_api(payload: dict = Body(...)):
