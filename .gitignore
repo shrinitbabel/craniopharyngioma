@@ -1,0 +1,5 @@
+# Word documents (manuscript revision, response letter, revisions list) — not for the repo
+*.docx
+
+# Word/Office temporary lock files
+~$*
