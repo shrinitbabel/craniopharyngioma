@@ -1,0 +1,3270 @@
+{
+  "meta": {
+    "n_patients": 59,
+    "models": {
+      "DI": "permdi_blend_ridge_cat_v1",
+      "recurrence": "recurrence_blend_nb_et_v1"
+    },
+    "resection_levels": [
+      "subtotal",
+      "near total",
+      "total"
+    ],
+    "approaches": [
+      "endoscopic",
+      "craniotomy"
+    ],
+    "disclaimer": "Exploratory, hypothesis-generating research prototype. Single-institution cohort (n=59), no external validation. NOT a validated clinical tool.",
+    "reading": "Aggressive resection (total) lowers predicted recurrence but raises predicted permanent DI. Each surgical strategy is a point in (recurrence, DI) risk space; the frontier is the trade-off. Net benefit is patient-specific."
+  },
+  "cohort_curve": [
+    {
+      "resection": "subtotal",
+      "P_DI": 0.5058,
+      "P_DI_se": 0.014,
+      "P_recurrence": 0.3509,
+      "P_recurrence_se": 0.0292
+    },
+    {
+      "resection": "near total",
+      "P_DI": 0.5681,
+      "P_DI_se": 0.013,
+      "P_recurrence": 0.462,
+      "P_recurrence_se": 0.0313
+    },
+    {
+      "resection": "total",
+      "P_DI": 0.6335,
+      "P_DI_se": 0.0111,
+      "P_recurrence": 0.2753,
+      "P_recurrence_se": 0.0249
+    }
+  ],
+  "summary": {
+    "di_subtotal": 0.5058,
+    "di_total": 0.6335,
+    "rec_subtotal": 0.3509,
+    "rec_total": 0.2753,
+    "mean_harm_DI": 0.1278,
+    "mean_benefit_rec": 0.0756,
+    "n_favor_aggressive": 15,
+    "n_total": 59
+  },
+  "patients": [
+    {
+      "id": 0,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 50.0,
+        "bmi": 20.81,
+        "tumor_volume": 0.1,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3441,
+          "P_recurrence": 0.4692
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3828,
+          "P_recurrence": 0.5092
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4837,
+          "P_recurrence": 0.5147
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4807,
+          "P_recurrence": 0.519
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5274,
+          "P_recurrence": 0.4773
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5105,
+          "P_recurrence": 0.5111
+        }
+      ],
+      "harm_DI": 0.1555,
+      "benefit_rec": -0.005,
+      "net_favor_aggressive": -0.1605
+    },
+    {
+      "id": 1,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 30.0,
+        "bmi": 33.1,
+        "tumor_volume": 5.9,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.2971,
+          "P_recurrence": 0.1072
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.2939,
+          "P_recurrence": 0.1127
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3932,
+          "P_recurrence": 0.2007
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.357,
+          "P_recurrence": 0.21
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.4943,
+          "P_recurrence": 0.0394
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.4943,
+          "P_recurrence": 0.0416
+        }
+      ],
+      "harm_DI": 0.1988,
+      "benefit_rec": 0.0695,
+      "net_favor_aggressive": -0.1293
+    },
+    {
+      "id": 2,
+      "actual_resection": "nan",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 66.0,
+        "bmi": null,
+        "tumor_volume": null,
+        "observed_DI": null,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.571,
+          "P_recurrence": 0.359
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5628,
+          "P_recurrence": 0.363
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6254,
+          "P_recurrence": 0.5585
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6355,
+          "P_recurrence": 0.5943
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7212,
+          "P_recurrence": 0.3138
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7344,
+          "P_recurrence": 0.3201
+        }
+      ],
+      "harm_DI": 0.1609,
+      "benefit_rec": 0.044,
+      "net_favor_aggressive": -0.1168
+    },
+    {
+      "id": 3,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 10.0,
+        "bmi": 27.04,
+        "tumor_volume": null,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6506,
+          "P_recurrence": 0.1738
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6767,
+          "P_recurrence": 0.175
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7326,
+          "P_recurrence": 0.3051
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7527,
+          "P_recurrence": 0.3266
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.1679
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.1697
+        }
+      ],
+      "harm_DI": 0.0926,
+      "benefit_rec": 0.0056,
+      "net_favor_aggressive": -0.087
+    },
+    {
+      "id": 4,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 14.0,
+        "bmi": 20.6,
+        "tumor_volume": null,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5477,
+          "P_recurrence": 0.1648
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5448,
+          "P_recurrence": 0.1671
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6105,
+          "P_recurrence": 0.187
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6141,
+          "P_recurrence": 0.1923
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7111,
+          "P_recurrence": 0.1323
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7111,
+          "P_recurrence": 0.1359
+        }
+      ],
+      "harm_DI": 0.1649,
+      "benefit_rec": 0.0319,
+      "net_favor_aggressive": -0.133
+    },
+    {
+      "id": 5,
+      "actual_resection": "total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 9.0,
+        "bmi": null,
+        "tumor_volume": null,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.2613,
+          "P_recurrence": 0.0206
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.2591,
+          "P_recurrence": 0.0208
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3085,
+          "P_recurrence": 0.0287
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.3284,
+          "P_recurrence": 0.0312
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.4214,
+          "P_recurrence": 0.0202
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.3793,
+          "P_recurrence": 0.0202
+        }
+      ],
+      "harm_DI": 0.1401,
+      "benefit_rec": 0.0006,
+      "net_favor_aggressive": -0.1396
+    },
+    {
+      "id": 6,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 75.0,
+        "bmi": 27.96,
+        "tumor_volume": 0.8,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5968,
+          "P_recurrence": 0.7845
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6244,
+          "P_recurrence": 0.8216
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6475,
+          "P_recurrence": 0.8532
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6513,
+          "P_recurrence": 0.8548
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7212,
+          "P_recurrence": 0.644
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7413,
+          "P_recurrence": 0.6649
+        }
+      ],
+      "harm_DI": 0.1207,
+      "benefit_rec": 0.1486,
+      "net_favor_aggressive": 0.028
+    },
+    {
+      "id": 7,
+      "actual_resection": "total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 40.0,
+        "bmi": 35.94,
+        "tumor_volume": 1.6,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3777,
+          "P_recurrence": 0.2301
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4083,
+          "P_recurrence": 0.2396
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5406,
+          "P_recurrence": 0.3724
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5354,
+          "P_recurrence": 0.497
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6175,
+          "P_recurrence": 0.1709
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6042,
+          "P_recurrence": 0.1739
+        }
+      ],
+      "harm_DI": 0.2178,
+      "benefit_rec": 0.0624,
+      "net_favor_aggressive": -0.1554
+    },
+    {
+      "id": 8,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 35.0,
+        "bmi": 27.84,
+        "tumor_volume": 5.8,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3682,
+          "P_recurrence": 0.704
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3578,
+          "P_recurrence": 0.712
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4057,
+          "P_recurrence": 0.8338
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4012,
+          "P_recurrence": 0.8359
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.4392,
+          "P_recurrence": 0.4626
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.3982,
+          "P_recurrence": 0.4962
+        }
+      ],
+      "harm_DI": 0.0557,
+      "benefit_rec": 0.2286,
+      "net_favor_aggressive": 0.1729
+    },
+    {
+      "id": 9,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 52.0,
+        "bmi": 51.9,
+        "tumor_volume": 3.1,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.4586,
+          "P_recurrence": 0.0211
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3836,
+          "P_recurrence": 0.0258
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4812,
+          "P_recurrence": 0.0436
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5256,
+          "P_recurrence": 0.1215
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5557,
+          "P_recurrence": 0.0214
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5557,
+          "P_recurrence": 0.0271
+        }
+      ],
+      "harm_DI": 0.1346,
+      "benefit_rec": -0.0007,
+      "net_favor_aggressive": -0.1353
+    },
+    {
+      "id": 10,
+      "actual_resection": "total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 48.0,
+        "bmi": 35.28,
+        "tumor_volume": 8.7,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3366,
+          "P_recurrence": 0.45
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3716,
+          "P_recurrence": 0.4184
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4224,
+          "P_recurrence": 0.7943
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.3933,
+          "P_recurrence": 0.7801
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.4209,
+          "P_recurrence": 0.2923
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.4174,
+          "P_recurrence": 0.2893
+        }
+      ],
+      "harm_DI": 0.065,
+      "benefit_rec": 0.1434,
+      "net_favor_aggressive": 0.0784
+    },
+    {
+      "id": 11,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 30.0,
+        "bmi": 25.6,
+        "tumor_volume": 7.1,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3928,
+          "P_recurrence": 0.2981
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3757,
+          "P_recurrence": 0.3245
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4157,
+          "P_recurrence": 0.6883
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4117,
+          "P_recurrence": 0.7186
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5571,
+          "P_recurrence": 0.1794
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.499,
+          "P_recurrence": 0.1823
+        }
+      ],
+      "harm_DI": 0.1438,
+      "benefit_rec": 0.1304,
+      "net_favor_aggressive": -0.0134
+    },
+    {
+      "id": 12,
+      "actual_resection": "total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 36.0,
+        "bmi": 24.9,
+        "tumor_volume": null,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.4286,
+          "P_recurrence": 0.0752
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4166,
+          "P_recurrence": 0.0824
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4774,
+          "P_recurrence": 0.2448
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4694,
+          "P_recurrence": 0.2746
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5972,
+          "P_recurrence": 0.0314
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6061,
+          "P_recurrence": 0.0343
+        }
+      ],
+      "harm_DI": 0.1791,
+      "benefit_rec": 0.0459,
+      "net_favor_aggressive": -0.1331
+    },
+    {
+      "id": 13,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 64.0,
+        "bmi": 24.01,
+        "tumor_volume": 4.5,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.4467,
+          "P_recurrence": 0.2479
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4273,
+          "P_recurrence": 0.2537
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5242,
+          "P_recurrence": 0.4408
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4777,
+          "P_recurrence": 0.4666
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6209,
+          "P_recurrence": 0.1732
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6447,
+          "P_recurrence": 0.1759
+        }
+      ],
+      "harm_DI": 0.1958,
+      "benefit_rec": 0.0763,
+      "net_favor_aggressive": -0.1195
+    },
+    {
+      "id": 14,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 64.0,
+        "bmi": 28.62,
+        "tumor_volume": 7.4,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3067,
+          "P_recurrence": 0.6414
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3364,
+          "P_recurrence": 0.6445
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4595,
+          "P_recurrence": 0.7582
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4794,
+          "P_recurrence": 0.759
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5253,
+          "P_recurrence": 0.5209
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.524,
+          "P_recurrence": 0.5085
+        }
+      ],
+      "harm_DI": 0.2031,
+      "benefit_rec": 0.1282,
+      "net_favor_aggressive": -0.0749
+    },
+    {
+      "id": 15,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 65.0,
+        "bmi": 26.6,
+        "tumor_volume": 3.1,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.4782,
+          "P_recurrence": 0.2945
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4032,
+          "P_recurrence": 0.3002
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5326,
+          "P_recurrence": 0.4509
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5299,
+          "P_recurrence": 0.4761
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6225,
+          "P_recurrence": 0.2512
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.625,
+          "P_recurrence": 0.2535
+        }
+      ],
+      "harm_DI": 0.183,
+      "benefit_rec": 0.045,
+      "net_favor_aggressive": -0.138
+    },
+    {
+      "id": 16,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 48.0,
+        "bmi": 17.81,
+        "tumor_volume": 7.0,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6751,
+          "P_recurrence": 0.0244
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7049,
+          "P_recurrence": 0.0259
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7349,
+          "P_recurrence": 0.0629
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7349,
+          "P_recurrence": 0.0755
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7604,
+          "P_recurrence": 0.0204
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7604,
+          "P_recurrence": 0.0205
+        }
+      ],
+      "harm_DI": 0.0704,
+      "benefit_rec": 0.0047,
+      "net_favor_aggressive": -0.0657
+    },
+    {
+      "id": 17,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 54.0,
+        "bmi": 35.97,
+        "tumor_volume": 5.2,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6894,
+          "P_recurrence": 0.8435
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7117,
+          "P_recurrence": 0.8448
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7343,
+          "P_recurrence": 0.895
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7601,
+          "P_recurrence": 0.9096
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.65
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.6615
+        }
+      ],
+      "harm_DI": 0.0557,
+      "benefit_rec": 0.1884,
+      "net_favor_aggressive": 0.1327
+    },
+    {
+      "id": 18,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 25.0,
+        "bmi": 21.35,
+        "tumor_volume": 1.2,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.2547,
+          "P_recurrence": 0.0205
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.2447,
+          "P_recurrence": 0.0225
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3106,
+          "P_recurrence": 0.0258
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.3085,
+          "P_recurrence": 0.046
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.4563,
+          "P_recurrence": 0.0202
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.3879,
+          "P_recurrence": 0.0208
+        }
+      ],
+      "harm_DI": 0.1724,
+      "benefit_rec": 0.001,
+      "net_favor_aggressive": -0.1714
+    },
+    {
+      "id": 19,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 58.0,
+        "bmi": 36.62,
+        "tumor_volume": 12.4,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.598,
+          "P_recurrence": 0.9257
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5897,
+          "P_recurrence": 0.9263
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6471,
+          "P_recurrence": 0.9594
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6574,
+          "P_recurrence": 0.9595
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7291,
+          "P_recurrence": 0.8375
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.829
+        }
+      ],
+      "harm_DI": 0.1488,
+      "benefit_rec": 0.0928,
+      "net_favor_aggressive": -0.0561
+    },
+    {
+      "id": 20,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 53.0,
+        "bmi": 19.05,
+        "tumor_volume": 22.2,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.596,
+          "P_recurrence": 0.1258
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6041,
+          "P_recurrence": 0.1225
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6776,
+          "P_recurrence": 0.3128
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6815,
+          "P_recurrence": 0.2917
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.74,
+          "P_recurrence": 0.11
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.74,
+          "P_recurrence": 0.1097
+        }
+      ],
+      "harm_DI": 0.14,
+      "benefit_rec": 0.0143,
+      "net_favor_aggressive": -0.1257
+    },
+    {
+      "id": 21,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 66.0,
+        "bmi": 34.4,
+        "tumor_volume": 7.9,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3828,
+          "P_recurrence": 0.8953
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3758,
+          "P_recurrence": 0.907
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4057,
+          "P_recurrence": 0.9452
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4057,
+          "P_recurrence": 0.9457
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5398,
+          "P_recurrence": 0.7983
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5444,
+          "P_recurrence": 0.7858
+        }
+      ],
+      "harm_DI": 0.1628,
+      "benefit_rec": 0.1091,
+      "net_favor_aggressive": -0.0537
+    },
+    {
+      "id": 22,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 35.0,
+        "bmi": 32.9,
+        "tumor_volume": 13.6,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.618,
+          "P_recurrence": 0.9256
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6153,
+          "P_recurrence": 0.9251
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6762,
+          "P_recurrence": 0.9437
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6801,
+          "P_recurrence": 0.9444
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7532,
+          "P_recurrence": 0.814
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.8096
+        }
+      ],
+      "harm_DI": 0.138,
+      "benefit_rec": 0.1135,
+      "net_favor_aggressive": -0.0245
+    },
+    {
+      "id": 23,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 17.0,
+        "bmi": 19.74,
+        "tumor_volume": 4.1,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6795,
+          "P_recurrence": 0.0234
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7112,
+          "P_recurrence": 0.0368
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7474,
+          "P_recurrence": 0.0594
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7474,
+          "P_recurrence": 0.1728
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7611,
+          "P_recurrence": 0.0211
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7611,
+          "P_recurrence": 0.0255
+        }
+      ],
+      "harm_DI": 0.0657,
+      "benefit_rec": 0.0068,
+      "net_favor_aggressive": -0.0589
+    },
+    {
+      "id": 24,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 57.0,
+        "bmi": 41.15,
+        "tumor_volume": 2.0,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6432,
+          "P_recurrence": 0.0208
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6432,
+          "P_recurrence": 0.0243
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6793,
+          "P_recurrence": 0.0376
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6793,
+          "P_recurrence": 0.099
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6929,
+          "P_recurrence": 0.021
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7151,
+          "P_recurrence": 0.0252
+        }
+      ],
+      "harm_DI": 0.0607,
+      "benefit_rec": -0.0005,
+      "net_favor_aggressive": -0.0613
+    },
+    {
+      "id": 25,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 47.0,
+        "bmi": 26.46,
+        "tumor_volume": 5.6,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5663,
+          "P_recurrence": 0.3226
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5492,
+          "P_recurrence": 0.3725
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6163,
+          "P_recurrence": 0.5634
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6215,
+          "P_recurrence": 0.7477
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7191,
+          "P_recurrence": 0.1747
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7241,
+          "P_recurrence": 0.193
+        }
+      ],
+      "harm_DI": 0.1639,
+      "benefit_rec": 0.1637,
+      "net_favor_aggressive": -0.0002
+    },
+    {
+      "id": 26,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 26.0,
+        "bmi": 21.8,
+        "tumor_volume": 22.2,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5724,
+          "P_recurrence": 0.8292
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4965,
+          "P_recurrence": 0.8244
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6135,
+          "P_recurrence": 0.8564
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6111,
+          "P_recurrence": 0.8748
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6397,
+          "P_recurrence": 0.7088
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6397,
+          "P_recurrence": 0.6731
+        }
+      ],
+      "harm_DI": 0.1052,
+      "benefit_rec": 0.1358,
+      "net_favor_aggressive": 0.0306
+    },
+    {
+      "id": 27,
+      "actual_resection": "near total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 44.0,
+        "bmi": 31.6,
+        "tumor_volume": 4.6,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.593,
+          "P_recurrence": 0.491
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.593,
+          "P_recurrence": 0.6021
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6471,
+          "P_recurrence": 0.8329
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6569,
+          "P_recurrence": 0.8741
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7229,
+          "P_recurrence": 0.2685
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.3455
+        }
+      ],
+      "harm_DI": 0.1466,
+      "benefit_rec": 0.2396,
+      "net_favor_aggressive": 0.093
+    },
+    {
+      "id": 28,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 26.0,
+        "bmi": 19.94,
+        "tumor_volume": 2.8,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.7602,
+          "P_recurrence": 0.0201
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7762,
+          "P_recurrence": 0.0202
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7724,
+          "P_recurrence": 0.0214
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7724,
+          "P_recurrence": 0.0218
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7611,
+          "P_recurrence": 0.02
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7611,
+          "P_recurrence": 0.0201
+        }
+      ],
+      "harm_DI": -0.0071,
+      "benefit_rec": 0.0001,
+      "net_favor_aggressive": 0.0072
+    },
+    {
+      "id": 29,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 32.0,
+        "bmi": 27.6,
+        "tumor_volume": 3.2,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3928,
+          "P_recurrence": 0.254
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.389,
+          "P_recurrence": 0.3662
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4898,
+          "P_recurrence": 0.5697
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4841,
+          "P_recurrence": 0.7387
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5445,
+          "P_recurrence": 0.1826
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5496,
+          "P_recurrence": 0.2278
+        }
+      ],
+      "harm_DI": 0.1562,
+      "benefit_rec": 0.1049,
+      "net_favor_aggressive": -0.0513
+    },
+    {
+      "id": 30,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 72.0,
+        "bmi": 28.6,
+        "tumor_volume": 2.2,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.4624,
+          "P_recurrence": 0.337
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4454,
+          "P_recurrence": 0.362
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5583,
+          "P_recurrence": 0.4663
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5363,
+          "P_recurrence": 0.6528
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6357,
+          "P_recurrence": 0.1726
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6305,
+          "P_recurrence": 0.1821
+        }
+      ],
+      "harm_DI": 0.1792,
+      "benefit_rec": 0.1722,
+      "net_favor_aggressive": -0.007
+    },
+    {
+      "id": 31,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 58.0,
+        "bmi": 22.47,
+        "tumor_volume": 2.6,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6674,
+          "P_recurrence": 0.0221
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6779,
+          "P_recurrence": 0.0306
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6902,
+          "P_recurrence": 0.0413
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7142,
+          "P_recurrence": 0.113
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7611,
+          "P_recurrence": 0.0207
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7611,
+          "P_recurrence": 0.0234
+        }
+      ],
+      "harm_DI": 0.0884,
+      "benefit_rec": 0.0043,
+      "net_favor_aggressive": -0.0841
+    },
+    {
+      "id": 32,
+      "actual_resection": "total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 65.0,
+        "bmi": 26.04,
+        "tumor_volume": 2.5,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3276,
+          "P_recurrence": 0.6879
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3578,
+          "P_recurrence": 0.7793
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4057,
+          "P_recurrence": 0.8396
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4057,
+          "P_recurrence": 0.8483
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.4847,
+          "P_recurrence": 0.5971
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.4017,
+          "P_recurrence": 0.6543
+        }
+      ],
+      "harm_DI": 0.1005,
+      "benefit_rec": 0.1079,
+      "net_favor_aggressive": 0.0074
+    },
+    {
+      "id": 33,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 60.0,
+        "bmi": 32.69,
+        "tumor_volume": 12.9,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6494,
+          "P_recurrence": 0.9349
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6701,
+          "P_recurrence": 0.9343
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.731,
+          "P_recurrence": 0.9597
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7512,
+          "P_recurrence": 0.9595
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.8452
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.8489
+        }
+      ],
+      "harm_DI": 0.0965,
+      "benefit_rec": 0.0876,
+      "net_favor_aggressive": -0.0089
+    },
+    {
+      "id": 34,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 45.0,
+        "bmi": 29.34,
+        "tumor_volume": 5.9,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5462,
+          "P_recurrence": 0.3711
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5291,
+          "P_recurrence": 0.3828
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5966,
+          "P_recurrence": 0.6603
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5795,
+          "P_recurrence": 0.6151
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6895,
+          "P_recurrence": 0.3234
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7103,
+          "P_recurrence": 0.3245
+        }
+      ],
+      "harm_DI": 0.1623,
+      "benefit_rec": 0.053,
+      "net_favor_aggressive": -0.1092
+    },
+    {
+      "id": 35,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 68.0,
+        "bmi": 32.45,
+        "tumor_volume": 9.3,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.428,
+          "P_recurrence": 0.7181
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4225,
+          "P_recurrence": 0.6622
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4506,
+          "P_recurrence": 0.9332
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4506,
+          "P_recurrence": 0.9265
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5694,
+          "P_recurrence": 0.5309
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5792,
+          "P_recurrence": 0.4827
+        }
+      ],
+      "harm_DI": 0.1491,
+      "benefit_rec": 0.1834,
+      "net_favor_aggressive": 0.0343
+    },
+    {
+      "id": 36,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 55.0,
+        "bmi": 24.1,
+        "tumor_volume": 9.9,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6326,
+          "P_recurrence": 0.9245
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6529,
+          "P_recurrence": 0.9233
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7143,
+          "P_recurrence": 0.9494
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7332,
+          "P_recurrence": 0.9498
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7215,
+          "P_recurrence": 0.8208
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7215,
+          "P_recurrence": 0.8097
+        }
+      ],
+      "harm_DI": 0.0788,
+      "benefit_rec": 0.1086,
+      "net_favor_aggressive": 0.0299
+    },
+    {
+      "id": 37,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 49.0,
+        "bmi": null,
+        "tumor_volume": 1.4,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5453,
+          "P_recurrence": 0.2083
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5067,
+          "P_recurrence": 0.2139
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6316,
+          "P_recurrence": 0.3505
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6146,
+          "P_recurrence": 0.3759
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6654,
+          "P_recurrence": 0.1703
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6692,
+          "P_recurrence": 0.1706
+        }
+      ],
+      "harm_DI": 0.1413,
+      "benefit_rec": 0.0406,
+      "net_favor_aggressive": -0.1007
+    },
+    {
+      "id": 38,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 55.0,
+        "bmi": 23.44,
+        "tumor_volume": 7.0,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.7454,
+          "P_recurrence": 0.0205
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7755,
+          "P_recurrence": 0.0206
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7716,
+          "P_recurrence": 0.032
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7716,
+          "P_recurrence": 0.0358
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7603,
+          "P_recurrence": 0.02
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7603,
+          "P_recurrence": 0.0201
+        }
+      ],
+      "harm_DI": -0.0001,
+      "benefit_rec": 0.0005,
+      "net_favor_aggressive": 0.0006
+    },
+    {
+      "id": 39,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 26.0,
+        "bmi": 20.69,
+        "tumor_volume": 11.1,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.4596,
+          "P_recurrence": 0.0389
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3846,
+          "P_recurrence": 0.0412
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4824,
+          "P_recurrence": 0.0819
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4824,
+          "P_recurrence": 0.0957
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5627,
+          "P_recurrence": 0.0213
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5656,
+          "P_recurrence": 0.0234
+        }
+      ],
+      "harm_DI": 0.1421,
+      "benefit_rec": 0.0177,
+      "net_favor_aggressive": -0.1244
+    },
+    {
+      "id": 40,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 76.0,
+        "bmi": 28.34,
+        "tumor_volume": 1.5,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3208,
+          "P_recurrence": 0.8128
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3578,
+          "P_recurrence": 0.8244
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4056,
+          "P_recurrence": 0.841
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4037,
+          "P_recurrence": 0.8417
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.484,
+          "P_recurrence": 0.7314
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.4573,
+          "P_recurrence": 0.7377
+        }
+      ],
+      "harm_DI": 0.1313,
+      "benefit_rec": 0.0841,
+      "net_favor_aggressive": -0.0472
+    },
+    {
+      "id": 41,
+      "actual_resection": "near total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 43.0,
+        "bmi": 29.19,
+        "tumor_volume": 4.8,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5655,
+          "P_recurrence": 0.2705
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4734,
+          "P_recurrence": 0.2716
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6156,
+          "P_recurrence": 0.3438
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5985,
+          "P_recurrence": 0.3465
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6945,
+          "P_recurrence": 0.2014
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7101,
+          "P_recurrence": 0.2018
+        }
+      ],
+      "harm_DI": 0.1828,
+      "benefit_rec": 0.0695,
+      "net_favor_aggressive": -0.1134
+    },
+    {
+      "id": 42,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 42.0,
+        "bmi": null,
+        "tumor_volume": 9.7,
+        "observed_DI": 1,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.7067,
+          "P_recurrence": 0.8099
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7428,
+          "P_recurrence": 0.7663
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7676,
+          "P_recurrence": 0.9211
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7676,
+          "P_recurrence": 0.918
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.4196
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.3859
+        }
+      ],
+      "harm_DI": 0.0315,
+      "benefit_rec": 0.3853,
+      "net_favor_aggressive": 0.3539
+    },
+    {
+      "id": 43,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 45.0,
+        "bmi": 21.76,
+        "tumor_volume": 13.1,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.618,
+          "P_recurrence": 0.3464
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6164,
+          "P_recurrence": 0.3679
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.647,
+          "P_recurrence": 0.5827
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6495,
+          "P_recurrence": 0.5417
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7162,
+          "P_recurrence": 0.2011
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7162,
+          "P_recurrence": 0.2008
+        }
+      ],
+      "harm_DI": 0.099,
+      "benefit_rec": 0.1562,
+      "net_favor_aggressive": 0.0572
+    },
+    {
+      "id": 44,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 73.0,
+        "bmi": 21.55,
+        "tumor_volume": 1.0,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.2331,
+          "P_recurrence": 0.0206
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.2221,
+          "P_recurrence": 0.0227
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3028,
+          "P_recurrence": 0.0276
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.3253,
+          "P_recurrence": 0.0522
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.3803,
+          "P_recurrence": 0.0208
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.3779,
+          "P_recurrence": 0.0241
+        }
+      ],
+      "harm_DI": 0.1515,
+      "benefit_rec": -0.0009,
+      "net_favor_aggressive": -0.1523
+    },
+    {
+      "id": 45,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 25.0,
+        "bmi": 28.37,
+        "tumor_volume": 3.2,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5985,
+          "P_recurrence": 0.202
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5896,
+          "P_recurrence": 0.2072
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6526,
+          "P_recurrence": 0.2384
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6616,
+          "P_recurrence": 0.2394
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6882,
+          "P_recurrence": 0.1703
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7215,
+          "P_recurrence": 0.1703
+        }
+      ],
+      "harm_DI": 0.1108,
+      "benefit_rec": 0.0343,
+      "net_favor_aggressive": -0.0765
+    },
+    {
+      "id": 46,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 55.0,
+        "bmi": 27.88,
+        "tumor_volume": 0.4,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5839,
+          "P_recurrence": 0.022
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.5776,
+          "P_recurrence": 0.03
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6113,
+          "P_recurrence": 0.0593
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.601,
+          "P_recurrence": 0.1725
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6832,
+          "P_recurrence": 0.0224
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6963,
+          "P_recurrence": 0.0321
+        }
+      ],
+      "harm_DI": 0.109,
+      "benefit_rec": -0.0012,
+      "net_favor_aggressive": -0.1102
+    },
+    {
+      "id": 47,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 14.0,
+        "bmi": 23.55,
+        "tumor_volume": 2.1,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.7733,
+          "P_recurrence": 0.0203
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.7733,
+          "P_recurrence": 0.0217
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7694,
+          "P_recurrence": 0.027
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7694,
+          "P_recurrence": 0.0539
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7581,
+          "P_recurrence": 0.0204
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7581,
+          "P_recurrence": 0.022
+        }
+      ],
+      "harm_DI": -0.0152,
+      "benefit_rec": -0.0002,
+      "net_favor_aggressive": 0.015
+    },
+    {
+      "id": 48,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 11.0,
+        "bmi": 15.79,
+        "tumor_volume": 1.3,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.2335,
+          "P_recurrence": 0.02
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.2397,
+          "P_recurrence": 0.0202
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3073,
+          "P_recurrence": 0.0205
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.3336,
+          "P_recurrence": 0.0226
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.3879,
+          "P_recurrence": 0.02
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.3833,
+          "P_recurrence": 0.0202
+        }
+      ],
+      "harm_DI": 0.149,
+      "benefit_rec": -0.0,
+      "net_favor_aggressive": -0.149
+    },
+    {
+      "id": 49,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 47.0,
+        "bmi": 33.16,
+        "tumor_volume": 3.4,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3301,
+          "P_recurrence": 0.2208
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3276,
+          "P_recurrence": 0.225
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3574,
+          "P_recurrence": 0.3487
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.3974,
+          "P_recurrence": 0.3788
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.508,
+          "P_recurrence": 0.1618
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.508,
+          "P_recurrence": 0.1623
+        }
+      ],
+      "harm_DI": 0.1791,
+      "benefit_rec": 0.0609,
+      "net_favor_aggressive": -0.1183
+    },
+    {
+      "id": 50,
+      "actual_resection": "subtotal",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 48.0,
+        "bmi": 30.5,
+        "tumor_volume": 4.6,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6244,
+          "P_recurrence": 0.3562
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6133,
+          "P_recurrence": 0.3565
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.6626,
+          "P_recurrence": 0.4616
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.6513,
+          "P_recurrence": 0.4787
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7229,
+          "P_recurrence": 0.3225
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7467,
+          "P_recurrence": 0.3242
+        }
+      ],
+      "harm_DI": 0.1159,
+      "benefit_rec": 0.0329,
+      "net_favor_aggressive": -0.083
+    },
+    {
+      "id": 51,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 63.0,
+        "bmi": 38.4,
+        "tumor_volume": 10.4,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3011,
+          "P_recurrence": 0.0457
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3151,
+          "P_recurrence": 0.0479
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.4135,
+          "P_recurrence": 0.0755
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4289,
+          "P_recurrence": 0.0737
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5194,
+          "P_recurrence": 0.0243
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5023,
+          "P_recurrence": 0.0251
+        }
+      ],
+      "harm_DI": 0.2027,
+      "benefit_rec": 0.0221,
+      "net_favor_aggressive": -0.1806
+    },
+    {
+      "id": 52,
+      "actual_resection": "near total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 38.0,
+        "bmi": 34.57,
+        "tumor_volume": 33.6,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6402,
+          "P_recurrence": 0.3807
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6715,
+          "P_recurrence": 0.3774
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7276,
+          "P_recurrence": 0.3891
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7167,
+          "P_recurrence": 0.387
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7469,
+          "P_recurrence": 0.3631
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7507,
+          "P_recurrence": 0.3722
+        }
+      ],
+      "harm_DI": 0.0929,
+      "benefit_rec": 0.0114,
+      "net_favor_aggressive": -0.0815
+    },
+    {
+      "id": 53,
+      "actual_resection": "subtotal",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 52.0,
+        "bmi": 26.99,
+        "tumor_volume": 27.2,
+        "observed_DI": 0,
+        "observed_recurrence": 1
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5137,
+          "P_recurrence": 0.9029
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.4602,
+          "P_recurrence": 0.9019
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5578,
+          "P_recurrence": 0.9108
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5912,
+          "P_recurrence": 0.9093
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6749,
+          "P_recurrence": 0.8475
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.64,
+          "P_recurrence": 0.8348
+        }
+      ],
+      "harm_DI": 0.1705,
+      "benefit_rec": 0.0613,
+      "net_favor_aggressive": -0.1092
+    },
+    {
+      "id": 54,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 50.0,
+        "bmi": 27.63,
+        "tumor_volume": 1.3,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.3121,
+          "P_recurrence": 0.0263
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.3032,
+          "P_recurrence": 0.0333
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.3317,
+          "P_recurrence": 0.0998
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.331,
+          "P_recurrence": 0.2152
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.5,
+          "P_recurrence": 0.0224
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.486,
+          "P_recurrence": 0.0303
+        }
+      ],
+      "harm_DI": 0.1853,
+      "benefit_rec": 0.0035,
+      "net_favor_aggressive": -0.1818
+    },
+    {
+      "id": 55,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 72.0,
+        "bmi": 35.94,
+        "tumor_volume": 4.2,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.403,
+          "P_recurrence": 0.3485
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.428,
+          "P_recurrence": 0.3522
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5256,
+          "P_recurrence": 0.5094
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.4506,
+          "P_recurrence": 0.5418
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6107,
+          "P_recurrence": 0.1939
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.5936,
+          "P_recurrence": 0.2009
+        }
+      ],
+      "harm_DI": 0.1866,
+      "benefit_rec": 0.153,
+      "net_favor_aggressive": -0.0336
+    },
+    {
+      "id": 56,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 27.0,
+        "bmi": 19.68,
+        "tumor_volume": 9.6,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6644,
+          "P_recurrence": 0.0203
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6814,
+          "P_recurrence": 0.0202
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.7109,
+          "P_recurrence": 0.0244
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.72,
+          "P_recurrence": 0.0228
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7211,
+          "P_recurrence": 0.0201
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7211,
+          "P_recurrence": 0.0201
+        }
+      ],
+      "harm_DI": 0.0482,
+      "benefit_rec": 0.0002,
+      "net_favor_aggressive": -0.048
+    },
+    {
+      "id": 57,
+      "actual_resection": "near total",
+      "actual_approach": "craniotomy",
+      "profile": {
+        "age": 27.0,
+        "bmi": 27.98,
+        "tumor_volume": 9.8,
+        "observed_DI": 0,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.5205,
+          "P_recurrence": 0.022
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.438,
+          "P_recurrence": 0.022
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.5392,
+          "P_recurrence": 0.0408
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.5331,
+          "P_recurrence": 0.038
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.6503,
+          "P_recurrence": 0.0203
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.6596,
+          "P_recurrence": 0.0202
+        }
+      ],
+      "harm_DI": 0.1757,
+      "benefit_rec": 0.0017,
+      "net_favor_aggressive": -0.174
+    },
+    {
+      "id": 58,
+      "actual_resection": "total",
+      "actual_approach": "endoscopic",
+      "profile": {
+        "age": 40.0,
+        "bmi": 31.0,
+        "tumor_volume": 8.9,
+        "observed_DI": 1,
+        "observed_recurrence": 0
+      },
+      "strategies": [
+        {
+          "resection": "subtotal",
+          "approach": "endoscopic",
+          "P_DI": 0.6494,
+          "P_recurrence": 0.5485
+        },
+        {
+          "resection": "subtotal",
+          "approach": "craniotomy",
+          "P_DI": 0.6557,
+          "P_recurrence": 0.5771
+        },
+        {
+          "resection": "near total",
+          "approach": "endoscopic",
+          "P_DI": 0.728,
+          "P_recurrence": 0.8741
+        },
+        {
+          "resection": "near total",
+          "approach": "craniotomy",
+          "P_DI": 0.7412,
+          "P_recurrence": 0.8867
+        },
+        {
+          "resection": "total",
+          "approach": "endoscopic",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.2576
+        },
+        {
+          "resection": "total",
+          "approach": "craniotomy",
+          "P_DI": 0.7562,
+          "P_recurrence": 0.299
+        }
+      ],
+      "harm_DI": 0.1036,
+      "benefit_rec": 0.2845,
+      "net_favor_aggressive": 0.1809
+    }
+  ],
+  "shap": {
+    "DI": {
+      "features": [
+        "Last BMI",
+        "Pre-op panhypopituitarism",
+        "BMI",
+        "Extent of resection",
+        "Pre-op headache",
+        "Pre-op ICP symptoms",
+        "Pre-op visual impairment",
+        "Tumor size (A)",
+        "Pre-op endocrine changes",
+        "Tumor size (B)",
+        "Age",
+        "Intraventricular extension",
+        "Pre-op hydrocephalus",
+        "Tumor size (C)",
+        "Surgical approach",
+        "Tumor volume"
+      ],
+      "mean_abs_shap": [
+        0.0802,
+        0.0673,
+        0.0595,
+        0.0474,
+        0.0443,
+        0.0435,
+        0.0375,
+        0.0372,
+        0.0182,
+        0.0176,
+        0.0094,
+        0.0068,
+        0.0045,
+        0.0043,
+        0.0042,
+        0.0038
+      ],
+      "lever_feature": "Extent of resection",
+      "lever_mean_abs_shap": 0.0474,
+      "lever_rank": 4
+    },
+    "recurrence": {
+      "features": [
+        "BMI",
+        "Pre-op visual impairment",
+        "Age",
+        "Tumor size (A)",
+        "Prior radiation",
+        "Extent of resection",
+        "Tumor size (C)",
+        "Pre-op panhypopituitarism",
+        "Tumor size (B)",
+        "Last BMI",
+        "BRAF+",
+        "Tumor volume",
+        "Pre-op ICP symptoms",
+        "Intraventricular extension",
+        "Surgical approach",
+        "Pre-op headache",
+        "Pre-op endocrine changes",
+        "Pre-op hydrocephalus"
+      ],
+      "mean_abs_shap": [
+        0.0649,
+        0.0599,
+        0.0591,
+        0.0553,
+        0.0429,
+        0.0426,
+        0.038,
+        0.036,
+        0.0278,
+        0.0272,
+        0.0188,
+        0.0178,
+        0.0133,
+        0.0117,
+        0.0097,
+        0.0097,
+        0.0066,
+        0.0046
+      ],
+      "lever_feature": "Extent of resection",
+      "lever_mean_abs_shap": 0.0426,
+      "lever_rank": 6
+    }
+  }
+}

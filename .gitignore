@@ -3,3 +3,9 @@
 
 # Word/Office temporary lock files
 ~$*
+
+# Private research tooling (heavy analysis scripts kept out of the deployed image).
+# Generated public artifacts under public/ ARE committed so render/frontend can serve them.
+research/
+__pycache__/
+*.pyc
