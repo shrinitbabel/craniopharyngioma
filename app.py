@@ -514,10 +514,14 @@ def tradeoff_api(payload: dict = Body(...)):
     extent (averaged over approach) plus the personalized cost-benefit of
     aggressive resection. Feeds the trade-off curve in the frontend."""
     try:
+        # Hold the chosen approach fixed if given (so the highlighted point matches
+        # the main prediction); otherwise average over both approaches.
+        chosen = str(payload.get("Surgical Approach") or "").strip().lower()
+        approaches = [chosen] if chosen in APPROACHES else APPROACHES
         curve = []
         for r in RESECTION_LEVELS:
             di_vals, rec_vals = [], []
-            for a in APPROACHES:
+            for a in approaches:
                 row = dict(payload)
                 row["Resection outcome (total, subtotal, partial)"] = r
                 row["Surgical Approach"] = a
