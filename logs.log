@@ -228935,3 +228935,63 @@ pickle: {'deps_info': {'pip': '25.2', 'setuptools': '78.1.1', 'pycaret': '3.3.2'
 2026-07-21 21:41:55,129:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
 2026-07-21 21:41:55,133:INFO:Initializing load_model()
 2026-07-21 21:41:55,133:INFO:load_model(model_name=recurrence_blend_nb_et_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:03:03,240:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:03,240:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:03,240:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:03,240:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:04,239:INFO:Initializing load_model()
+2026-07-21 22:03:04,239:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:03:04,301:INFO:Initializing load_model()
+2026-07-21 22:03:04,301:INFO:load_model(model_name=recurrence_blend_nb_et_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:03:55,927:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:55,927:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:55,927:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:55,927:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:03:56,879:INFO:Initializing load_model()
+2026-07-21 22:03:56,879:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:03:56,942:INFO:Initializing load_model()
+2026-07-21 22:03:56,942:INFO:load_model(model_name=recurrence_blend_nb_et_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:04:35,424:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:04:35,425:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:04:35,425:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:04:35,425:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:04:36,366:INFO:Initializing load_model()
+2026-07-21 22:04:36,366:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:04:36,431:INFO:Initializing load_model()
+2026-07-21 22:04:36,431:INFO:load_model(model_name=recurrence_blend_nb_et_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:32:11,565:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:32:11,565:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:32:11,565:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:32:11,565:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:32:12,276:INFO:Initializing load_model()
+2026-07-21 22:32:12,276:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:32:12,313:INFO:Initializing load_model()
+2026-07-21 22:32:12,313:INFO:load_model(model_name=recurrence_blend_nb_et_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:36:02,748:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:36:02,750:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:36:02,750:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:36:02,750:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-07-21 22:36:03,893:INFO:Initializing load_model()
+2026-07-21 22:36:03,893:INFO:load_model(model_name=permdi_blend_ridge_cat_v1, platform=None, authentication=None, verbose=True)
+2026-07-21 22:36:03,963:INFO:Initializing load_model()
+2026-07-21 22:36:03,963:INFO:load_model(model_name=recurrence_blend_nb_et_v1, platform=None, authentication=None, verbose=True)
