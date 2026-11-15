@@ -28,3 +28,7 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+
+# --- Patient data (available upon request; never committed) ---
+data/*
+!data/README.md

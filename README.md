@@ -29,7 +29,7 @@ This repository contains the code, trained models, analysis notebooks, and figur
 ├── app.py                 # FastAPI web app + REST API (entry point)
 ├── models/                # Trained PyCaret pipelines (.pkl)
 ├── public/                # Static assets served by the app (trade-off explorer)
-├── data/                  # De-identified cohort data (raw, cleaned, imputed)
+├── data/                  # Patient data: available upon request (see data/README.md)
 ├── results/               # Model leaderboards and cross-validation outputs
 ├── notebooks/             # Analysis notebooks (EDA → modeling → explainability)
 ├── figures/
@@ -113,11 +113,15 @@ curl -X POST http://localhost:8000/predict \
 | `/shap/dependence` | POST | SHAP dependence plot for a feature |
 | `/health` | GET | Health check |
 
-Feature names match the column headers in `data/data.csv` (including the trailing space in `"Age "`). Missing features are imputed by the model pipeline. Decision thresholds can be set with the `THRESHOLD` and `THRESHOLD_RECURRENCE` environment variables (default `0.5`).
+Feature names are the original dataset column headers (including the trailing space in `"Age "`); see `/docs` for the full list. Missing features are imputed by the model pipeline. Decision thresholds can be set with the `THRESHOLD` and `THRESHOLD_RECURRENCE` environment variables (default `0.5`).
 
 ### Reproduce the analysis
 
-Run the notebooks in numerical order. Retraining overwrites the pipelines in `models/` and the plots in `figures/`.
+The patient dataset is not included in this repository. It is **available upon request from the corresponding author**; see [`data/README.md`](data/README.md). Once you have it, place the files in `data/` and run the notebooks in numerical order. Retraining overwrites the pipelines in `models/` and the plots in `figures/`.
+
+## Data availability
+
+The data are available upon reasonable request. Please email the corresponding author, Kunal Vakharia ([kvakharia@usf.edu](mailto:kvakharia@usf.edu)). See [`data/README.md`](data/README.md).
 
 ## Citation
 
