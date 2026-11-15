@@ -1,11 +1,30 @@
-# Word documents (manuscript revision, response letter, revisions list) — not for the repo
+# --- Manuscript / private documents (never committed) ---
 *.docx
-
-# Word/Office temporary lock files
+*.doc
 ~$*
 
-# Private research tooling (heavy analysis scripts kept out of the deployed image).
-# Generated public artifacts under public/ ARE committed so render/frontend can serve them.
+# Private research tooling (kept out of the deployed image).
+# Generated public artifacts under public/ ARE committed so the app can serve them.
 research/
+
+# --- Python ---
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+.ipynb_checkpoints/
+
+# --- Training / runtime artifacts ---
+catboost_info/
+*.log
+logs/
+mlruns/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

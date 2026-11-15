@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this code or models, please cite the published article below."
+title: "Craniopharyngioma.AI"
+repository-code: "https://github.com/shrinitbabel/craniopharyngioma"
+license: Apache-2.0
+authors:
+  - family-names: Babel
+    given-names: Shrinit
+  - family-names: Patel
+    given-names: Ankit
+  - family-names: Vakharia
+    given-names: Kunal
+preferred-citation:
+  type: article
+  title: "Craniopharyngioma.AI: An Explainable Ensemble Learning Framework for Personalized Craniopharyngioma Outcome Prediction"
+  authors:
+    - family-names: Babel
+      given-names: Shrinit
+    - family-names: Patel
+      given-names: Ankit
+    - family-names: Vakharia
+      given-names: Kunal
+  doi: "10.1055/a-2992-8671"
+  url: "https://www.thieme-connect.de/products/ejournals/abstract/10.1055/a-2992-8671"
+  publisher:
+    name: "Thieme"

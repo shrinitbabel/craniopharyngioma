@@ -1,0 +1,12 @@
+.git
+.venv
+__pycache__
+*.log
+*.docx
+~$*
+catboost_info
+research
+notebooks
+data
+results
+figures

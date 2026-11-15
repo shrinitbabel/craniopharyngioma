@@ -14,8 +14,10 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, Stre
 from pycaret.classification import load_model, predict_model
 
 # --------- Load model once on startup ----------
-MODEL_PATH = "permdi_blend_ridge_cat_v1"
-RECURRENCE_MODEL_PATH = "recurrence_blend_nb_et_v1"
+# PyCaret's load_model appends ".pkl" itself, so these are paths without the extension.
+MODELS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
+MODEL_PATH = os.path.join(MODELS_DIR, "permdi_blend_ridge_cat_v1")
+RECURRENCE_MODEL_PATH = os.path.join(MODELS_DIR, "recurrence_blend_nb_et_v1")
 model = load_model(MODEL_PATH)
 recurrence = load_model(RECURRENCE_MODEL_PATH)
 
