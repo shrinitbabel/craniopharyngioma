@@ -4,7 +4,7 @@ An explainable ensemble-learning framework for personalized prediction of postop
 
 This repository contains the code, trained models, analysis notebooks, and figures for the published article:
 
-> Babel S, Patel A, Vakharia K. **Craniopharyngioma.AI: An Explainable Ensemble Learning Framework for Personalized Craniopharyngioma Outcome Prediction.** Thieme. doi:[10.1055/a-2992-8671](https://doi.org/10.1055/a-2992-8671)
+> Babel S, Patel A, Parasher A, Tabor M, Agazzi S, van Loveren H, Vakharia K. **Craniopharyngioma.AI: An Explainable Ensemble Learning Framework for Personalized Craniopharyngioma Outcome Prediction.** *Journal of Neurological Surgery Part B: Skull Base*. 2026. doi:[10.1055/a-2992-8671](https://doi.org/10.1055/a-2992-8671)
 >
 > 📄 Article: https://www.thieme-connect.de/products/ejournals/abstract/10.1055/a-2992-8671
 
@@ -124,10 +124,13 @@ Run the notebooks in numerical order. Retraining overwrites the pipelines in `mo
 If you use this code or the models, please cite:
 
 ```bibtex
-@article{babel_craniopharyngioma_ai,
+@article{babel2026craniopharyngioma,
   title     = {Craniopharyngioma.AI: An Explainable Ensemble Learning Framework for Personalized Craniopharyngioma Outcome Prediction},
-  author    = {Babel, Shrinit and Patel, Ankit and Vakharia, Kunal},
+  author    = {Babel, Shrinit and Patel, Ankit and Parasher, Arjun and Tabor, Mark and Agazzi, Siviero and van Loveren, Harry and Vakharia, Kunal},
+  journal   = {Journal of Neurological Surgery Part B: Skull Base},
   publisher = {Thieme},
+  year      = {2026},
+  month     = oct,
   doi       = {10.1055/a-2992-8671},
   url       = {https://www.thieme-connect.de/products/ejournals/abstract/10.1055/a-2992-8671}
 }
